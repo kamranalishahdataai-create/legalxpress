@@ -1,0 +1,1 @@
+UPDATE subscriber_counter SET spots_remaining = 100000, updated_at = now();

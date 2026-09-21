@@ -1,0 +1,8 @@
+# Railway provides $PORT. Serve the SPA with history-mode fallback to index.html.
+:{$PORT:80} {
+	root * /usr/share/caddy
+	encode gzip
+	try_files {path} /index.html
+	file_server
+	header /assets/* Cache-Control "public, max-age=2592000, immutable"
+}

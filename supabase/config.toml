@@ -1,0 +1,21 @@
+project_id = "rzupxcdhtkuaazwhxavn"
+
+[functions.analyze-case]
+verify_jwt = false
+
+[functions.legal-ai-chat]
+verify_jwt = false
+
+[functions.notify-lawyer]
+verify_jwt = false
+
+[functions.fetch-free-contract]
+verify_jwt = false
+
+# Stripe calls this with its own signature, not a Supabase JWT.
+[functions.stripe-webhook]
+verify_jwt = false
+
+# Allow both signed-in and guest checkout (auth header is optional inside).
+[functions.create-checkout-session]
+verify_jwt = false

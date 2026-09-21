@@ -1,0 +1,1 @@
+ALTER TABLE subscriber_counter ALTER COLUMN spots_remaining SET DEFAULT 100000;
