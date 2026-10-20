@@ -105,27 +105,24 @@ export function ExplainerVideoPopup() {
   return (
     <>
       {/* Floating trigger button */}
-      <button
+      <Button
+        size="icon"
+        title="Watch Our Story"
+        aria-label="Watch Our Story"
         onClick={handleOpen}
         className={cn(
-          "fixed right-6 z-40 flex items-center gap-2 px-5 py-3.5 rounded-full",
+          "fixed right-6 z-40 h-11 w-11 rounded-full",
           isFooterInView ? "bottom-40" : "bottom-24",
-          "bg-gradient-to-r from-secondary via-secondary to-gold text-secondary-foreground",
-          "shadow-xl hover:shadow-2xl transition-all duration-300",
-          "hover:scale-105 active:scale-95 group",
+          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "shadow-sm transition-colors",
           "border border-secondary/20",
           isOpen && "hidden"
         )}
       >
         <div className="relative">
           <Play className="h-5 w-5 fill-current" />
-          <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
-          </span>
         </div>
-        <span className="font-semibold text-sm">Watch Our Story</span>
-      </button>
+      </Button>
 
       {/* Video popup overlay */}
       {isOpen && (
@@ -209,7 +206,7 @@ export function ExplainerVideoPopup() {
                 </Button>
                 <div className="hidden sm:block">
                   <p className="text-sm font-medium text-foreground">Discover Modern Legal Solutions</p>
-                  <p className="text-xs text-muted-foreground">Trusted legal services and lawyers since 2016</p>
+                  <p className="text-xs text-muted-foreground">Ontario-licensed lawyer · LSO No. 70089L</p>
                 </div>
               </div>
               <Button 

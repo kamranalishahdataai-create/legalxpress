@@ -17,18 +17,17 @@ import {
 } from "@/components/ui/select";
 import { Loader2, CheckCircle } from "lucide-react";
 
-const priceMatchSchema = z.object({
+export const priceMatchSchema = z.object({
   full_name: z.string().trim().min(1, "Full name is required").max(100),
   email: z.string().trim().email("Invalid email address").max(255),
   phone: z.string().trim().max(20).optional().or(z.literal("")),
   practice_area: z.string().min(1, "Please select a practice area"),
   case_description: z.string().trim().min(10, "Please describe your question or case in at least 10 characters").max(2000),
-  budget_range: z.string().min(1, "Please select a budget range"),
-  quoted_lawyer_name: z.string().trim().min(1, "Please enter the lawyer's name who quoted you").max(150),
-  quoted_law_firm: z.string().trim().max(200).optional().or(z.literal("")),
+  budget_range: z.string().optional(),
   quoted_amount: z.string().trim().min(1, "Please enter the quoted amount").max(50),
   quote_reference: z.string().trim().max(500).optional().or(z.literal("")),
-  scope_details: z.string().trim().max(1000).optional().or(z.literal("")),
+  scope_details: z.string().trim().min(10, "Please describe the quoted scope of work").max(1000),
+  not_retained: z.literal(true, { errorMap: () => ({message: "Confirm you have not retained a lawyer for this matter"}) }),
 });
 
 type PriceMatchFormData = z.infer<typeof priceMatchSchema>;
@@ -80,9 +79,7 @@ export function PriceMatchForm() {
           phone: data.phone || null,
           practice_area: data.practice_area,
           case_description: data.case_description,
-          budget_range: data.budget_range,
-          quoted_lawyer_name: data.quoted_lawyer_name,
-          quoted_law_firm: data.quoted_law_firm || null,
+          budget_range: data.budget_range || "Not provided",
           quoted_amount: data.quoted_amount,
           quote_reference: data.quote_reference || null,
           scope_details: data.scope_details || null,
@@ -105,7 +102,7 @@ export function PriceMatchForm() {
           Request Received!
         </h3>
         <p className="text-muted-foreground font-body max-w-md mx-auto">
-          We'll review your case and budget, then reach out with a tailored quote or matched attorney within 1–2 business days.
+          We will review the quoted scope and contact you with our fee for comparable work. We do not contact the lawyer who quoted you.
         </p>
       </div>
     );
@@ -148,25 +145,10 @@ export function PriceMatchForm() {
       </div>
 
       <div className="space-y-2">
-        <Label>Budget Range *</Label>
-        <Select onValueChange={(val) => setValue("budget_range", val, { shouldValidate: true })}>
-          <SelectTrigger>
-            <SelectValue placeholder="How much are you willing to spend?" />
-          </SelectTrigger>
-          <SelectContent>
-            {budgetRanges.map((range) => (
-              <SelectItem key={range} value={range}>{range}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {errors.budget_range && <p className="text-sm text-destructive">{errors.budget_range.message}</p>}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="pm-case">Your Question or Case Description *</Label>
+        <Label htmlFor="pm-case">Your question *</Label>
         <Textarea
           id="pm-case"
-          placeholder="Briefly describe your legal question or matter, what outcome you're seeking, and any relevant details..."
+          placeholder="Brief question only; please do not include confidential or third-party details."
           rows={4}
           {...register("case_description")}
         />
@@ -177,20 +159,8 @@ export function PriceMatchForm() {
         <div>
           <h4 className="font-display font-semibold text-foreground">Quote From Another Lawyer</h4>
           <p className="text-sm text-muted-foreground font-body">
-            To keep price matching accurate, please reference the lawyer who quoted you. We may verify the quote before matching.
+            Share the scope and amount. Do not include the other lawyer’s name; we do not contact them.
           </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="pm-qlawyer">Quoting Lawyer's Name *</Label>
-            <Input id="pm-qlawyer" placeholder="e.g. Jane Smith" {...register("quoted_lawyer_name")} />
-            {errors.quoted_lawyer_name && <p className="text-sm text-destructive">{errors.quoted_lawyer_name.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="pm-qfirm">Law Firm (optional)</Label>
-            <Input id="pm-qfirm" placeholder="Firm name" {...register("quoted_law_firm")} />
-          </div>
         </div>
 
         <div className="space-y-2">
@@ -200,10 +170,10 @@ export function PriceMatchForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="pm-qref">Quote Reference (optional)</Label>
+          <Label htmlFor="pm-qref">Were HST and disbursements included? (optional)</Label>
           <Textarea
             id="pm-qref"
-            placeholder="Quote/reference number, date of quote, or how you received it (email, phone, in-person)..."
+            placeholder="State whether HST, filing fees and disbursements were included in the quote."
             rows={2}
             {...register("quote_reference")}
           />
@@ -211,7 +181,7 @@ export function PriceMatchForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="pm-scope">Scope Details (optional)</Label>
+        <Label htmlFor="pm-scope">Scope of work quoted *</Label>
         <Textarea
           id="pm-scope"
           placeholder="Any additional details about the scope of work you expect — e.g. number of court appearances, document reviews, negotiation sessions..."
@@ -220,6 +190,7 @@ export function PriceMatchForm() {
         />
       </div>
 
+      <div className="space-y-2"><label className="flex items-start gap-3 text-sm"><input type="checkbox" {...register("not_retained")} className="mt-1" />I have a written quote and have not retained a lawyer for this matter.</label>{errors.not_retained && <p className="text-sm text-destructive">{errors.not_retained.message}</p>}</div>
       <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? (
           <>

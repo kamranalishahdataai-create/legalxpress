@@ -1,21 +1,23 @@
+import { JURISDICTION_NOTICE, CONFIDENTIALITY_NOTICE, MEMBERSHIP_NOTICE } from "@/data/practiceTerms";
 import { HelpCircle } from "lucide-react";
 
 const questions = [
+  {q: "Is my information confidential?", a: CONFIDENTIALITY_NOTICE},
   {
     q: "What does a LegalXpress membership include?",
-    a: "Memberships start at $4.99 per month and cover discounted or included access to notary work, simple wills, demand letters, small claims litigation and separation or prenuptial agreements, plus AI case analysis and our Canadian contract template library. You can also book consultations and in-house legal work at member pricing.",
+    a: "Memberships start at $4.99/month + HST, with a 12-month commitment billed monthly. They give member pricing on the defined scope of legal services, plus tools according to plan. HST, filing fees and disbursements are extra. Each legal service is confirmed in writing and billed when delivered.",
   },
   {
     q: "What legal services are provided in house?",
-    a: "Incorporations and corporate governance, commercial contract drafting and review, corporate and procurement litigation support, wills and estate documents, notary and commissioning services, and independent legal advice certificates.",
+    a: "These services are provided by Shiv Kumar Passi, Lawyer (LSO No. 70089L): incorporations and corporate governance, commercial contracts, corporate and procurement litigation support, wills and estate documents, notary and commissioning, and independent legal advice.",
   },
   {
-    q: "How does the legal membership work?",
-    a: "Memberships start at $4.99 per month and provide discounted or included access to core services such as notary work, simple wills, small claims litigation and separation or prenuptial agreements, along with AI case analysis and the contract library.",
+    q: "Is my membership a deposit toward legal work?",
+    a: MEMBERSHIP_NOTICE,
   },
   {
     q: "Where does LegalXpress provide legal services?",
-    a: "We serve clients across Canada, with legal advice provided under Ontario licensing and referrals to licensed partners in other provinces where required.",
+    a: JURISDICTION_NOTICE,
   },
 ];
 
@@ -39,7 +41,7 @@ export function QandA() {
           {questions.map((item) => (
             <article
               key={item.q}
-              className="rounded-2xl border border-border bg-card p-7 shadow-sm"
+              className="border-t border-border py-6"
             >
               <h3 className="font-display text-lg font-bold text-foreground mb-2">
                 {item.q}

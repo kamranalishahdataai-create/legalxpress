@@ -96,17 +96,17 @@ export function CaseAnalysesTable() {
                 View and manage all AI case analyses
               </CardDescription>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="relative">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative min-w-0 flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search cases..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 w-64"
+                  className="pl-9 w-full md:w-64"
                 />
               </div>
-              <Button variant="outline" size="icon" onClick={fetchAnalyses}>
+              <Button variant="outline" size="icon" onClick={fetchAnalyses} aria-label="Refresh reports" title="Refresh reports">
                 <RefreshCw className="h-4 w-4" />
               </Button>
             </div>

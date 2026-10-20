@@ -1,19 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { Home, Briefcase, CreditCard, Star, Mail, Scale, Compass, Brain, Heart, HelpCircle } from "lucide-react";
+import { Home, Briefcase, CreditCard, Star, Phone, Scale, Compass, Brain, Heart, HelpCircle } from "lucide-react";
 
 const sections = [
   { id: "hero", label: "Home", icon: Home },
-  { id: "deals", label: "Specials", icon: Scale },
+  { id: "deals", label: "Fixed fees", icon: Scale },
   { id: "services", label: "Services", icon: Briefcase },
   { id: "case-analysis", label: "Case AI", icon: Brain },
   { id: "subscriptions", label: "Plans", icon: CreditCard },
   { id: "membership", label: "Members", icon: Star },
-  { id: "referral", label: "Refer", icon: Heart },
+  
   { id: "explore", label: "More", icon: Compass },
   { id: "q-and-a", label: "Q & A", icon: HelpCircle },
-  { id: "contact", label: "Contact", icon: Mail },
+  { id: "contact", label: "Contact", icon: Phone },
 ];
 
 export function SectionNav() {
@@ -92,25 +93,29 @@ export function SectionNav() {
               const addSpacerAfter = section.id === "subscriptions";
 
               return (
-                <>
-                  <button
+                <Fragment key={section.id}>
+                  <Button
+                    variant="ghost"
+                    title={section.label}
+                    aria-label={section.label}
+                    aria-current={isActive ? "location" : undefined}
                     key={section.id}
                     ref={isActive ? activeTabRef : null}
                     onClick={() => scrollToSection(section.id)}
                     className={cn(
-                      "relative flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 flex-1 justify-center min-w-0",
+                      "relative flex items-center gap-1.5 px-3 py-2 rounded-md text-xs font-medium whitespace-nowrap transition-all duration-200 flex-1 justify-center min-w-[36px] shrink-0",
                       isActive
-                        ? "bg-secondary text-secondary-foreground shadow-md"
+                        ? "bg-gold text-secondary-foreground"
                         : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/10"
                     )}
                   >
                     <Icon className="h-4 w-4 flex-shrink-0" />
                     <span className="font-body hidden sm:inline">{section.label}</span>
-                  </button>
+                  </Button>
                   {addSpacerAfter && (
                     <div key={`spacer-${index}`} className="w-px h-6 bg-secondary/30 mx-1 flex-shrink-0" />
                   )}
-                </>
+                </Fragment>
               );
             })}
             <div className="ml-1 flex-shrink-0">

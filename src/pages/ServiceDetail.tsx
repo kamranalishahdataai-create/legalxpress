@@ -1,3 +1,4 @@
+import { ProviderNotice, PriceNotice } from "@/components/legal/PracticeNotice";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -62,10 +63,10 @@ export default function ServiceDetail() {
             <div>
               <p className="text-lg text-muted-foreground font-body mb-8 leading-relaxed">
                 {service.description}
-              </p>
+              </p><ProviderNotice /><PriceNotice className="mt-4 mb-8" />
 
               <h2 className="font-display text-2xl font-bold text-foreground mb-6">
-                What's Included
+                Service scope — confirmed in writing
               </h2>
               <ul className="space-y-3 mb-8">
                 {service.features.map((feature) => (
@@ -99,11 +100,11 @@ export default function ServiceDetail() {
           <h2 className="font-display text-3xl font-bold text-foreground mb-8 text-center">
             How We Help
           </h2>
-          <div className="space-y-6">
+          <div className="editorial-list space-y-6">
             {service.details.map((detail, i) => (
               <div
                 key={i}
-                className="bg-card rounded-xl p-6 border border-border/50"
+                className="py-6 border-t border-border"
               >
                 <p className="text-foreground font-body leading-relaxed">{detail}</p>
               </div>

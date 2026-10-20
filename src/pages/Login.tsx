@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Scale, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -35,7 +36,20 @@ export default function Login() {
         title: "Welcome Back!",
         description: "You have successfully logged in.",
       });
-      navigate("/portal");
+
+      // Lawyers land in the Lawyer Portal; everyone else in the client portal.
+      let destination = "/portal";
+      const { data: { user: signedIn } } = await supabase.auth.getUser();
+      if (signedIn) {
+        const { data: lawyerRow } = await supabase
+          .from("lawyers")
+          .select("id")
+          .eq("user_id", signedIn.id)
+          .eq("is_active", true)
+          .maybeSingle();
+        if (lawyerRow) destination = "/lawyer-portal";
+      }
+      navigate(destination);
     }
 
     setLoading(false);
@@ -87,13 +101,17 @@ export default function Login() {
                     className="pl-10 pr-10"
                     required
                   />
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    title={showPassword ? "Hide password" : "Show password"}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
+                  </Button>
                 </div>
               </div>
 

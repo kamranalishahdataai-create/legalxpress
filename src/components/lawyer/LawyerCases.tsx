@@ -1,4 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +16,19 @@ interface LawyerCasesProps {
 }
 
 export function LawyerCases({ lawyerId }: LawyerCasesProps) {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [notesDraft, setNotesDraft] = useState<Record<string, string>>({});
+
+  const updateAssignment = async (id: string, patch: { status?: string; notes?: string }) => {
+    const { error } = await supabase.from("lawyer_case_assignments").update(patch).eq("id", id);
+    if (error) {
+      toast({ title: "Could not update", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: patch.status ? `Case marked ${patch.status}` : "Notes saved" });
+    queryClient.invalidateQueries({ queryKey: ["lawyer-assignments", lawyerId] });
+  };
   const { data: assignments, isLoading } = useQuery({
     queryKey: ["lawyer-assignments", lawyerId],
     queryFn: async () => {
@@ -20,8 +37,7 @@ export function LawyerCases({ lawyerId }: LawyerCasesProps) {
         .select(`
           *,
           consultation:consultation_id (
-            id, service_type, case_details, scheduled_at, status,
-            profiles:user_id (full_name, email)
+            id, service_type, case_details, scheduled_at, status
           ),
           case_analysis:case_analysis_id (
             id, case_type, case_description, jurisdiction, created_at
@@ -62,11 +78,11 @@ export function LawyerCases({ lawyerId }: LawyerCasesProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+        return "bg-secondary/15 text-foreground border-secondary/20";
       case "active":
-        return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+        return "bg-forest/10 text-forest border-forest/20";
       case "completed":
-        return "bg-green-500/10 text-green-500 border-green-500/20";
+        return "bg-muted text-foreground border-border";
       default:
         return "bg-muted text-muted-foreground";
     }
@@ -77,7 +93,6 @@ export function LawyerCases({ lawyerId }: LawyerCasesProps) {
       service_type?: string;
       case_details?: string;
       scheduled_at?: string;
-      profiles?: { full_name?: string; email?: string };
     } | null;
     const caseAnalysis = assignment.case_analysis as {
       case_type?: string;
@@ -114,9 +129,6 @@ export function LawyerCases({ lawyerId }: LawyerCasesProps) {
 
         {consultation && (
           <div className="space-y-1 text-sm">
-            <p className="text-muted-foreground">
-              Client: {consultation.profiles?.full_name || "Unknown"}
-            </p>
             {consultation.scheduled_at && (
               <p className="text-muted-foreground flex items-center gap-1">
                 <Clock className="h-3 w-3" />
@@ -152,11 +164,29 @@ export function LawyerCases({ lawyerId }: LawyerCasesProps) {
           </div>
         )}
 
-        {assignment.notes && (
-          <div className="mt-3 pt-3 border-t">
-            <p className="text-sm text-muted-foreground">{assignment.notes}</p>
+        <div className="mt-3 pt-3 border-t space-y-2">
+          <Textarea
+            rows={2}
+            maxLength={2000}
+            placeholder="Private case notes"
+            value={notesDraft[assignment.id] ?? assignment.notes ?? ""}
+            onChange={(e) => setNotesDraft((d) => ({ ...d, [assignment.id]: e.target.value }))}
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant="outline" onClick={() => updateAssignment(assignment.id, { notes: notesDraft[assignment.id] ?? assignment.notes ?? "" })}>
+              Save notes
+            </Button>
+            {assignment.status === "pending" && (
+              <Button size="sm" onClick={() => updateAssignment(assignment.id, { status: "active" })}>Accept case</Button>
+            )}
+            {assignment.status !== "completed" && (
+              <Button size="sm" variant="outline" onClick={() => updateAssignment(assignment.id, { status: "completed" })}>Mark completed</Button>
+            )}
+            {assignment.status === "completed" && (
+              <Button size="sm" variant="ghost" onClick={() => updateAssignment(assignment.id, { status: "active" })}>Reopen</Button>
+            )}
           </div>
-        )}
+        </div>
       </div>
     );
   };

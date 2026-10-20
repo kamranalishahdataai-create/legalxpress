@@ -90,20 +90,6 @@ export default function ContactPage() {
 
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/10 shrink-0">
-                    <MapPin className="h-5 w-5 text-secondary" />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-semibold text-foreground mb-1">
-                      Office
-                    </h4>
-                    <p className="text-muted-foreground font-body">
-                      Toronto, ON, Canada
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/10 shrink-0">
                     <Clock className="h-5 w-5 text-secondary" />
                   </div>
                   <div>

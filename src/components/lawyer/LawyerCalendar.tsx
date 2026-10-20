@@ -1,163 +1,181 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format, isToday, isTomorrow, addDays, startOfDay, endOfDay } from "date-fns";
-import { Calendar, Clock, User, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { format, isToday, isTomorrow, addDays, startOfDay, subDays } from "date-fns";
+import { Calendar, Clock, User, Video, Check, X, CheckCheck, Mail, Phone } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface LawyerCalendarProps {
   lawyerId: string;
 }
 
+type Range = "upcoming" | "past";
+type Status = "pending" | "confirmed" | "completed" | "cancelled";
+
 export function LawyerCalendar({ lawyerId }: LawyerCalendarProps) {
-  const { data: consultations, isLoading } = useQuery({
-    queryKey: ["lawyer-consultations", lawyerId],
+  const [range, setRange] = useState<Range>("upcoming");
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["lawyer-consultations", lawyerId, range],
     queryFn: async () => {
       const today = startOfDay(new Date());
-      const nextWeek = endOfDay(addDays(today, 7));
-
-      const { data, error } = await supabase
-        .from("consultations")
-        .select(`
-          *,
-          profiles:user_id (full_name, email, phone)
-        `)
-        .eq("lawyer_id", lawyerId)
-        .gte("scheduled_at", today.toISOString())
-        .lte("scheduled_at", nextWeek.toISOString())
-        .order("scheduled_at", { ascending: true });
-
+      let q = supabase.from("consultations").select("*").eq("lawyer_id", lawyerId);
+      q =
+        range === "upcoming"
+          ? q.gte("scheduled_at", today.toISOString()).lte("scheduled_at", addDays(today, 30).toISOString()).order("scheduled_at", { ascending: true })
+          : q.lt("scheduled_at", today.toISOString()).gte("scheduled_at", subDays(today, 90).toISOString()).order("scheduled_at", { ascending: false });
+      const { data: consultations, error } = await q;
       if (error) throw error;
-      return data;
+
+      const ids = [...new Set((consultations ?? []).map((c) => c.user_id))];
+      const { data: profiles } = ids.length
+        ? await supabase.from("profiles").select("user_id, full_name, email, phone").in("user_id", ids)
+        : { data: [] };
+      const byUser = new Map((profiles ?? []).map((p) => [p.user_id, p]));
+      return (consultations ?? []).map((c) => ({ ...c, client: byUser.get(c.user_id) }));
     },
   });
 
-  if (isLoading) {
-    return (
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-64" />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-24 w-full" />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  const updateStatus = async (id: string, status: Status) => {
+    const { error } = await supabase.from("consultations").update({ status }).eq("id", id);
+    if (error) {
+      toast({ title: "Could not update", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: `Consultation ${status}` });
+    queryClient.invalidateQueries({ queryKey: ["lawyer-consultations", lawyerId] });
+    queryClient.invalidateQueries({ queryKey: ["lawyer-stats", lawyerId] });
+  };
 
   const getDateLabel = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const date = new Date(dateStr + "T12:00:00");
     if (isToday(date)) return "Today";
     if (isTomorrow(date)) return "Tomorrow";
     return format(date, "EEEE, MMM d");
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "confirmed":
-        return "bg-green-500/10 text-green-500 border-green-500/20";
-      case "pending":
-        return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
-      case "completed":
-        return "bg-blue-500/10 text-blue-500 border-blue-500/20";
-      case "cancelled":
-        return "bg-red-500/10 text-red-500 border-red-500/20";
-      default:
-        return "bg-muted text-muted-foreground";
-    }
+  const statusVariant: Record<string, string> = {
+    confirmed: "bg-forest/10 text-forest border-forest/20",
+    pending: "bg-primary/10 text-primary border-primary/20",
+    completed: "bg-muted text-foreground border-border",
+    cancelled: "bg-destructive/10 text-destructive border-destructive/20",
   };
 
-  // Group consultations by date
-  const groupedConsultations = consultations?.reduce((acc, consultation) => {
-    const dateKey = format(new Date(consultation.scheduled_at), "yyyy-MM-dd");
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(consultation);
+  const grouped = (data ?? []).reduce((acc, c) => {
+    const key = format(new Date(c.scheduled_at), "yyyy-MM-dd");
+    (acc[key] ||= []).push(c);
     return acc;
-  }, {} as Record<string, typeof consultations>);
+  }, {} as Record<string, NonNullable<typeof data>>);
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calendar className="h-5 w-5" />
-          Upcoming Consultations
-        </CardTitle>
-        <CardDescription>
-          Your scheduled consultations for the next 7 days
-        </CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+        <div>
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="h-5 w-5" />
+            Consultations
+          </CardTitle>
+          <CardDescription>
+            {range === "upcoming" ? "Next 30 days" : "Last 90 days"}
+          </CardDescription>
+        </div>
+        <Tabs value={range} onValueChange={(v) => setRange(v as Range)}>
+          <TabsList>
+            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+            <TabsTrigger value="past">Past</TabsTrigger>
+          </TabsList>
+        </Tabs>
       </CardHeader>
       <CardContent>
-        {!consultations?.length ? (
+        {isLoading ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-24 w-full" />)}
+          </div>
+        ) : !data?.length ? (
           <div className="text-center py-8 text-muted-foreground">
             <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>No consultations scheduled for the next 7 days</p>
+            <p>No consultations in this period</p>
           </div>
         ) : (
           <div className="space-y-6">
-            {Object.entries(groupedConsultations || {}).map(([dateKey, dayConsultations]) => (
+            {Object.entries(grouped).map(([dateKey, list]) => (
               <div key={dateKey}>
-                <h3 className="font-medium text-sm text-muted-foreground mb-3">
-                  {getDateLabel(dateKey)}
-                </h3>
+                <h3 className="font-medium text-sm text-muted-foreground mb-3">{getDateLabel(dateKey)}</h3>
                 <div className="space-y-3">
-                  {dayConsultations?.map((consultation) => (
-                    <div
-                      key={consultation.id}
-                      className="border rounded-lg p-4 hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
-                            <Clock className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">
-                              {format(new Date(consultation.scheduled_at), "h:mm a")}
-                            </span>
-                            <span className="text-muted-foreground">
-                              ({consultation.duration_minutes} min)
-                            </span>
-                            <Badge className={getStatusColor(consultation.status || "pending")}>
-                              {consultation.status}
-                            </Badge>
+                  {list.map((c) => {
+                    const status = c.status || "pending";
+                    const open = status === "pending" || status === "confirmed";
+                    return (
+                      <div key={c.id} className="border rounded-lg p-4">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                          <div className="space-y-2 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Clock className="h-4 w-4 text-muted-foreground" />
+                              <span className="font-medium">{format(new Date(c.scheduled_at), "h:mm a")}</span>
+                              <span className="text-muted-foreground">({c.duration_minutes ?? 30} min)</span>
+                              <Badge variant="outline" className={statusVariant[status]}>{status}</Badge>
+                              {c.is_free_consultation && <Badge variant="outline">Free</Badge>}
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <User className="h-4 w-4 text-muted-foreground" />
+                              <span>{c.client?.full_name || "Client"}</span>
+                            </div>
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                              {c.client?.email && (
+                                <a href={`mailto:${c.client.email}`} className="flex items-center gap-1 hover:text-foreground">
+                                  <Mail className="h-3 w-3" />{c.client.email}
+                                </a>
+                              )}
+                              {c.client?.phone && (
+                                <a href={`tel:${c.client.phone}`} className="flex items-center gap-1 hover:text-foreground">
+                                  <Phone className="h-3 w-3" />{c.client.phone}
+                                </a>
+                              )}
+                            </div>
+                            <p className="text-sm text-muted-foreground">{c.service_type}</p>
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <User className="h-4 w-4 text-muted-foreground" />
-                            <span>
-                              {(consultation.profiles as { full_name?: string })?.full_name || "Unknown Client"}
-                            </span>
+                          <div className="flex flex-wrap gap-2 sm:justify-end">
+                            {c.google_meet_link ? (
+                              <Button size="sm" asChild>
+                                <a href={c.google_meet_link} target="_blank" rel="noopener noreferrer">
+                                  <Video className="h-4 w-4 mr-2" />Join Meet
+                                </a>
+                              </Button>
+                            ) : open ? (
+                              <span className="text-xs text-muted-foreground self-center">No Meet link yet</span>
+                            ) : null}
+                            {status === "pending" && (
+                              <Button size="sm" variant="outline" onClick={() => updateStatus(c.id, "confirmed")}>
+                                <Check className="h-4 w-4 mr-1" />Confirm
+                              </Button>
+                            )}
+                            {open && (
+                              <>
+                                <Button size="sm" variant="outline" onClick={() => updateStatus(c.id, "completed")}>
+                                  <CheckCheck className="h-4 w-4 mr-1" />Complete
+                                </Button>
+                                <Button size="sm" variant="ghost" onClick={() => updateStatus(c.id, "cancelled")}>
+                                  <X className="h-4 w-4 mr-1" />Cancel
+                                </Button>
+                              </>
+                            )}
                           </div>
-                          <p className="text-sm text-muted-foreground">
-                            {consultation.service_type}
-                          </p>
                         </div>
-                        {consultation.google_meet_link && (
-                          <Button size="sm" variant="outline" asChild>
-                            <a
-                              href={consultation.google_meet_link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <Video className="h-4 w-4 mr-2" />
-                              Join Meeting
-                            </a>
-                          </Button>
+                        {c.case_details && (
+                          <div className="mt-3 pt-3 border-t">
+                            <p className="text-sm text-muted-foreground whitespace-pre-line">{c.case_details}</p>
+                          </div>
                         )}
                       </div>
-                      {consultation.case_details && (
-                        <div className="mt-3 pt-3 border-t">
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {consultation.case_details}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}

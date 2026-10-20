@@ -1,211 +1,79 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Copy, Download, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { CaseAnalysisResult } from "@/hooks/useCaseAnalysis";
+import type { ResearchResult } from "@/hooks/useCaseAnalysis";
+import { OUTCOME_LABEL, RESEARCH_DISCLOSURES, SUMMARY_HEADER, outcomeFrequency, outcomeLine } from "@/data/caseResearch";
 
 interface MemoDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  result: CaseAnalysisResult;
+  result: ResearchResult;
+}
+
+const RULE = "=".repeat(80);
+
+export function buildResearchSummary(result: ResearchResult): string {
+  const date = new Date().toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" });
+  const stat = outcomeFrequency(result.decisions.map((d) => d.outcome));
+  let s = `${SUMMARY_HEADER}\n${RULE}\nDate generated: ${date}\n\n`;
+  s += RESEARCH_DISCLOSURES.map((d) => `- ${d}`).join("\n") + `\n\n${RULE}\nOUTCOME FREQUENCY IN MATCHED DECISIONS\n${RULE}\n${outcomeLine(stat, result.scopeLabel)}\n\n`;
+  s += `${RULE}\nMATCHED DECISIONS\n${RULE}\n`;
+  result.decisions.forEach((d, i) => {
+    s += `\n${i + 1}. ${d.name}\n   ${d.citation} — ${d.court} (${d.year})\n   ${OUTCOME_LABEL[d.outcome]}\n   Similarity to your search: ${d.similarity}%\n   Public decision: ${d.url || "n/a"}\n   Summary: ${d.summary}\n   What the court decided: ${d.conclusion}\n`;
+  });
+  if (result.factorsConsidered.length) {
+    s += `\n${RULE}\nFACTORS THE COURTS CONSIDERED IN THESE DECISIONS\n${RULE}\n` + result.factorsConsidered.map((f, i) => `${i + 1}. ${f.factor}: ${f.description}`).join("\n") + "\n";
+  }
+  if (result.questionsForLawyer.length) {
+    s += `\n${RULE}\nQUESTIONS TO RAISE WITH A LAWYER\n${RULE}\n` + result.questionsForLawyer.map((q, i) => `${i + 1}. ${q}`).join("\n") + "\n";
+  }
+  s += `\nTo review this research with a lawyer, book a consultation at /book.\n`;
+  return s;
 }
 
 export function MemoDialog({ open, onOpenChange, result }: MemoDialogProps) {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
-
-  const generateMemoContent = () => {
-    const date = new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    let memo = `LEGAL MEMORANDUM
-================================================================================
-Date: ${date}
-Re: Case Analysis Summary
-
-================================================================================
-EXECUTIVE SUMMARY
-================================================================================
-
-Based on our comprehensive analysis of relevant case law and the specific facts 
-of your matter, we estimate your likelihood of success at approximately ${result.winRate}%.
-
-${result.winRateReasoning}
-
-================================================================================
-KEY FACTORS AFFECTING YOUR CASE
-================================================================================
-
-`;
-
-    result.keyFactors.forEach((factor, i) => {
-      const impactLabel = factor.impact === "positive" ? "[FAVORABLE]" : 
-                         factor.impact === "negative" ? "[UNFAVORABLE]" : "[NEUTRAL]";
-      memo += `${i + 1}. ${factor.factor} ${impactLabel}
-   ${factor.description}
-
-`;
-    });
-
-    if (result.legalPrinciples && result.legalPrinciples.length > 0) {
-      memo += `================================================================================
-APPLICABLE LEGAL PRINCIPLES
-================================================================================
-
-`;
-      result.legalPrinciples.forEach((principle, i) => {
-        memo += `${i + 1}. ${principle}
-
-`;
-      });
-    }
-
-    memo += `================================================================================
-RELEVANT CASE LAW ANALYSIS
-================================================================================
-
-The following cases are most relevant to your matter, listed in order of 
-relevance to the specific facts of your case:
-
-`;
-
-    result.similarCases.forEach((caseItem, i) => {
-      memo += `--------------------------------------------------------------------------------
-CASE ${i + 1}: ${caseItem.name}
---------------------------------------------------------------------------------
-Citation: ${caseItem.citation}
-Court: ${caseItem.court} (${caseItem.year})
-Outcome: ${caseItem.result}
-Relevance: ${caseItem.relevance}%
-
-CASE SUMMARY:
-${caseItem.summary}
-
-SIMILARITIES TO YOUR CASE:
-${caseItem.similarities}
-
-DIFFERENCES FROM YOUR CASE:
-${caseItem.differences}
-
-COURT'S CONCLUSION:
-${caseItem.conclusion}
-
-`;
-    });
-
-    if (result.recommendations && result.recommendations.length > 0) {
-      memo += `================================================================================
-STRATEGIC RECOMMENDATIONS
-================================================================================
-
-`;
-      result.recommendations.forEach((rec, i) => {
-        memo += `${i + 1}. ${rec}
-
-`;
-      });
-    }
-
-    memo += `================================================================================
-DISCLAIMER
-================================================================================
-
-This memorandum is provided for informational purposes only and does not 
-constitute legal advice. The analysis is based on AI-powered review of case 
-law and should be reviewed with a qualified attorney before making any legal 
-decisions. Past case outcomes do not guarantee future results.
-
-For personalized legal counsel tailored to your specific situation, please 
-schedule a consultation with our legal team.
-
-================================================================================
-`;
-
-    return memo;
-  };
-
-  const memoContent = generateMemoContent();
+  const content = buildResearchSummary(result);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(memoContent);
+      await navigator.clipboard.writeText(content);
       setCopied(true);
-      toast({
-        title: "Copied to Clipboard",
-        description: "The memo has been copied to your clipboard.",
-      });
+      toast({ title: "Copied", description: "The research summary is on your clipboard." });
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      toast({
-        title: "Copy Failed",
-        description: "Unable to copy to clipboard. Please try again.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Copy failed", description: "Please try again.", variant: "destructive" });
     }
   };
 
   const handleDownload = () => {
-    const blob = new Blob([memoContent], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(new Blob([content], { type: "text/plain" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = `legal-memo-${new Date().toISOString().split("T")[0]}.txt`;
+    a.download = `case-law-research-summary-${new Date().toISOString().split("T")[0]}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
-    toast({
-      title: "Memo Downloaded",
-      description: "The memo has been saved to your downloads.",
-    });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[80vh]">
         <DialogHeader>
-          <DialogTitle className="font-display">Client Memo</DialogTitle>
-          <DialogDescription className="font-body">
-            A formatted legal memorandum summarizing the case analysis for your records.
-          </DialogDescription>
+          <DialogTitle className="font-display">Research summary</DialogTitle>
+          <DialogDescription>Prepared automatically for discussion with your lawyer. Not reviewed by a lawyer.</DialogDescription>
         </DialogHeader>
-        
         <div className="flex gap-2 mb-4">
-          <Button variant="outline" size="sm" onClick={handleCopy}>
-            {copied ? (
-              <>
-                <Check className="h-4 w-4 mr-2" />
-                Copied
-              </>
-            ) : (
-              <>
-                <Copy className="h-4 w-4 mr-2" />
-                Copy to Clipboard
-              </>
-            )}
-          </Button>
-          <Button variant="outline" size="sm" onClick={handleDownload}>
-            <Download className="h-4 w-4 mr-2" />
-            Download as Text
-          </Button>
+          <Button variant="outline" size="sm" onClick={handleCopy}>{copied ? <><Check className="h-4 w-4 mr-2" />Copied</> : <><Copy className="h-4 w-4 mr-2" />Copy</>}</Button>
+          <Button variant="outline" size="sm" onClick={handleDownload}><Download className="h-4 w-4 mr-2" />Download</Button>
         </div>
-
         <ScrollArea className="h-[50vh] rounded-lg border border-border bg-muted/30 p-4">
-          <pre className="text-xs font-mono whitespace-pre-wrap text-foreground">
-            {memoContent}
-          </pre>
+          <pre className="text-xs font-mono whitespace-pre-wrap text-foreground">{content}</pre>
         </ScrollArea>
       </DialogContent>
     </Dialog>

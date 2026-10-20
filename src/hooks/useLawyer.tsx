@@ -26,33 +26,46 @@ const LawyerContext = createContext<LawyerContextType | undefined>(undefined);
 export function LawyerProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [lawyer, setLawyer] = useState<Lawyer | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [resolvedFor, setResolvedFor] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchLawyerProfile() {
-      if (!user) {
-        setLawyer(null);
-        setLoading(false);
-        return;
-      }
+    if (!user) {
+      setLawyer(null);
+      setResolvedFor(null);
+      return;
+    }
 
+    let active = true;
+
+    async function fetchLawyerProfile() {
       const { data, error } = await supabase
         .from("lawyers")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", user!.id)
         .eq("is_active", true)
         .maybeSingle();
+
+      if (!active) return;
 
       if (error) {
         console.error("Error fetching lawyer profile:", error);
       }
-      
+
       setLawyer(data);
-      setLoading(false);
+      setResolvedFor(user!.id);
     }
 
     fetchLawyerProfile();
+
+    return () => {
+      active = false;
+    };
   }, [user]);
+
+  // Derived during render, so it is already true in the commit where a signed-in
+  // user first appears. A flag set inside the effect would let this page's own
+  // redirect run first, because child effects run before their parent's.
+  const loading = !!user && resolvedFor !== user.id;
 
   return (
     <LawyerContext.Provider value={{ lawyer, isLawyer: !!lawyer, loading }}>

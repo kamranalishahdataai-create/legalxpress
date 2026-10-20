@@ -62,7 +62,7 @@ const Privacy = () => {
               <p>
                 LegalXpress ("LegalXpress", "we", "us" or "our") is a Canadian legal services
                 practice offering in-house legal services, memberships, consultations, an AI-assisted
-                case analysis tool and a contract template library. This Privacy Policy explains how
+                case law research tool and a contract template library. This Privacy Policy explains how
                 we collect, use, disclose, safeguard and retain personal information.
               </p>
               <p>
@@ -95,7 +95,7 @@ const Privacy = () => {
                 <li>
                   <strong>Matter data:</strong> facts, documents, correspondence, dates, parties,
                   opposing parties and any other information you submit when requesting a
-                  consultation, a case analysis, a document review or another service.
+                  consultation, a research report, a document review or another service.
                 </li>
                 <li>
                   <strong>Conflict-check data:</strong> the names of counterparties and related
@@ -153,7 +153,7 @@ const Privacy = () => {
                 <li>To generate AI-assisted case summaries, memos and contract drafts you request.</li>
                 <li>To deliver, personalize and localize contract templates (English and French).</li>
                 <li>
-                  To match you with an affiliate partner or referral lawyer where the service falls
+                  To arrange an independent professional referral with your consent where the service falls
                   outside our practice.
                 </li>
                 <li>
@@ -232,9 +232,12 @@ const Privacy = () => {
             <section id="ai">
               <h2>7. AI-Assisted Tools and Automated Processing</h2>
               <p>
-                Our case analysis tool, AI legal assistant and contract generation features use
-                third-party artificial intelligence models. When you use those features, the content
-                you submit is transmitted to the model provider to generate a response.
+                Our Case Law Research Tool, site-help assistant and contract generation features use
+                third-party artificial intelligence models, including OpenAI. When you use those
+                features, the search filters and text you submit are sent to the model provider,
+                which processes them outside Canada (including in the United States), to retrieve,
+                rank and summarize published decisions and to generate a response. Do not enter
+                names, identifying details or confidential information.
               </p>
               <ul>
                 <li>
@@ -247,7 +250,7 @@ const Privacy = () => {
                 </li>
                 <li>
                   We may retain prompts and outputs associated with your account so you can revisit
-                  your analyses, and to monitor quality, accuracy and abuse.
+                  your reports, and to monitor quality, accuracy and abuse.
                 </li>
                 <li>
                   No decision producing legal effects about you is made solely by automated means.
@@ -306,7 +309,10 @@ const Privacy = () => {
               <h2>10. Cross-Border Storage and Transfers</h2>
               <p>
                 Our infrastructure is Canada-focused, but some service providers may store or process
-                data outside Canada, including in the United States and the European Union. When
+                data outside Canada, including in the United States and the European Union. In particular, inputs to the
+                Case Law Research Tool are sent to OpenAI for processing in the United States to
+                retrieve, rank and summarize decisions. We use business API terms that exclude use of
+                inputs for model training, with the shortest retention available. When
                 personal information is held in another jurisdiction, it may be accessible to the
                 courts, law enforcement and national security authorities of that jurisdiction.
               </p>
@@ -431,9 +437,9 @@ const Privacy = () => {
               <p className="mt-2">
                 <strong>Privacy Officer, LegalXpress</strong>
                 <br />
-                <strong>Email:</strong> privacy@legalxpress.ca
+                <strong>Phone:</strong> (647) 200-9104
                 <br />
-                <strong>Mail:</strong> Toronto, Ontario, Canada
+                Call us to obtain the correct address for written privacy requests.
               </p>
               <p>
                 If you are not satisfied with our response, you may contact the Office of the Privacy

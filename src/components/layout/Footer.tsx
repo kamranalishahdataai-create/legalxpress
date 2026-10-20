@@ -1,4 +1,5 @@
 import { Phone, MapPin, Linkedin, Twitter } from "lucide-react";
+import { PracticeNotice } from "@/components/legal/PracticeNotice";
 import logo from "@/assets/legalxpress-logo.png";
 
 const footerLinks = {
@@ -7,20 +8,25 @@ const footerLinks = {
     { name: "Shareholder Agreements", href: "/services#shareholder" },
     { name: "Procurement Law", href: "/services#procurement" },
     { name: "SR&ED Tax Credit Support", href: "/services#sred" },
-    { name: "Real Estate", href: "/services#real-estate" },
+    { name: "Real Estate Referrals", href: "/affiliates" },
     { name: "Corporate Litigation", href: "/services#litigation" },
   ],
   resources: [
     { name: "Blog", href: "/blog" },
     { name: "FAQ", href: "/faq" },
     { name: "Contract Library", href: "/contracts" },
-    { name: "Case Analysis", href: "/case-analysis" },
+    { name: "Case Law Research", href: "/case-analysis" },
   ],
   company: [
     { name: "About", href: "/about" },
+    { name: "Rogers Partnership", href: "/partnerships/rogers" },
+    { name: "Bell Partnership (Sample)", href: "/partnerships/bell" },
+    { name: "TELUS Partnership (Sample)", href: "/partnerships/telus" },
+    { name: "Bet99 Partnership", href: "/partnerships/bet99" },
     { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
+    { name: "Lawyer Portal", href: "/lawyer-portal" },
   ],
 };
 
@@ -38,8 +44,7 @@ export function Footer() {
               </span>
             </a>
             <p className="text-primary-foreground/70 mb-6 max-w-sm font-body">
-              Modern legal solutions for businesses and individuals across Canada. 
-              Technology-driven, client-focused.
+              Membership-based legal services for individuals and small businesses, provided under Ontario licensing.
             </p>
             <div className="flex flex-col gap-3 text-sm text-primary-foreground/70">
               <a href="tel:+16472009104" className="flex items-center gap-2 hover:text-secondary transition-colors">
@@ -48,7 +53,7 @@ export function Footer() {
               </a>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                Toronto, ON — serving clients across Canada
+                Toronto, Ontario
               </div>
             </div>
           </div>
@@ -107,22 +112,13 @@ export function Footer() {
 
         {/* Value-added services notice */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/10">
-          <p className="text-xs leading-relaxed text-primary-foreground/60 font-body max-w-4xl">
-            <span className="font-semibold text-primary-foreground/80">Legal notice: </span>
-            LegalXpress is a Canadian corporate law practice. Legal services described as
-            in-house are provided by our licensed Canadian legal team. Our value-added
-            services — the AI Case Analysis, the Contract Library and our affiliate partner
-            network — are informational or independent third-party services. They are not
-            legal advice, do not create a lawyer-client relationship, and LegalXpress accepts
-            no responsibility or liability for them. Always have your matter reviewed by a
-            licensed lawyer or paralegal in your jurisdiction.
-          </p>
+          <div className="text-primary-foreground/70 max-w-4xl"><PracticeNotice /></div>
         </div>
 
         {/* Bottom */}
         <div className="mt-8 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-primary-foreground/50 font-body">
-            © {new Date().getFullYear()} LegalXpress Law. All rights reserved.
+            © {new Date().getFullYear()} LegalXpress. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <a

@@ -26,6 +26,8 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ProviderNotice, PriceNotice } from "@/components/legal/PracticeNotice";
+import { CONFIDENTIALITY_NOTICE } from "@/data/practiceTerms";
 
 const serviceTypes = [
   "Incorporation",
@@ -202,8 +204,8 @@ export default function Book() {
             Book Your Free Consultation
           </h1>
           <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto font-body">
-            Get 30 minutes of expert legal advice at no cost. 
-            Choose your preferred date and time below.
+            Start with 30 minutes of general guidance at no cost.
+            A lawyer-client relationship begins only after a conflicts check and written engagement.
           </p>
         </div>
       </section>
@@ -218,7 +220,7 @@ export default function Book() {
             </div>
             <div className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-secondary" />
-              <span className="font-body text-foreground">Then $375/hr or $200/30 min</span>
+              <span className="font-body text-foreground">Then $375/hr + HST or $200/30 min + HST</span>
             </div>
             <div className="flex items-center gap-2">
               <Video className="h-5 w-5 text-secondary" />
@@ -231,6 +233,9 @@ export default function Book() {
       {/* Booking Form */}
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <ProviderNotice />
+          <PriceNotice className="mt-3 mb-6" />
+          <p className="text-sm text-muted-foreground mb-8">{CONFIDENTIALITY_NOTICE}</p>
           {/* Progress Steps */}
           <div className="flex items-center justify-center gap-4 mb-12">
             {[1, 2, 3].map((s) => (
@@ -326,7 +331,7 @@ export default function Book() {
                       </Label>
                       <Textarea
                         id="caseDetailsStep1"
-                        placeholder="Please provide a brief overview of your situation..."
+                        placeholder="Brief description only; do not send sensitive documents or confidential third-party details."
                         value={caseDetails}
                         onChange={(e) => setCaseDetails(e.target.value)}
                         rows={4}
@@ -427,7 +432,7 @@ export default function Book() {
                     </Label>
                     <Textarea
                       id="caseDetails"
-                      placeholder="Please provide a brief overview of your situation..."
+                      placeholder="Brief description only; do not send sensitive documents or confidential third-party details."
                       value={caseDetails}
                       onChange={(e) => setCaseDetails(e.target.value)}
                       rows={6}

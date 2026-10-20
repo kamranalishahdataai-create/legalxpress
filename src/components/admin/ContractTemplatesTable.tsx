@@ -205,17 +205,17 @@ export function ContractTemplatesTable() {
                 Manage contract templates for the library
               </CardDescription>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="relative">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative min-w-0 flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search templates..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 w-64"
+                  className="pl-9 w-full md:w-64"
                 />
               </div>
-              <Button variant="outline" size="icon" onClick={fetchTemplates}>
+              <Button variant="outline" size="icon" onClick={fetchTemplates} aria-label="Refresh templates" title="Refresh templates">
                 <RefreshCw className="h-4 w-4" />
               </Button>
               <Button onClick={openCreateDialog}>

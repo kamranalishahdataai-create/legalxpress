@@ -3,23 +3,23 @@ import { Brain, Users, DollarSign } from "lucide-react";
 const pillars = [
   {
     icon: Brain,
-    title: "AI-Powered Analysis",
+    title: "Research and templates",
     description:
-      "Get instant case assessments backed by precedent law research. Know your legal standing before your first consultation.",
+      "Canadian case-law resources and contract templates are separate from personalised legal advice. Book a consultation to discuss your position.",
     accent: "from-secondary/20 to-secondary/5",
   },
   {
     icon: Users,
     title: "Community-Driven Pricing",
     description:
-      "Join 100,000 members working toward $1/month legal services. More members means lower costs for everyone.",
+      "Our aim is to lower membership prices as our community grows. Future reductions are a goal, not a guarantee; only current published prices are committed to.",
     accent: "from-primary/20 to-primary/5",
   },
   {
     icon: DollarSign,
     title: "Transparent & Affordable",
     description:
-      "No hidden fees, no surprises. Flat-rate bundles, flexible payment plans, and a free 30-minute consultation to start.",
+      "Published fixed fees with a written scope. HST, filing fees and disbursements are extra. Start with a free initial 30-minute consultation.",
     accent: "from-gold/20 to-gold/5",
   },
 ];
@@ -33,7 +33,7 @@ export function WhyChooseUs() {
             Why Us
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-            Built Different. Built for You.
+            Why members choose LegalXpress
           </h2>
         </div>
 
@@ -41,11 +41,10 @@ export function WhyChooseUs() {
           {pillars.map((pillar) => (
             <div
               key={pillar.title}
-              className="relative text-center p-8 rounded-2xl bg-card border border-border/50 hover:shadow-lg transition-shadow duration-300"
+              className="relative text-left py-7 border-t border-border"
             >
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-b ${pillar.accent} opacity-50`} />
               <div className="relative">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10 mx-auto mb-5">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest/10 mb-5">
                   <pillar.icon className="h-7 w-7 text-secondary" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-foreground mb-3">

@@ -1,3 +1,4 @@
+import { PriceNotice } from "@/components/legal/PracticeNotice";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
@@ -201,7 +202,7 @@ type Region = {
 };
 
 const REGIONS: Region[] = [
-  { id: "canada", label: "Canada", flag: "🇨🇦", locked: false, note: "Reviewed by licensed Canadian lawyers and paralegals." },
+  { id: "canada", label: "Canada", flag: "🇨🇦", locked: false, note: "Canadian templates. Suitability and formalities vary by province and circumstance." },
   { id: "usa", label: "USA", flag: "🇺🇸", locked: true, note: "State-specific US templates — launching soon." },
   { id: "mexico", label: "Mexico", flag: "🇲🇽", locked: true, note: "Spanish-language Mexican templates — launching soon." },
   { id: "india", label: "India", flag: "🇮🇳", locked: true, note: "Indian Contract Act compliant templates — launching soon." },
@@ -421,12 +422,12 @@ export default function ContractsPage() {
             <span className="text-sm font-medium font-body">Contract Library</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-            Professional Legal Contracts
+            Contract Library
           </h1>
           <p className="text-lg sm:text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body text-balance">
-            Download professionally drafted contracts from{" "}
-            <span className="whitespace-nowrap font-semibold text-secondary">$4.99/month</span>.
-            All templates reviewed by licensed attorneys.
+            Download Canadian templates in Word or PDF, starting at{" "}
+            <span className="whitespace-nowrap font-semibold text-secondary">$4.99/month + HST</span>.
+            Templates are general precedents, not tailored legal advice. Have a lawyer review your document before relying on it.
           </p>
         </div>
       </section>
@@ -440,15 +441,15 @@ export default function ContractsPage() {
                 <Star className="h-6 w-6 text-gold shrink-0 mt-1 sm:mt-0" />
                 <div className="min-w-0">
                   <div className="font-display font-semibold text-foreground flex flex-wrap items-baseline gap-x-1.5">
-                    <span>Unlimited Access for</span>
+                    <span>Template subscription only:</span>
                     <span className="whitespace-nowrap text-secondary">
-                      ${LANGUAGE_PRICE[language]}<span className="text-sm font-body text-muted-foreground">/month</span>
+                      ${LANGUAGE_PRICE[language]}<span className="text-sm font-body text-muted-foreground">/month + HST</span>
                     </span>
                   </div>
                   <div className="text-sm text-muted-foreground font-body">
                     {language === "fr"
-                      ? "French templates — $1/month more than English. Download any contract, anytime."
-                      : "Download any contract, anytime. Cancel whenever."}
+                      ? "French templates — $1/month more than English. Downloads subject to fair use; template subscription only."
+                      : "Unlimited downloads subject to fair use. Month-to-month; no other membership benefits."}
                   </div>
                 </div>
               </div>
@@ -466,7 +467,7 @@ export default function ContractsPage() {
       {/* Contracts List */}
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
-          <LegalDisclaimer context="contracts" className="mb-8" />
+          <LegalDisclaimer context="contracts" className="mb-8" /><PriceNotice className="mb-6" /><p className="text-sm text-muted-foreground mb-6">Membership download allowances: Starter 1/month, Professional 5/month, Executive unlimited subject to fair use. Library-only subscriptions do not include member pricing on legal services or other membership benefits.</p>
 
           {/* Region Tabs */}
           <div className="mb-6">
@@ -481,7 +482,7 @@ export default function ContractsPage() {
                   variant={activeRegionId === region.id ? "default" : "outline"}
                   size="sm"
                   onClick={() => setActiveRegionId(region.id)}
-                  className={`gap-2 ${activeRegionId === region.id ? "bg-secondary hover:bg-secondary/90 text-secondary-foreground" : ""} ${region.locked ? "opacity-80" : ""}`}
+                  className={`gap-2 ${activeRegionId === region.id ? "bg-secondary hover:bg-secondary/90 text-secondary-foreground" : ""} ${region.locked ? "opacity-50 grayscale bg-muted/40 text-muted-foreground" : ""}`}
                 >
                   <span aria-hidden>{region.flag}</span>
                   {region.label}
@@ -502,9 +503,9 @@ export default function ContractsPage() {
                   </div>
                   <p className="text-sm text-muted-foreground font-body">
                     English templates are included at{" "}
-                    <span className="whitespace-nowrap font-medium text-foreground">$4.99/mo</span>. French
+                    <span className="whitespace-nowrap font-medium text-foreground">$4.99/mo + HST</span>. French
                     (Français) templates are $1 more —{" "}
-                    <span className="whitespace-nowrap font-medium text-foreground">$5.99/mo</span>.
+                    <span className="whitespace-nowrap font-medium text-foreground">$5.99/mo + HST</span>.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 shrink-0">
@@ -523,7 +524,7 @@ export default function ContractsPage() {
                           language === lang ? "border-secondary-foreground/40 text-secondary-foreground" : ""
                         }`}
                       >
-                        ${LANGUAGE_PRICE[lang]}/mo
+                        ${LANGUAGE_PRICE[lang]}/mo + HST
                       </Badge>
                     </Button>
                   ))}
@@ -676,11 +677,10 @@ export default function ContractsPage() {
                 <Check className="h-7 w-7 text-secondary" />
               </div>
               <h3 className="font-display font-semibold text-foreground mb-2">
-                Attorney Reviewed
+                Legal review before use
               </h3>
               <p className="text-muted-foreground font-body text-sm">
-                Every template is reviewed and updated by licensed attorneys 
-                in Canada.
+                Ask a lawyer to review your chosen template for your facts, province and signing requirements. A separate fee is confirmed before any review begins.
               </p>
             </div>
             <div className="text-center">

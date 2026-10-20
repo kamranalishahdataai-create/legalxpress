@@ -1,161 +1,121 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Brain, AlertCircle, Sparkles, CreditCard } from "lucide-react";
+import { Search, FileSearch } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-const caseTypes = [
-  "Contract Dispute",
-  "Shareholder Dispute",
-  "Employment Dispute",
-  "Procurement Challenge",
-  "Real Estate Dispute",
-  "Corporate Governance",
-  "Breach of Fiduciary Duty",
-  "Commercial Litigation",
-  "Other",
-];
+import type { ResearchFilters } from "@/hooks/useCaseAnalysis";
+import { KEYWORD_NOTICE, PACK_TERMS_SHORT, RESEARCH_PACK } from "@/data/caseResearch";
+
+const areas: Record<string, string[]> = {
+  "Contract Dispute": ["Breach of contract", "Damages", "Exclusion / limitation clauses", "Duty of honest performance", "Contract interpretation"],
+  "Shareholder Dispute": ["Oppression remedy", "Shareholder agreement", "Valuation", "Buy-sell provisions"],
+  "Employment Dispute": ["Wrongful dismissal", "Reasonable notice", "Constructive dismissal", "Restrictive covenants"],
+  "Procurement Challenge": ["Contract A / tendering", "Bid compliance", "Duty of fairness", "Privilege clauses"],
+  "Real Estate Dispute": ["Failed closing", "Deposit forfeiture", "Misrepresentation", "Specific performance"],
+  "Corporate Governance": ["Directors' duties", "Business judgment rule", "Meetings and resolutions"],
+  "Breach of Fiduciary Duty": ["Conflict of interest", "Disgorgement", "Corporate opportunity"],
+  "Commercial Litigation": ["Summary judgment", "Unjust enrichment", "Negligent misrepresentation"],
+};
 
 const jurisdictions = [
-  // Canada - Provinces
-  { value: "alberta", label: "Alberta, Canada" },
-  { value: "bc", label: "British Columbia, Canada" },
-  { value: "manitoba", label: "Manitoba, Canada" },
-  { value: "new_brunswick", label: "New Brunswick, Canada" },
-  { value: "newfoundland", label: "Newfoundland and Labrador, Canada" },
-  { value: "nova_scotia", label: "Nova Scotia, Canada" },
-  { value: "ontario", label: "Ontario, Canada" },
-  { value: "pei", label: "Prince Edward Island, Canada" },
-  { value: "quebec", label: "Quebec, Canada" },
-  { value: "saskatchewan", label: "Saskatchewan, Canada" },
-  // Canada - Territories
-  { value: "northwest_territories", label: "Northwest Territories, Canada" },
-  { value: "nunavut", label: "Nunavut, Canada" },
-  { value: "yukon", label: "Yukon, Canada" },
+  { value: "ontario", label: "Ontario" },
   { value: "federal_ca", label: "Federal (Canada)" },
+  { value: "scc", label: "Supreme Court of Canada" },
+  { value: "alberta", label: "Alberta" },
+  { value: "bc", label: "British Columbia" },
+  { value: "manitoba", label: "Manitoba" },
+  { value: "new_brunswick", label: "New Brunswick" },
+  { value: "newfoundland", label: "Newfoundland and Labrador" },
+  { value: "nova_scotia", label: "Nova Scotia" },
+  { value: "pei", label: "Prince Edward Island" },
+  { value: "quebec", label: "Quebec" },
+  { value: "saskatchewan", label: "Saskatchewan" },
+  { value: "northwest_territories", label: "Northwest Territories" },
+  { value: "nunavut", label: "Nunavut" },
+  { value: "yukon", label: "Yukon" },
 ];
+const courtLevels = [["any", "Any court level"], ["trial", "Trial courts"], ["appeal", "Courts of appeal"], ["scc", "Supreme Court of Canada"], ["tribunal", "Tribunals"]];
+const dateRanges = [["any", "Any date"], ["5", "Last 5 years"], ["10", "Last 10 years"], ["20", "Last 20 years"]];
+const partyTypes = [["any", "Any party"], ["individual", "Individual"], ["small_business", "Small business"], ["corporation", "Corporation"], ["public_body", "Government / public body"]];
 
 interface AnalysisFormProps {
-  caseType: string;
-  setCaseType: (value: string) => void;
-  jurisdiction: string;
-  setJurisdiction: (value: string) => void;
-  caseDescription: string;
-  setCaseDescription: (value: string) => void;
+  filters: ResearchFilters;
+  setFilters: (f: ResearchFilters) => void;
   onAnalyze: () => void;
   analyzing: boolean;
 }
 
-export function AnalysisForm({
-  caseType,
-  setCaseType,
-  jurisdiction,
-  setJurisdiction,
-  caseDescription,
-  setCaseDescription,
-  onAnalyze,
-  analyzing,
-}: AnalysisFormProps) {
-  const navigate = useNavigate();
+function FilterSelect({ id, label, value, onChange, options, placeholder }: { id: string; label: string; value: string; onChange: (v: string) => void; options: string[][]; placeholder?: string }) {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={id} className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted-foreground">{label}</Label>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger id={id}><SelectValue placeholder={placeholder} /></SelectTrigger>
+        <SelectContent>{options.map(([v, l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}</SelectContent>
+      </Select>
+    </div>
+  );
+}
 
-  const handlePaidAnalysis = () => {
-    navigate("/checkout/case-analysis");
-  };
+export function AnalysisForm({ filters, setFilters }: AnalysisFormProps) {
+  const navigate = useNavigate();
+  const set = (patch: Partial<ResearchFilters>) => setFilters({ ...filters, ...patch });
+  const issues = filters.areaOfLaw ? areas[filters.areaOfLaw] ?? [] : [];
+  const toggleIssue = (i: string) => set({ issues: filters.issues.includes(i) ? filters.issues.filter((x) => x !== i) : [...filters.issues, i] });
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-display">Describe Your Case</CardTitle>
-        <CardDescription className="font-body">
-          Provide details about your legal matter for AI analysis
-        </CardDescription>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <CardTitle className="font-display">Search the case law</CardTitle>
+            <CardDescription>Choose filters to find published Canadian decisions on the same issue.</CardDescription>
+          </div>
+          <span className="hidden sm:inline-flex shrink-0 items-center rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Query builder</span>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="caseType" className="font-body">Case Type *</Label>
-          <Select value={caseType} onValueChange={setCaseType}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select case type" />
-            </SelectTrigger>
-            <SelectContent>
-              {caseTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
+        <FilterSelect id="area" label="Area of law *" value={filters.areaOfLaw} onChange={(v) => set({ areaOfLaw: v, issues: [] })} options={Object.keys(areas).map((a) => [a, a])} placeholder="Select area of law" />
+
+        {issues.length > 0 && (
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-medium">Issues</legend>
+            <div className="flex flex-wrap gap-2">
+              {issues.map((i) => (
+                <button key={i} type="button" onClick={() => toggleIssue(i)} aria-pressed={filters.issues.includes(i)}
+                  className={`rounded-full border px-3 py-1 text-xs transition-colors ${filters.issues.includes(i) ? "border-secondary bg-secondary/15 text-foreground" : "border-border text-muted-foreground hover:border-secondary/50"}`}>
+                  {i}
+                </button>
               ))}
-            </SelectContent>
-          </Select>
+            </div>
+          </fieldset>
+        )}
+
+        <FilterSelect id="jurisdiction" label="Jurisdiction *" value={filters.jurisdiction} onChange={(v) => set({ jurisdiction: v })} options={jurisdictions.map((j) => [j.value, j.label])} placeholder="Select jurisdiction" />
+        <div className="grid sm:grid-cols-3 gap-4">
+          <FilterSelect id="court" label="Court level" value={filters.courtLevel} onChange={(v) => set({ courtLevel: v })} options={courtLevels} />
+          <FilterSelect id="dates" label="Date range" value={filters.dateRange} onChange={(v) => set({ dateRange: v })} options={dateRanges} />
+          <FilterSelect id="party" label="Party type" value={filters.partyType} onChange={(v) => set({ partyType: v })} options={partyTypes} />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="jurisdiction" className="font-body">Jurisdiction *</Label>
-          <Select value={jurisdiction} onValueChange={setJurisdiction}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select jurisdiction" />
-            </SelectTrigger>
-            <SelectContent>
-              {jurisdictions.map((j) => (
-                <SelectItem key={j.value} value={j.value}>
-                  {j.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label htmlFor="keywords">Search keywords (optional)</Label>
+          <Input id="keywords" maxLength={120} placeholder="e.g. late delivery, lost profits" value={filters.keywords} onChange={(e) => set({ keywords: e.target.value })} />
+          <p className="text-xs text-muted-foreground">{KEYWORD_NOTICE} Do not enter names or identifying details.</p>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="caseDescription" className="font-body">
-            Case Description *
-          </Label>
-          <Textarea
-            id="caseDescription"
-            placeholder="Describe your case in detail. Include relevant facts, parties involved, and the outcome you're seeking..."
-            value={caseDescription}
-            onChange={(e) => setCaseDescription(e.target.value)}
-            rows={8}
-          />
-        </div>
-
-        <div className="p-4 rounded-lg bg-muted/50 border border-border flex items-start gap-3">
-          <AlertCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
-          <p className="text-sm text-muted-foreground font-body">
-            This analysis is for informational purposes only and does not 
-            constitute legal advice. Results are based on AI analysis of 
-            similar case law and should be reviewed with a qualified attorney.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <Button
-            variant="outline"
-            className="w-full border-secondary text-secondary hover:bg-secondary/10"
-            onClick={() => navigate("/case-analysis/preview")}
-          >
-            <Sparkles className="h-4 w-4 mr-2" />
-            Free Analysis Preview
+        <div className="flex flex-col gap-3 pt-2">
+          <Button variant="outline" onClick={() => navigate("/case-analysis/preview")}>
+            <FileSearch className="h-4 w-4 mr-2" /> See a sample report
           </Button>
-          
-          <Button
-            className="w-full bg-secondary hover:bg-secondary/90"
-            onClick={handlePaidAnalysis}
-            disabled={analyzing}
-          >
-            {analyzing ? (
-              <>
-                <Brain className="h-4 w-4 mr-2 animate-pulse" />
-                Analyzing Case Law...
-              </>
-            ) : (
-              <>
-                <CreditCard className="h-4 w-4 mr-2" />
-                Analyze My Case (Paid)
-              </>
-            )}
+          <Button onClick={() => navigate("/checkout/case-analysis")}>
+            <Search className="h-4 w-4 mr-2" /> Get a {RESEARCH_PACK.reports}-report pack
           </Button>
         </div>
-
         <p className="text-xs text-center text-muted-foreground">
-          Free preview shows sample analysis. Full personalized analysis requires payment.
+          ${RESEARCH_PACK.standardPrice.toFixed(2)} + HST standard · ${RESEARCH_PACK.memberPrice.toFixed(2)} + HST members. {PACK_TERMS_SHORT}
         </p>
       </CardContent>
     </Card>

@@ -10,9 +10,7 @@ const About = () => {
             About LegalXpress
           </h1>
           <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body">
-            A Canadian corporate law practice serving clients since 2016 — legal
-            services provided in-house by our licensed legal team, offered through a
-            simple membership.
+            An Ontario law practice led by Shiv Kumar Passi, Lawyer, LSO No. 70089L — membership-based legal services with a written scope and published prices.
           </p>
         </div>
       </section>

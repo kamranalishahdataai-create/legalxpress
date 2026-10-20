@@ -4,7 +4,7 @@ const NARRATOR_SCRIPT = `Welcome to Modern Legal Solutions, your trusted partner
 
 We specialize in corporate law, contract drafting, and litigation support, helping businesses navigate complex legal challenges with confidence.
 
-Our innovative AI-powered case analysis provides instant legal insights, while our team of experienced attorneys delivers personalized consultations tailored to your needs.
+Our Case Law Research Tool shows how Canadian courts have decided similar issues, and you can book a consultation with our lawyer to discuss your matter.
 
 Whether you're incorporating a new business, drafting contracts, or facing corporate disputes, we're here to help. Book your free 30-minute consultation today and discover how modern legal solutions can work for you.`;
 

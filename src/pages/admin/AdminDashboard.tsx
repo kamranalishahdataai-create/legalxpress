@@ -145,15 +145,15 @@ export default function AdminDashboard() {
   return (
     <Layout>
       {/* Header */}
-      <section className="py-8 bg-primary">
+      <section className="workspace-heading py-8 bg-background border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
-            <LayoutDashboard className="h-8 w-8 text-primary-foreground" />
+            <LayoutDashboard className="h-8 w-8 text-forest" />
             <div>
-              <h1 className="font-display text-2xl md:text-3xl font-bold text-primary-foreground">
+              <h1 className="font-display text-2xl md:text-3xl font-medium text-foreground">
                 Admin Dashboard
               </h1>
-              <p className="text-primary-foreground/80 font-body text-sm">
+              <p className="text-muted-foreground font-body text-sm">
                 Manage your platform, view analytics, and oversee operations
               </p>
             </div>
@@ -164,12 +164,12 @@ export default function AdminDashboard() {
       {/* Stats Cards */}
       <section className="py-8 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                    <Users className="h-5 w-5 text-blue-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10">
+                    <Users className="h-5 w-5 text-forest" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -184,8 +184,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
-                    <Brain className="h-5 w-5 text-purple-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+                    <Brain className="h-5 w-5 text-foreground" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -200,8 +200,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-                    <Calendar className="h-5 w-5 text-green-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10">
+                    <Calendar className="h-5 w-5 text-forest" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -216,8 +216,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100">
-                    <FileText className="h-5 w-5 text-amber-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15">
+                    <FileText className="h-5 w-5 text-foreground" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -232,8 +232,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-rose-100">
-                    <Activity className="h-5 w-5 text-rose-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+                    <Activity className="h-5 w-5 text-foreground" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -248,8 +248,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                    <DollarSign className="h-5 w-5 text-emerald-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10">
+                    <DollarSign className="h-5 w-5 text-forest" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -264,8 +264,8 @@ export default function AdminDashboard() {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100">
-                    <Flame className="h-5 w-5 text-orange-600" />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary/15">
+                    <Flame className="h-5 w-5 text-foreground" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">
@@ -280,26 +280,26 @@ export default function AdminDashboard() {
 
           {/* Main Content Tabs */}
           <Tabs defaultValue="analytics" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 mb-8">
+            <TabsList className="w-full mb-8">
               <TabsTrigger value="analytics" className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4" />
-                <span className="hidden sm:inline">Analytics</span>
+                <span>Analytics</span>
               </TabsTrigger>
               <TabsTrigger value="cases" className="flex items-center gap-2">
                 <Brain className="h-4 w-4" />
-                <span className="hidden sm:inline">Cases</span>
+                <span>Cases</span>
               </TabsTrigger>
               <TabsTrigger value="contracts" className="flex items-center gap-2">
                 <FileText className="h-4 w-4" />
-                <span className="hidden sm:inline">Contracts</span>
+                <span>Contracts</span>
               </TabsTrigger>
               <TabsTrigger value="consultations" className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
-                <span className="hidden sm:inline">Consults</span>
+                <span>Consultations</span>
               </TabsTrigger>
               <TabsTrigger value="reports" className="flex items-center gap-2">
                 <Activity className="h-4 w-4" />
-                <span className="hidden sm:inline">Reports</span>
+                <span>Reports</span>
               </TabsTrigger>
             </TabsList>
 

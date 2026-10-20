@@ -27,10 +27,10 @@ export const servicesData: ServiceDetail[] = [
     title: "Incorporations",
     tagline: "Launch your business on a solid legal foundation",
     description:
-      "Whether you're starting a new venture or restructuring an existing one, our incorporation services cover federal and provincial registrations across Canada. We handle everything from name searches to CRA registration so you can focus on growing your business.",
+      "Whether you're starting a new venture or restructuring an existing one, our incorporation services cover Ontario and federal registrations. We handle everything from name searches to CRA registration so you can focus on growing your business.",
     image: incorporationsImg,
     features: [
-      "Federal & Provincial incorporations",
+      "Federal & Ontario incorporations",
       "Articles of incorporation drafting",
       "Initial organizational resolutions",
       "Share structure setup",
@@ -78,56 +78,24 @@ export const servicesData: ServiceDetail[] = [
   {
     slug: "e2-visa",
     icon: Globe,
-    title: "E2 Investor Visa",
-    tagline: "US E-2 treaty investor visa support for Canadian entrepreneurs",
-    description:
-      "We assist Canadian citizens in structuring qualifying investments and preparing complete E-2 treaty investor visa applications for the United States — from business plan review to consular interview preparation.",
+    title: "E-2 — Canadian-law transaction support",
+    tagline: "Canadian-law support; US immigration advice and filings require a US-licensed lawyer",
+    description: "We provide Canadian-law and transaction support for Canadian entrepreneurs pursuing a US E-2 investment route. We do not provide US immigration advice or prepare US immigration filings. Those services must be provided by an independent US-licensed immigration lawyer selected by you.",
     image: e2VisaImg,
-    features: [
-      "E-2 eligibility assessment",
-      "Qualifying investment structuring",
-      "US entity formation coordination",
-      "Business plan legal review",
-      "DS-160 & DS-156E preparation",
-      "Consular interview preparation",
-    ],
-    details: [
-      "The E-2 visa allows Canadian citizens to live and work in the US by making a substantial investment in a qualifying American business. We guide you through every legal requirement.",
-      "Our team coordinates with US immigration counsel where required, ensuring your investment source-of-funds documentation and corporate structure meet USCIS and consular standards.",
-      "We also advise on renewal strategies and pathways for dependent spouses and children.",
-    ],
-    faqs: [
-      { q: "How much do I need to invest?", a: "There is no fixed minimum, but the investment must be 'substantial' relative to the total cost of the business — typically CAD $150,000+ depending on the industry." },
-      { q: "How long is the E-2 valid?", a: "Canadian E-2 visas are typically issued for 5 years and are renewable indefinitely as long as the business remains operational and qualifying." },
-      { q: "Can my family come with me?", a: "Yes. Spouses can obtain work authorization in the US, and unmarried children under 21 can attend school on E-2 dependent status." },
-    ],
+    features: ["Canadian corporate and commercial documents", "Canadian-law investment transaction review", "Coordination with independently retained US immigration counsel"],
+    details: ["Our work is limited to the Canadian-law scope confirmed in writing after a conflicts check.", "US eligibility, petitions, consular forms, immigration strategy and representation are outside our Ontario licence and must be handled by US-licensed counsel. A referral does not require you to retain any suggested professional."],
+    faqs: [{q: "Who handles US immigration filings?", a: "An independent US-licensed immigration lawyer. LegalXpress provides only the Canadian-law transaction support identified in the written engagement."}, {q: "What fees are included?", a: "Canadian-law support is quoted before work begins. US counsel fees, government charges and disbursements are separate."}],
   },
   {
     slug: "eb5-visa",
     icon: Globe,
-    title: "EB-5 Investor Visa",
-    tagline: "US permanent residency through qualifying investment",
-    description:
-      "We support Canadian and international investors pursuing the US EB-5 Immigrant Investor Program — reviewing regional centre and direct investment options, source-of-funds documentation, and the full I-526E petition package.",
+    title: "EB-5 — Canadian-law transaction support",
+    tagline: "Canadian-law support; US immigration advice and filings require a US-licensed lawyer",
+    description: "We provide Canadian-law and transaction support for Canadian entrepreneurs pursuing a US EB-5 investment route. We do not provide US immigration advice or prepare US immigration filings. Those services must be provided by an independent US-licensed immigration lawyer selected by you.",
     image: e2VisaImg,
-    features: [
-      "EB-5 eligibility & structure assessment",
-      "Regional centre vs direct investment review",
-      "Source-of-funds documentation",
-      "Corporate & investment structuring",
-      "I-526E petition preparation support",
-      "Coordination with US immigration counsel",
-    ],
-    details: [
-      "The EB-5 program offers a path to a US green card for investors who make a qualifying investment in a new commercial enterprise that creates at least 10 full-time US jobs.",
-      "We review regional centre offerings and direct investment structures, assist with the legal due diligence, and assemble the source-of-funds record that USCIS scrutinizes most closely.",
-      "Our team coordinates with licensed US immigration counsel on petition filing, and advises on conditional residency removal (Form I-829) planning from the outset.",
-    ],
-    faqs: [
-      { q: "How much is required for EB-5?", a: "USD $800,000 in a targeted employment area or rural project, and USD $1,050,000 otherwise, plus administrative and legal fees." },
-      { q: "How long does the process take?", a: "Timelines vary by project and country of birth; petition processing commonly takes 2–4 years, followed by two years of conditional residency." },
-      { q: "Is EB-5 better than E-2?", a: "EB-5 leads to permanent residency but requires a larger investment and longer timeline. E-2 is faster and cheaper but is a non-immigrant status. We help you compare both." },
-    ],
+    features: ["Canadian corporate and commercial documents", "Canadian-law investment transaction review", "Coordination with independently retained US immigration counsel"],
+    details: ["Our work is limited to the Canadian-law scope confirmed in writing after a conflicts check.", "US eligibility, petitions, consular forms, immigration strategy and representation are outside our Ontario licence and must be handled by US-licensed counsel. A referral does not require you to retain any suggested professional."],
+    faqs: [{q: "Who handles US immigration filings?", a: "An independent US-licensed immigration lawyer. LegalXpress provides only the Canadian-law transaction support identified in the written engagement."}, {q: "What fees are included?", a: "Canadian-law support is quoted before work begins. US counsel fees, government charges and disbursements are separate."}],
   },
   {
     slug: "shareholder-agreements",
@@ -160,9 +128,9 @@ export const servicesData: ServiceDetail[] = [
     slug: "procurement",
     icon: ShoppingCart,
     title: "Procurement Law",
-    tagline: "Win more government contracts with expert legal support",
+    tagline: "Legal support for procurement processes and disputes",
     description:
-      "Government procurement is highly regulated and complex. Our procurement law team helps you navigate RFPs, bid protests, and contract negotiations to maximize your chances of winning and retaining government contracts.",
+      "Government procurement is highly regulated and complex. Our lawyer helps you navigate RFPs, bid protests, and contract negotiations to review your bids, contracts and procurement disputes.",
     image: procurementImg,
     features: [
       "RFP response review",
@@ -180,7 +148,7 @@ export const servicesData: ServiceDetail[] = [
     faqs: [
       { q: "When should I engage a procurement lawyer?", a: "Ideally before you submit your bid. We can review your response for compliance issues and strategic improvements. However, we can also assist after award if you need to file a protest." },
       { q: "What is a bid protest?", a: "A formal challenge to a government procurement decision. If you believe the process was unfair or your bid was improperly evaluated, a protest can lead to re-evaluation or re-competition." },
-      { q: "Do you handle both federal and provincial procurement?", a: "Yes. We handle procurement matters at all levels of government across Canada, including municipal, provincial, and federal contracts." },
+      { q: "Do you handle both federal and provincial procurement?", a: "We advise on Ontario and federal procurement matters where authorized. Matters governed by another province’s law are referred to a lawyer licensed there." },
     ],
   },
   {
@@ -224,7 +192,7 @@ export const servicesData: ServiceDetail[] = [
       "Plain-language explanation of rights & obligations",
       "Confirmation of voluntary, informed consent",
       "Signed & sealed ILA Certificate provided",
-      "Accepted by lenders, courts & opposing counsel across Canada",
+      "Acceptance and signing requirements confirmed before engagement",
     ],
     details: [
       "Independent Legal Advice protects both parties by confirming that the person signing understands the terms and is not signing under pressure. Lenders and courts often require an ILA Certificate before enforcing an agreement.",
@@ -233,7 +201,7 @@ export const servicesData: ServiceDetail[] = [
     ],
     faqs: [
       { q: "How long does an ILA appointment take?", a: "Most appointments are completed in 30–60 minutes depending on the length and complexity of the agreement." },
-      { q: "Do you offer virtual ILA?", a: "Yes. We provide virtual ILA appointments across Canada with secure video conferencing and electronic delivery of the signed certificate where permitted." },
+      { q: "Do you offer virtual ILA?", a: "Yes. We provide virtual ILA under Ontario licensing with secure video conferencing and electronic delivery of the signed certificate where permitted." },
       { q: "What do I need to bring?", a: "A copy of the agreement to be signed, government-issued photo ID, and any related documents (e.g., mortgage commitment, financial disclosure)." },
     ],
   },
@@ -243,7 +211,7 @@ export const servicesData: ServiceDetail[] = [
     title: "Escrow Agent Services",
     tagline: "A neutral, licensed third party holding funds and documents",
     description:
-      "We act as an independent escrow agent for business, real estate, and private transactions across Canada — holding funds and closing documents in a lawyer's trust account and releasing them only when the agreed conditions are met.",
+      "We act as an independent escrow agent for business, real estate, and private transactions governed by Ontario or federal law — holding funds and closing documents in a lawyer's trust account and releasing them only when the agreed conditions are met.",
     image: minuteBooksImg,
     features: [
       "Funds held in a lawyer's trust account",
@@ -270,7 +238,7 @@ export const servicesData: ServiceDetail[] = [
     title: "Process Service",
     tagline: "Reliable, court-compliant service of legal documents",
     description:
-      "We serve court and legal documents anywhere in Canada and provide the sworn Affidavit of Service the court requires — handled by our team so your matter is never delayed by a service issue.",
+      "We coordinate document service for Ontario matters and the required affidavit of service. Availability and any independent process server’s charges are confirmed before work begins.",
     image: divorceImg,
     features: [
       "Personal & substituted service",
@@ -324,7 +292,7 @@ export const servicesData: ServiceDetail[] = [
     title: "Corporate Litigation",
     tagline: "Strategic representation when the stakes are high",
     description:
-      "When business disputes escalate, you need experienced litigators on your side. We provide strategic, cost-effective representation in corporate disputes, contract breaches, and commercial litigation matters.",
+      "When business disputes escalate, you need a lawyer on your side. We provide strategic, cost-effective representation in corporate disputes, contract breaches, and commercial litigation matters.",
     image: litigationImg,
     features: [
       "Contract dispute resolution",
@@ -335,7 +303,7 @@ export const servicesData: ServiceDetail[] = [
       "Settlement negotiation",
     ],
     details: [
-      "Our litigation team takes a strategic approach, always considering the most cost-effective path to resolution—whether that's negotiation, mediation, or trial.",
+      "Our lawyer takes a strategic approach, always considering the most cost-effective path to resolution—whether that's negotiation, mediation, or trial.",
       "We represent both plaintiffs and defendants in a wide range of corporate disputes, from breach of contract claims to complex shareholder oppression matters.",
       "Early case assessment is a key part of our process. We provide honest, realistic advice about your chances of success and the likely costs so you can make informed decisions.",
     ],

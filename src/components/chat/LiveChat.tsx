@@ -20,16 +20,16 @@ const initialMessages: Message[] = [
   {
     id: "1",
     role: "assistant",
-    content: "👋 Hi there! I'm your **AI Legal Assistant** at LegalXpress.\n\nI'm here to help answer your legal questions about:\n- **Corporate Law** & Incorporations\n- **Real Estate** transactions\n- **Simple Divorce** (uncontested)\n- **Contracts** & Shareholder Agreements\n\n**What legal question can I help you with today?**",
+    content: "Hi, I’m an automated assistant for the LegalXpress website. I can explain services, membership plans, prices and booking, and point you to general Canadian legal information. I cannot assess your situation or tell you what to do in your case. Only a lawyer can advise after a conflicts check. [Book a consultation](/book).",
     timestamp: new Date(),
   },
 ];
 
 const quickQuestions = [
-  "How do I incorporate a business?",
-  "What's in a shareholder agreement?",
-  "Explain the divorce process",
-  "How does real estate closing work?",
+  "How do memberships work?",
+  "What does a service cost?",
+  "How do I book a consultation?",
+  "What happens after booking?",
 ];
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/legal-ai-chat`;
@@ -186,7 +186,7 @@ export function LiveChat() {
   return (
     <>
       {/* Chat Button */}
-      <button
+      <Button aria-label="Open help assistant"
         onClick={() => {
           setIsOpen(true);
           setIsMinimized(false);
@@ -196,7 +196,7 @@ export function LiveChat() {
         }`}
       >
         <MessageCircle className="h-6 w-6" />
-      </button>
+      </Button>
 
       {/* Minimized Bar */}
       <div
@@ -204,16 +204,16 @@ export function LiveChat() {
           isOpen && isMinimized ? "scale-100 opacity-100" : "scale-0 opacity-0"
         }`}
       >
-        <button
+        <Button
           onClick={() => setIsMinimized(false)}
           className="flex items-center gap-3 rounded-full bg-primary text-primary-foreground px-4 py-3 shadow-lg hover:bg-primary/90 transition-colors"
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary">
             <Sparkles className="h-4 w-4 text-secondary-foreground" />
           </div>
-          <span className="font-medium text-sm">AI Legal Assistant</span>
+          <span className="font-medium text-sm">LegalXpress Help Assistant</span>
           <Maximize2 className="h-4 w-4 ml-2" />
-        </button>
+        </Button>
       </div>
 
       {/* Chat Window */}
@@ -231,27 +231,27 @@ export function LiveChat() {
               </div>
               <div>
                 <div className="font-display text-sm font-semibold flex items-center gap-2">
-                  AI Legal Assistant
+                  LegalXpress Help Assistant
                   <Badge variant="secondary" className="text-[10px] px-1.5 py-0">Beta</Badge>
                 </div>
-                <div className="text-[10px] text-primary-foreground/70">Ask any legal question</div>
+                <div className="text-[10px] text-primary-foreground/70">Automated · site help and general information</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 onClick={() => setIsMinimized(true)}
                 className="h-7 w-7 flex items-center justify-center rounded-md bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 transition-colors"
                 aria-label="Minimize chat"
               >
                 <Minus className="h-4 w-4" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setIsOpen(false)}
                 className="h-7 w-7 flex items-center justify-center rounded-md bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 transition-colors"
                 aria-label="Close chat"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -311,7 +311,7 @@ export function LiveChat() {
                 <Crown className="h-4 w-4 text-secondary shrink-0" />
                 <div className="flex-1">
                   <p className="text-[10px] font-medium text-foreground">Talk to a Real Lawyer</p>
-                  <p className="text-[10px] text-muted-foreground">Just $4.99/month for 12 months</p>
+                  <p className="text-[10px] text-muted-foreground">Member pricing from $4.99/month + HST · 12-month term</p>
                 </div>
                 <Button size="sm" className="bg-secondary hover:bg-secondary/90 text-[10px] h-7 px-2" asChild>
                   <Link to="/subscriptions/personal">
@@ -326,14 +326,14 @@ export function LiveChat() {
           {/* Quick Questions */}
           <div className="px-3 py-2 flex flex-wrap gap-1.5 border-t border-border">
             {quickQuestions.map((question) => (
-              <button
+              <Button
                 key={question}
                 onClick={() => handleSend(question)}
                 disabled={isLoading}
                 className="text-[10px] px-2 py-1 rounded-full bg-muted hover:bg-secondary/20 text-muted-foreground hover:text-foreground transition-colors font-body disabled:opacity-50"
               >
                 {question}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -344,11 +344,11 @@ export function LiveChat() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask a legal question..."
+                placeholder="Ask about services or booking..."
                 className="flex-1 h-8 text-sm"
                 disabled={isLoading}
               />
-              <Button
+              <Button aria-label="Send message"
                 onClick={() => handleSend()}
                 size="icon"
                 className="bg-secondary hover:bg-secondary/90 h-8 w-8"
@@ -358,7 +358,7 @@ export function LiveChat() {
               </Button>
             </div>
             <p className="text-[9px] text-muted-foreground mt-1.5 text-center">
-              AI responses are for informational purposes only, not legal advice.
+              Automated responses may be incomplete or wrong. They are not legal advice and do not create a lawyer-client relationship.
             </p>
           </div>
         </div>

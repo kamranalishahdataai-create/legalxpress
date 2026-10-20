@@ -5,7 +5,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 
 const categoryLabels: Record<string, string> = {
   "immigration": "Immigration Law",
-  "criminal": "Criminal Defense",
+  "criminal": "Criminal Defence",
   "personal-injury": "Personal Injury",
   "real-estate-commercial": "Residential and Commercial Real Estate",
   "bankruptcy": "Bankruptcy",
@@ -28,12 +28,12 @@ export default function AffiliateRequest() {
             className="inline-flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="font-body text-sm">Back to Affiliates</span>
+            <span className="font-body text-sm">Back to Referral Network</span>
           </Link>
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-primary-foreground mb-4">
               <Sparkles className="h-4 w-4" />
-              <span className="text-sm font-medium font-body">Affiliate Referral Request</span>
+              <span className="text-sm font-medium font-body">Independent referral request</span>
             </div>
             <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
               Request a Referral
@@ -44,8 +44,7 @@ export default function AffiliateRequest() {
               )}
             </h1>
             <p className="text-lg text-primary-foreground/80 font-body">
-              Tell us about your case below and submit. We'll connect you with the right
-              affiliate partner within 24-48 hours.
+              Provide a brief description without confidential details. We confirm the available independent referral options after a conflicts check. You remain free to choose any professional.
             </p>
           </div>
         </div>

@@ -1,348 +1,158 @@
 import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Building2, ShoppingCart, Scale, FileText, Stamp, ScrollText, ShieldCheck, BadgeCheck, Check, Phone, Handshake } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  Scale,
-  Building2,
-  BadgeCheck,
-  Users,
-  Handshake,
-  ShieldCheck,
-  FileText,
-  Gavel,
-  Stamp,
-  ScrollText,
-  CheckCircle2,
-} from "lucide-react";
-import logo from "@/assets/legalxpress-logo.png";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { Seo } from "@/components/seo/Seo";
+import { LegalDisclaimer } from "@/components/legal/LegalDisclaimer";
+import { PracticeNotice, PriceNotice } from "@/components/legal/PracticeNotice";
+import logo from "@/assets/legalxpress-logo.png";
+import toronto from "@/assets/landing-toronto.jpg";
 
-const inHouseServices = [
-  { icon: Building2, title: "Incorporations & Corporate Governance", desc: "Federal and provincial incorporations, minute books, shareholder and partnership agreements." },
-  { icon: FileText, title: "Commercial Contracts", desc: "Drafting, review and negotiation of supply, service, NDA and procurement agreements." },
-  { icon: Gavel, title: "Corporate & Procurement Litigation", desc: "Disputes, demand letters, small claims and commercial litigation support." },
-  { icon: ScrollText, title: "Wills & Estate Documents", desc: "Simple and complex wills, powers of attorney and estate planning documents." },
-  { icon: Stamp, title: "Notary & Commissioning", desc: "In-person and e-notary services, affidavits, statutory declarations and certified copies." },
-  { icon: ShieldCheck, title: "Independent Legal Advice", desc: "ILA certificates for separation, prenuptial and third-party guarantee documents." },
+const corporatePackages = [
+  { name: "Corporate Package A", letter: "A", title: "Business Formation", price: "$99", icon: Building2, description: "A strong foundation for your next chapter.", services: ["Incorporations", "Minute books", "Shareholder agreements"], href: "/checkout?plan=corporate-a", serviceHref: "/services/incorporations" },
+  { name: "Corporate Package B", letter: "B", title: "Procurement Law", price: "$499", icon: ShoppingCart, description: "Clarity at every stage of the bidding process.", services: ["RFP reviews", "Bid protests", "Government contract support"], href: "/checkout?plan=corporate-b", serviceHref: "/services/procurement" },
+  { name: "Corporate Package C", letter: "C", title: "Litigation & Disputes", price: "$999", icon: Scale, description: "A considered approach when business gets complex.", services: ["Corporate litigation", "Commercial disputes", "Dispute resolution support"], href: "/checkout?plan=corporate-c", serviceHref: "/services/litigation" },
 ];
-
-const model = [
-  {
-    icon: Users,
-    step: "01",
-    title: "Legal services, on membership",
-    body:
-      "Legal help shouldn't start with a retainer. Flat monthly memberships from $4.99 make legal work affordable and convenient — discounted notary, wills, demand letters, litigation and contract services, plus AI case analysis and our contract library.",
-  },
-  {
-    icon: Scale,
-    step: "02",
-    title: "One team, ready to assist",
-    body:
-      "Corporate work, contracts, wills and demand letters are provided in house by our licensed Canadian legal team, led by Shiv Kumar Passi (LSO 70089L) — ready when you need them.",
-  },
-
-  {
-    icon: Handshake,
-    step: "03",
-    title: "Affiliates for everything else",
-    body:
-      "Immigration, family, criminal and real estate matters go to vetted Canadian affiliate counsel — with your membership pricing and our introduction attached.",
-  },
+const personalServices = [
+  { icon: Stamp, name: "Notary & e-Notary", href: "/services" },
+  { icon: ScrollText, name: "Wills & Powers of Attorney", href: "/services" },
+  { icon: ShieldCheck, name: "Independent Legal Advice", href: "/services" },
+  { icon: Scale, name: "Small Claims & Agreements", href: "/services" },
 ];
-
-
-
+const resources = [
+  { icon: FileText, name: "Canadian Contract Library", description: "English and French templates, including commercial and procurement agreements.", href: "/contracts" },
+  { icon: Scale, name: "Case Law Research Tool", description: "Automated research: see how Canadian courts decided cases on the same issue. Not reviewed by a lawyer.", href: "/case-analysis" },
+  { icon: Handshake, name: "Affiliate Partners & Locator", description: "Independent professionals for matters outside our in-house practice areas.", href: "/affiliates" },
+];
 const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LegalService",
-  name: "LegalXpress",
-  description:
-    "Canadian legal services practice providing in-house corporate, contract, wills, notary and litigation-support services, membership plans, and vetted affiliate referrals for out-of-scope matters.",
-  areaServed: { "@type": "Country", name: "Canada" },
-  foundingDate: "2016",
-  priceRange: "$$",
-  knowsAbout: [
-    "Corporate law",
-    "Commercial contracts",
-    "Wills and estates",
-    "Notary services",
-    "Corporate litigation",
-    "Independent legal advice",
-  ],
-  employee: {
-    "@type": "Person",
-    name: "Shiv Kumar Passi",
-    jobTitle: "Corporate Lawyer",
-    identifier: "LSO 70089L",
-  },
+  "@context": "https://schema.org", "@type": "LegalService", name: "LegalXpress",
+  description: "Ontario law practice providing in-house legal services and corporate memberships for business formation, procurement law, and litigation and disputes.",
+  areaServed: { "@type": "Country", name: "Canada" }, telephone: "+1-647-200-9104",
+  knowsAbout: ["Corporate law", "Procurement law", "Commercial contracts", "Corporate litigation", "Wills", "Notary services"],
+  employee: { "@type": "Person", name: "Shiv Kumar Passi", jobTitle: "Corporate Lawyer", identifier: "LSO 70089L" },
 };
 
-const Landing = () => {
-  return (
-    <>
-      <Seo
-        title="Our Legal Team, One Membership With You In Mind | LegalXpress"
-        description="Our legal team, one membership with you in mind. Canadian lawyers providing corporate, contract, wills and demand letter services in house — with vetted affiliates for everything else. Plans from $4.99/month."
-        jsonLd={jsonLd}
-      />
-
-      <div className="min-h-screen flex flex-col bg-background">
-        {/* Brand bar */}
-        <header className="hero-gradient">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-4 md:py-5">
-            <Link to="/home" className="flex items-center gap-2 sm:gap-3 min-w-0" aria-label="LegalXpress home">
-              <img src={logo} alt="LegalXpress logo" width={80} height={80} className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 object-contain shrink-0" />
-              <span className="font-display text-lg sm:text-2xl md:text-3xl font-semibold text-primary-foreground truncate">LegalXpress</span>
-            </Link>
-            <div className="flex items-center gap-2 md:gap-5 shrink-0">
-              <nav aria-label="Main" className="hidden xl:flex items-center gap-5">
-                {[
-                  { to: "/home", label: "Home" },
-                  { to: "/services", label: "Services" },
-                  { to: "/subscriptions", label: "Memberships" },
-                  { to: "/contracts", label: "Contracts" },
-                  { to: "/case-analysis", label: "Case Analysis" },
-                  { to: "/affiliates", label: "Affiliates" },
-                  { to: "/contact", label: "Contact" },
-                ].map((l) => (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    className="font-body text-sm whitespace-nowrap text-primary-foreground/85 hover:text-secondary transition-colors"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-              </nav>
-              <LanguageSwitcher />
-            </div>
+const Landing = () => (
+  <div className="landing-page bg-background text-foreground">
+    <Seo title="Ontario Legal Services & Memberships | LegalXpress" description="Our legal team, one membership with you in mind. Legal services provided under Ontario licensing. Business formation from $99/month, procurement from $499/month, litigation from $999/month. Free initial consultation." jsonLd={jsonLd} />
+    <section className="landing-hero relative isolate overflow-hidden bg-primary text-primary-foreground">
+      <img src={toronto} alt="Toronto skyline and CN Tower overlooking Lake Ontario" width={1920} height={1024} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-[65%_center]" />
+      <div className="landing-hero-shade absolute inset-0 -z-10" />
+      <header className="border-b border-primary-foreground/15">
+        <div className="container gutter-x flex items-center justify-between gap-4 py-4">
+          <Link to="/" aria-label="LegalXpress landing page" className="flex items-center gap-2">
+            <img src={logo} alt="" width={64} height={64} className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
+            <span className="font-display text-xl sm:text-2xl">LegalXpress</span>
+          </Link>
+          <div className="flex items-center gap-4 lg:gap-7">
+            <nav aria-label="Landing navigation" className="hidden md:flex items-center gap-6 text-sm">
+              <Link to="/about" className="hover:underline underline-offset-4">Our practice</Link>
+              <Link to="/subscriptions" className="hover:underline underline-offset-4">Memberships</Link>
+              <Link to="/home" className="flex items-center gap-2 hover:underline underline-offset-4">Explore LegalXpress <ArrowUpRight className="h-4 w-4" /></Link>
+            </nav>
+            <LanguageSwitcher />
           </div>
-
-
-          {/* Hero */}
-          <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20 md:pt-16 md:pb-28">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-start sm:items-center gap-2 rounded-2xl sm:rounded-full border border-secondary/40 bg-primary-foreground/5 px-4 py-2 text-secondary mb-8 max-w-full">
-                <BadgeCheck className="h-4 w-4 shrink-0 mt-0.5 sm:mt-0" />
-                <span className="text-xs md:text-sm font-semibold font-body tracking-wide leading-snug">
-                  Membership-first legal services · Licensed Canadian lawyers since 2016
-                </span>
-              </div>
-
-              <h1 className="font-display text-[2.25rem] sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-primary-foreground text-balance mb-6">
-                Our legal team, one membership{" "}
-                <span className="text-gradient">with you in mind.</span>
-              </h1>
-
-
-              <p className="text-lg md:text-xl text-primary-foreground/85 font-body leading-relaxed mb-10">
-                LegalXpress is changing the way Canadians access legal help: real lawyers, offered on a simple
-                monthly membership instead of an intimidating retainer. Corporate work, contracts, wills and demand
-                letters are provided in house by our team — ready to assist the moment you need them — with vetted
-                affiliate counsel for matters outside our practice.
-              </p>
-
-
-
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground gap-2 px-8 py-6 text-base font-semibold shadow-xl" asChild>
-                  <Link to="/subscriptions">
-                    See Membership Plans
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 border border-primary-foreground px-8 py-6 text-base font-semibold shadow-lg"
-                  asChild
-                >
-                  <Link to="/book">Book a Free Consultation</Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-2 border-secondary/70 bg-transparent text-secondary hover:bg-secondary hover:text-secondary-foreground hover:border-secondary gap-2 px-8 py-6 text-base font-semibold transition-colors"
-                  asChild
-                >
-                  <Link to="/home">
-                    Enter Website
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
-                </Button>
-
-              </div>
-
-
-              <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
-                {["Memberships from $4.99/month", "Fixed, published pricing", "Canadian lawyers, Canadian law"].map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm text-primary-foreground/80 font-body">
-                    <CheckCircle2 className="h-5 w-5 text-secondary" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-            </div>
-          </section>
-        </header>
-
-        <main className="flex-1">
-          {/* How we work */}
-          <section className="py-16 md:py-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-2xl mb-14">
-                <p className="text-sm font-medium text-secondary font-body tracking-widest uppercase mb-3">Our model</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  A better way to access legal services
-                </h2>
-                <p className="text-muted-foreground font-body text-lg">
-                  One monthly plan puts a full Canadian legal team behind you — affordable, convenient, and clear
-                  about what we provide in house and when a vetted affiliate takes the file.
-                </p>
-
-
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8">
-                {model.map((m) => (
-                  <article key={m.title} className="rounded-2xl border border-border bg-card p-8 shadow-sm flex flex-col">
-                    <div className="flex items-start justify-between gap-4 mb-6">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10 shrink-0">
-                        <m.icon className="h-7 w-7 text-secondary" />
-                      </div>
-                      <span className="font-display text-4xl font-bold text-secondary/25 leading-none" aria-hidden="true">
-                        {m.step}
-                      </span>
-                    </div>
-                    <h3 className="font-display text-xl font-bold text-foreground mb-3 text-balance">{m.title}</h3>
-                    <p className="text-muted-foreground font-body leading-relaxed">{m.body}</p>
-                  </article>
-                ))}
-
-              </div>
-            </div>
-          </section>
-
-          {/* In-house services */}
-          <section className="py-16 md:py-24 bg-muted/30">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-2xl mb-14">
-                <p className="text-sm font-medium text-secondary font-body tracking-widest uppercase mb-3">In house</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  Legal services we provide in house
-                </h2>
-                <p className="text-muted-foreground font-body text-lg">
-                  These matters are provided directly by our own licensed legal team — drafted, reviewed and filed in
-                  house.
-                </p>
-
-              </div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {inHouseServices.map((s) => (
-                  <article key={s.title} className="rounded-2xl border border-border bg-card p-7 hover:shadow-lg transition-shadow">
-                    <s.icon className="h-7 w-7 text-secondary mb-5" />
-                    <h3 className="font-display text-lg font-bold text-foreground mb-2">{s.title}</h3>
-                    <p className="text-sm text-muted-foreground font-body leading-relaxed">{s.desc}</p>
-                  </article>
-                ))}
-              </div>
-
-              <div className="mt-12 rounded-2xl border border-secondary/30 bg-secondary/5 p-8 flex flex-col md:flex-row md:items-center gap-6 justify-between">
-                <div>
-                  <h3 className="font-display text-xl font-bold text-foreground mb-2">Outside these areas?</h3>
-                  <p className="text-muted-foreground font-body max-w-2xl">
-                    Immigration, family, criminal and real estate matters are routed to vetted Canadian affiliate
-                    partners. You are told before any referral is made.
-                  </p>
-                </div>
-                <Button variant="outline" className="shrink-0 border-secondary/50" asChild>
-                  <Link to="/affiliates">See Affiliate Partners</Link>
-                </Button>
-              </div>
-            </div>
-          </section>
-
-          {/* Membership */}
-          <section className="py-16 md:py-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <p className="text-sm font-medium text-secondary font-body tracking-widest uppercase mb-3">Memberships</p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  Ongoing legal coverage from $4.99 / month
-                </h2>
-                <p className="text-muted-foreground font-body text-lg mb-8">
-                  Memberships make routine legal work predictable: discounted notary services, simple wills, small
-                  claims litigation and separation or prenuptial agreements, plus AI case analysis and our Canadian
-                  contract library.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 gap-2" asChild>
-                    <Link to="/subscriptions">
-                      Compare Membership Plans
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" className="border-secondary/50" asChild>
-                    <Link to="/services">Browse All Services</Link>
-                  </Button>
-                </div>
-              </div>
-
-              <ul className="grid sm:grid-cols-2 gap-4">
-                {[
-                  "50% off notary services",
-                  "50% off simple wills",
-                  "Discounted small claims litigation",
-                  "Separation & prenuptial agreements",
-                  "AI-assisted Canadian case analysis",
-                  "Canadian contract template library",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 rounded-xl border border-border bg-card p-5">
-                    <CheckCircle2 className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
-                    <span className="font-body text-foreground">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-
-          {/* Final CTA */}
-          <section className="py-16 md:py-24 hero-gradient">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-2xl">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-5">
-                Start with a free 30-minute consultation
-              </h2>
-              <p className="text-primary-foreground/85 font-body text-lg mb-10">
-                We will tell you exactly whether your matter is handled in house, covered by a membership, or better
-                served by one of our affiliate partners.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground gap-2 px-8 py-6 text-base font-semibold" asChild>
-                  <Link to="/book">
-                    Book Free Consultation
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-secondary/40 bg-primary-foreground/5 text-primary-foreground hover:bg-primary-foreground/10 px-8 py-6 text-base font-semibold"
-                  asChild
-                >
-                  <Link to="/contact">Contact Us</Link>
-                </Button>
-              </div>
-            </div>
-          </section>
-        </main>
+        </div>
+      </header>
+      <div className="container gutter-x relative py-12 md:py-8 lg:py-10">
+        <div className="max-w-2xl">
+          <p className="flex items-center gap-2 text-sm text-primary-foreground/85 mb-5"><BadgeCheck className="h-4 w-4 text-gold" /> Membership-based legal services · Lawyer licensed in Ontario</p>
+          <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.08] mb-4">LegalXpress</h1>
+          <p className="font-display text-2xl sm:text-3xl lg:text-4xl leading-[1.25] text-primary-foreground mb-5 max-w-xl">Our legal team, one membership <span className="text-gold">with you in mind.</span></p>
+          <p className="font-body text-base sm:text-lg text-primary-foreground/85 max-w-lg mb-7">An Ontario law practice for the business you’re building and the life around it. Legal services provided in-house, with memberships that meet you where you are.</p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" className="bg-gold text-secondary-foreground hover:bg-gold/90 rounded-md gap-2 font-semibold" asChild><Link to="/subscriptions">Explore Memberships <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button size="lg" variant="outline" className="rounded-md border-primary-foreground/40 bg-primary/20 text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild><Link to="/book">Book Free Consultation</Link></Button>
+          </div>
+          <Link to="/home" className="inline-flex items-center gap-2 text-sm mt-6 underline underline-offset-4 decoration-primary-foreground/40">Enter the full website <ArrowUpRight className="h-4 w-4" /></Link>
+        </div>
       </div>
-    </>
-  );
-};
-
+    </section>
+    <main>
+      <section className="border-b border-border bg-muted/50">
+        <div className="container gutter-x grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 py-6 text-sm">
+          {["Corporate law, provided in-house", "Memberships for business & everyday life", "Free initial 30-minute consultation"].map(text => <p key={text} className="flex items-center gap-2"><Check className="h-4 w-4 text-forest shrink-0" />{text}</p>)}
+        </div>
+      </section>
+      <section className="section-y" id="corporate-memberships">
+        <div className="container gutter-x">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-10">
+            <div className="max-w-2xl">
+              <p className="text-sm text-forest font-semibold uppercase mb-3">Corporate memberships</p>
+              <h2 className="font-display text-3xl md:text-4xl font-medium mb-4">For the next move in your business.</h2>
+              <p className="text-muted-foreground max-w-xl">From getting established to navigating procurement and resolving disputes — three focused memberships, one practice ready to assist.</p>
+            </div>
+            <Button variant="link" className="px-0 gap-2 shrink-0" asChild><Link to="/subscriptions">Compare all plans <ArrowRight className="h-4 w-4" /></Link></Button>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {corporatePackages.map(pkg => <article key={pkg.letter} className="flex flex-col rounded-lg border border-border bg-card p-6 lg:p-8">
+              <div className="flex items-center justify-between mb-7"><pkg.icon className="h-6 w-6 text-forest" /><span className="text-sm text-muted-foreground">{pkg.name}</span></div>
+              <h3 className="font-display text-2xl font-medium mb-3">{pkg.title}</h3>
+              <p className="text-sm text-muted-foreground min-h-[3rem] mb-5">{pkg.description}</p>
+              <p className="flex items-baseline gap-1 mb-1"><span className="text-sm text-muted-foreground mr-1">from</span><span className="font-display text-4xl">{pkg.price}</span><span className="text-sm text-muted-foreground">/month</span></p>
+              <p className="text-xs text-muted-foreground mb-3">Yearly commitment · Billed monthly · + HST</p><PriceNotice className="mb-6" />
+              <ul className="space-y-3 border-t border-border pt-5 mb-7 flex-1">{pkg.services.map(service => <li key={service} className="flex items-start gap-2 text-sm"><Check className="h-4 w-4 shrink-0 mt-1 text-forest" />{service}</li>)}</ul>
+              <Button className="rounded-md w-full gap-2" asChild><Link to={pkg.href}>Join Package {pkg.letter} <ArrowRight className="h-4 w-4" /></Link></Button>
+              <Button variant="link" className="mt-2 text-muted-foreground" asChild><Link to={pkg.serviceHref}>Explore the service</Link></Button>
+            </article>)}
+          </div>
+          <p className="text-sm text-muted-foreground mt-6">Inclusions vary by package. Review the plan details and discuss the scope of your matter with our team.</p>
+        </div>
+      </section>
+      <section className="section-y bg-muted/50 border-y border-border">
+        <div className="container gutter-x grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-20">
+          <div>
+            <p className="text-sm text-forest font-semibold uppercase mb-3">The practice behind your membership</p>
+            <h2 className="font-display text-3xl md:text-4xl font-medium mb-5">Real legal work.<br />A personal connection.</h2>
+            <p className="text-muted-foreground mb-6">Led by Shiv Kumar Passi, Corporate Lawyer (LSO 70089L), LegalXpress provides corporate and contract law services in-house. Your legal work is our responsibility — not a handoff.</p>
+            <Button variant="outline" className="rounded-md gap-2" asChild><Link to="/about">Meet our practice <ArrowUpRight className="h-4 w-4" /></Link></Button>
+          </div>
+          <div className="space-y-0">
+            {[
+              { n: "01", title: "Start with a conversation", text: "Tell us about your matter in a free initial 30-minute consultation." },
+              { n: "02", title: "Choose the right fit", text: "Understand your service options, membership benefits and the scope of the work before proceeding." },
+              { n: "03", title: "Move forward with clarity", text: "Work with our in-house practice, with independent affiliates introduced only for matters outside our practice areas." },
+            ].map(item => <div key={item.n} className="flex gap-5 py-5 border-b border-border first:pt-0 last:border-0"><span className="font-display text-2xl text-forest shrink-0">{item.n}</span><div><h3 className="font-display text-xl mb-2">{item.title}</h3><p className="text-muted-foreground text-sm">{item.text}</p></div></div>)}
+          </div>
+        </div>
+      </section>
+      <section className="section-y">
+        <div className="container gutter-x grid lg:grid-cols-2 gap-10 lg:gap-20">
+          <div>
+            <p className="text-sm text-forest font-semibold uppercase mb-3">Everyday legal needs</p>
+            <h2 className="font-display text-3xl md:text-4xl font-medium mb-5">Because life doesn’t stop<br className="hidden sm:block" /> at business.</h2>
+            <p className="text-muted-foreground mb-6">Personal memberships start at $4.99/month + HST, with a 12-month commitment billed monthly. Essential provides member pricing on notary services, simple wills, the Ontario small claims pre-trial package and agreed separation or marriage contracts. Explore Starter, Professional and Executive for additional benefits.</p>
+            <Button variant="outline" className="rounded-md gap-2" asChild><Link to="/subscriptions">Compare personal memberships <ArrowRight className="h-4 w-4" /></Link></Button>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-x-8">
+            {personalServices.map(service => <Link key={service.name} to={service.href} className="group flex items-center gap-3 py-6 border-b border-border"><service.icon className="h-5 w-5 text-forest shrink-0" /><span className="font-display text-lg flex-1">{service.name}</span><ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground shrink-0" /></Link>)}
+          </div>
+        </div>
+      </section>
+      <section className="section-y bg-muted/40 border-t border-border">
+        <div className="container gutter-x">
+          <p className="text-sm text-forest font-semibold uppercase mb-3">Value-added resources</p>
+          <h2 className="font-display text-3xl md:text-4xl font-medium mb-4">More resources. Clear boundaries.</h2>
+          <p className="text-muted-foreground max-w-2xl mb-9">Explore informational tools and independent partners alongside our legal practice. These are separate from the legal services we provide in-house.</p>
+          <div className="grid md:grid-cols-3 gap-8 mb-8">{resources.map(resource => <article key={resource.name} className="border-t border-border pt-6"><resource.icon className="h-6 w-6 text-forest mb-4" /><h3 className="font-display text-xl mb-3">{resource.name}</h3><p className="text-muted-foreground text-sm mb-4">{resource.description}</p><Button variant="link" className="px-0 gap-2" asChild><Link to={resource.href}>Explore <ArrowUpRight className="h-4 w-4" /></Link></Button></article>)}</div>
+          <LegalDisclaimer context="membership" />
+        </div>
+      </section>
+      <section className="bg-primary text-primary-foreground py-14 md:py-20">
+        <div className="container gutter-x flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="max-w-xl"><p className="text-sm text-primary-foreground/70 mb-3">Your next step</p><h2 className="font-display text-3xl md:text-4xl font-medium mb-4">Let’s talk about what’s ahead.</h2><p className="text-primary-foreground/75">Start with a free 30-minute consultation. We’ll help you understand where your matter fits. The free consultation is general guidance only; a lawyer-client relationship begins after a conflicts check and written engagement.</p></div>
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto"><Button size="lg" className="bg-gold text-secondary-foreground hover:bg-gold/90 rounded-md gap-2" asChild><Link to="/book">Book Free Consultation <ArrowRight className="h-4 w-4" /></Link></Button><Button size="lg" variant="outline" className="rounded-md border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary gap-2" asChild><Link to="/home">Explore the Full Website <ArrowUpRight className="h-4 w-4" /></Link></Button></div>
+        </div>
+      </section>
+    </main>
+    <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/15">
+      <div className="container gutter-x pt-8 text-primary-foreground/70"><PracticeNotice /></div>
+      <div className="container gutter-x py-7 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+        <p className="text-xs text-primary-foreground/65">© {new Date().getFullYear()} LegalXpress · Toronto, Ontario · Canada</p>
+        <a href="tel:+16472009104" className="flex items-center gap-2 text-sm"><Phone className="h-4 w-4" />(647) 200-9104</a>
+        <nav aria-label="Footer" className="flex flex-wrap gap-5 text-xs text-primary-foreground/75"><a href="/contact" className="hover:underline">Contact</a><a href="/privacy" className="hover:underline">Privacy Policy</a><a href="/terms" className="hover:underline">Terms of Service</a></nav>
+      </div>
+    </footer>
+  </div>
+);
 export default Landing;

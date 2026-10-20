@@ -84,6 +84,17 @@ export default {
           DEFAULT: "hsl(var(--gold))",
           light: "hsl(var(--gold-light))",
         },
+        partner: {
+          DEFAULT: "hsl(var(--partner))",
+          foreground: "hsl(var(--partner-foreground))",
+          soft: "hsl(var(--partner-soft))",
+          support: "hsl(var(--partner-support))",
+        },
+        forest: {
+          DEFAULT: "hsl(var(--forest))",
+          light: "hsl(var(--forest-light))",
+          foreground: "hsl(var(--forest-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,40 +1,14 @@
+import { ProviderNotice } from "@/components/legal/PracticeNotice";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
-  Building2, FileText, Scale, Heart, ArrowRight, Users, 
-  ShoppingCart, Globe, ChevronDown, ShieldCheck, Landmark, Send, FlaskConical
+  FileText, Heart, ArrowRight,
+  Globe, ChevronDown, ShieldCheck, Landmark, Send, FlaskConical
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const categories = [
-  {
-    icon: Building2,
-    title: "Business Formation",
-    description: "Incorporations, minute books & shareholder agreements",
-    services: [
-      { title: "Incorporations", href: "/services/incorporations", icon: Building2 },
-      { title: "Minute Books", href: "/services/minute-books", icon: FileText },
-      { title: "Shareholder Agreements", href: "/services/shareholder-agreements", icon: Users },
-    ],
-  },
-  {
-    icon: Scale,
-    title: "Litigation & Disputes",
-    description: "Corporate litigation & commercial dispute resolution",
-    services: [
-      { title: "Corporate Litigation", href: "/services/litigation", icon: Scale },
-    ],
-  },
-  {
-    icon: ShoppingCart,
-    title: "Procurement Law",
-    description: "RFP reviews, bid protests & government contract support",
-    services: [
-      { title: "Procurement Law", href: "/services/procurement", icon: ShoppingCart },
-    ],
-  },
-
   {
     icon: FlaskConical,
     title: "SR&ED & Innovation",
@@ -46,7 +20,7 @@ const categories = [
   {
     icon: FileText,
     title: "Contracts & Templates",
-    description: "Professional legal documents ready to customize",
+    description: "Non-legal template tool; not personalised legal advice.",
     services: [
       { title: "Contract Library", href: "/contracts", icon: FileText },
     ],
@@ -61,8 +35,8 @@ const categories = [
   },
   {
     icon: Globe,
-    title: "Immigration",
-    description: "US E-2 and EB-5 investor visa support for Canadian entrepreneurs",
+    title: "US business immigration support",
+    description: "Canadian-law transaction support only; US filings and advice require independent US-licensed counsel.",
     services: [
       { title: "E2 Investor Visa", href: "/services/e2-visa", icon: Globe },
       { title: "EB-5 Investor Visa", href: "/services/eb5-visa", icon: Globe },
@@ -98,7 +72,7 @@ export function ServicesTeaser() {
             Legal Solutions, Simplified
           </h2>
           <p className="text-muted-foreground font-body">
-            Whether you're starting a business or resolving a dispute, we've got you covered.
+            Legal support for your personal needs, innovation, and next steps.
           </p>
         </div>
 
@@ -109,18 +83,20 @@ export function ServicesTeaser() {
               <div
                 key={cat.title}
                 className={cn(
-                  "group relative bg-card rounded-2xl border transition-all duration-300",
+                  "group relative bg-card rounded-lg border transition-all duration-300",
                   isOpen
                     ? "border-secondary/40 shadow-lg"
                     : "border-border/50 hover:border-secondary/30 hover:shadow-md"
                 )}
               >
                 {/* Category Header */}
-                <button
+                <Button
+                  variant="ghost"
+                  aria-expanded={isOpen}
                   onClick={() => toggle(cat.title)}
-                  className="w-full text-left p-6 flex items-start gap-4"
+                  className="w-full h-auto whitespace-normal text-left p-6 flex items-start gap-4 hover:bg-muted/30"
                 >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary/10 group-hover:bg-secondary/20 transition-colors">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-forest/10 group-hover:bg-forest/15 transition-colors">
                     <cat.icon className="h-6 w-6 text-secondary" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -137,8 +113,9 @@ export function ServicesTeaser() {
                       isOpen && "rotate-180 text-secondary"
                     )}
                   />
-                </button>
+                </Button>
 
+                <div className="px-6 pb-4"><ProviderNotice kind={cat.title === "Contracts & Templates" ? "tool" : "lawyer"} /></div>
                 {/* Expanded Services */}
                 <div
                   className={cn(

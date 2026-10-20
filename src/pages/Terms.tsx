@@ -1,3 +1,4 @@
+import { MEMBERSHIP_NOTICE, REFERRAL_POLICY, CONFIDENTIALITY_NOTICE, PRICE_NOTICE } from "@/data/practiceTerms";
 import { Layout } from "@/components/layout/Layout";
 
 const sections = [
@@ -40,7 +41,7 @@ const Terms = () => {
           </h1>
           <p className="font-body text-muted-foreground mb-10">
             Last updated: {updated} &middot; These terms govern the LegalXpress website, memberships,
-            contract library, AI-assisted tools and legal services provided in Canada.
+            contract library, AI-assisted tools and legal services provided under Ontario licensing.
           </p>
 
           <div className="rounded-xl border border-secondary/40 bg-secondary/10 p-6 mb-10">
@@ -142,7 +143,7 @@ const Terms = () => {
                 <li>Paid consultations with a licensee;</li>
                 <li>Document drafting, review, notarial and commissioning services;</li>
                 <li>Access to the contract template library in English and French;</li>
-                <li>AI-assisted case analysis, summaries and drafting support;</li>
+                <li>an automated Case Law Research Tool, summaries and drafting support;</li>
                 <li>Referrals to affiliate partners for services we do not provide in-house.</li>
               </ul>
               <p>
@@ -153,16 +154,15 @@ const Terms = () => {
             </section>
 
             <section id="memberships">
-              <h2>5. Memberships, Billing and Renewal</h2>
+              <h2>5. Memberships, Billing and Renewal</h2><p>{MEMBERSHIP_NOTICE}</p><p>{PRICE_NOTICE}</p>
               <ul>
                 <li>
-                  Memberships are subscriptions billed in advance on a recurring basis (monthly or
-                  annually) to the payment method on file, in Canadian dollars unless stated otherwise,
-                  plus applicable taxes.
+                  Memberships are 12-month commitments billed monthly, in Canadian dollars plus HST. The Contract Library and AI tool subscriptions are separate month-to-month subscriptions without a 12-month commitment.
                 </li>
                 <li>
                   <strong>Automatic renewal.</strong> Your plan renews automatically at the then-current
-                  rate at the end of each billing period until cancelled. You authorize us and our
+                  rate at the end of each 12-month membership term unless you request non-renewal.
+                  Separate monthly tool subscriptions renew monthly until cancelled. You authorize us and our
                   payment processor to charge the renewal.
                 </li>
                 <li>
@@ -187,12 +187,15 @@ const Terms = () => {
               <h2>6. Cancellation, Refunds and Fair Use</h2>
               <ul>
                 <li>
-                  You may cancel a membership at any time from your account. Cancellation takes effect
-                  at the end of the current billing period; access continues until then.
+                  Memberships have a 12-month minimum commitment billed monthly. You may request
+                  non-renewal during the term; it takes effect at the end of the 12-month term.
+                  Separate Contract Library and AI tool subscriptions may be cancelled effective
+                  at the end of the current monthly billing period. Statutory cancellation rights apply.
                 </li>
                 <li>
-                  Subscription fees already paid are non-refundable except where required by applicable
-                  consumer protection law or where we have not provided a purchased service.
+                  Membership fees for a billing period already provided are not refunded. Any amount
+                  paid toward a specific legal service that has not been performed is refunded in full.
+                  Nothing in these terms limits refunds or cancellation rights required by law.
                 </li>
                 <li>
                   One-time purchases (consultations, case analyses, template downloads, fixed-fee
@@ -267,12 +270,14 @@ const Terms = () => {
             <section id="ai">
               <h2>9. AI-Assisted Tools</h2>
               <p>
-                Case analysis, chat assistance and drafting features use artificial intelligence and
+                The Case Law Research Tool, chat assistance and drafting features use artificial intelligence and
                 may produce output that is incomplete, outdated or incorrect, including plausible but
                 inaccurate statements of law or citations.
               </p>
               <ul>
                 <li>Output is an informational, value-added service — not legal advice, and not a legal opinion.</li>
+                <li>Case Law Research Tool reports are generated automatically and are not reviewed by a lawyer or paralegal. They describe past decisions and are not an assessment of your case.</li>
+                <li>Research packs: 5 reports per pack at $9.99 + HST (standard) or $4.99 + HST (member price, which requires an active membership at the time of purchase). Each report covers one search. Reports must be used within 30 days of purchase; unused reports expire and do not roll over. Packs are non-refundable, except where a refund is required by law.</li>
                 <li>Have any output reviewed by a licensed lawyer or paralegal before you act on it.</li>
                 <li>Do not use the tools for urgent matters, court deadlines or emergencies.</li>
                 <li>
@@ -286,17 +291,7 @@ const Terms = () => {
               </ul>
             </section>
 
-            <section id="referrals">
-              <h2>10. Affiliate Partners and Referrals</h2>
-              <p>
-                Where a matter falls outside our in-house services, we may refer you to an affiliate
-                partner or another licensee. Any engagement you enter with that party is directly
-                between you and them, on their terms and fees. We may receive a referral fee or
-                commission where permitted by applicable law society rules, and any such arrangement
-                will be disclosed to you. We do not guarantee the work, availability or pricing of
-                third parties.
-              </p>
-            </section>
+            <section id="referrals"><h2>10. Referral Network</h2><p>{REFERRAL_POLICY}</p><p>When a matter is outside our practice, we run a conflicts check and provide the names and contact details of at least two licensed professionals where reasonably possible. If only one is available, we explain why. You remain free to retain anyone; their retainer, fees and work are independent of LegalXpress. We do not reward client referrals.</p></section>
 
             <section id="conduct">
               <h2>11. Acceptable Use</h2>
@@ -330,22 +325,13 @@ const Terms = () => {
               </p>
             </section>
 
-            <section id="confidentiality">
-              <h2>13. Confidentiality and Conflicts</h2>
-              <p>
-                Client information is treated as confidential in accordance with our professional
-                obligations and the Privacy Policy. Because we act for many clients, we run a conflicts
-                check before accepting a matter and may decline to act. Until a conflicts check is
-                complete and an engagement is confirmed, we cannot guarantee that information you send
-                will be treated as confidential or privileged.
-              </p>
-            </section>
+            <section id="confidentiality"><h2>13. Confidentiality and Conflicts</h2><p>{CONFIDENTIALITY_NOTICE}</p><p>We run a conflicts check before accepting a matter and may decline to act.</p></section>
 
             <section id="disclaimer">
-              <h2>14. Disclaimers</h2>
+              <h2>14. Disclaimers</h2><p>Sections 14 and 15 do not apply to legal services, which are governed by the written engagement confirmation and by law. Nothing in these terms excludes our professional responsibility for legal services.</p>
               <p>
                 Except for legal services provided under a signed engagement, which are performed with
-                the reasonable care and skill of a Canadian licensee, the website, templates, tools and
+                the reasonable care and skill of an Ontario lawyer, the website, templates, tools and
                 content are provided "as is" and "as available" without warranties of any kind, whether
                 express, implied or statutory, including implied warranties of merchantability, fitness
                 for a particular purpose, accuracy, currency and non-infringement.
@@ -479,11 +465,11 @@ const Terms = () => {
               <p className="mt-2">
                 <strong>LegalXpress</strong>
                 <br />
-                <strong>Email:</strong> legal@legalxpress.ca
+                Shiv Kumar Passi, Lawyer, Law Society of Ontario licence No. 70089L
                 <br />
-                <strong>Privacy:</strong> privacy@legalxpress.ca
+                <strong>Phone:</strong> (647) 200-9104
                 <br />
-                <strong>Mail:</strong> Toronto, Ontario, Canada
+                Call us to obtain the correct address for written correspondence.
               </p>
               <p>
                 We aim to acknowledge complaints within two business days and resolve them promptly.

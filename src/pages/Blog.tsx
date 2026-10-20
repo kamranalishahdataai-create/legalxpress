@@ -109,11 +109,10 @@ export default function BlogPage() {
             <span className="text-sm font-medium font-body">Legal Insights</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-            Our Blog
+            Legal insights
           </h1>
           <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body">
-            Stay informed with legal insights, industry updates, and practical 
-            advice from our team of experts.
+            Perspectives on Canadian business, contracts and legal services.
           </p>
         </div>
       </section>
@@ -156,7 +155,7 @@ export default function BlogPage() {
                   <p className="text-muted-foreground font-body text-sm line-clamp-3">
                     {post.excerpt}
                   </p>
-                  <div className="mt-4 flex items-center gap-2 text-secondary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="mt-4 flex items-center gap-2 text-forest text-sm font-medium">
                     Read more <ArrowRight className="h-4 w-4" />
                   </div>
                 </div>

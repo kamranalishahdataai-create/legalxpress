@@ -95,15 +95,15 @@ export function ConsultationsTable() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-700 hover:bg-green-100";
+        return "bg-forest/10 text-forest hover:bg-forest/15";
       case "pending":
-        return "bg-amber-100 text-amber-700 hover:bg-amber-100";
+        return "bg-secondary/15 text-foreground hover:bg-secondary/20";
       case "completed":
-        return "bg-blue-100 text-blue-700 hover:bg-blue-100";
+        return "bg-muted text-foreground hover:bg-muted";
       case "cancelled":
-        return "bg-red-100 text-red-700 hover:bg-red-100";
+        return "bg-destructive/10 text-destructive hover:bg-destructive/15";
       default:
-        return "bg-gray-100 text-gray-700 hover:bg-gray-100";
+        return "bg-muted text-muted-foreground hover:bg-muted";
     }
   };
 
@@ -155,17 +155,17 @@ export function ConsultationsTable() {
                 )}
               </CardDescription>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="relative">
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative min-w-0 flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search consultations..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 w-64"
+                  className="pl-9 w-full md:w-64"
                 />
               </div>
-              <Button variant="outline" size="icon" onClick={fetchConsultations}>
+              <Button variant="outline" size="icon" onClick={fetchConsultations} aria-label="Refresh consultations" title="Refresh consultations">
                 <RefreshCw className="h-4 w-4" />
               </Button>
             </div>

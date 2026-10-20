@@ -1,3 +1,5 @@
+import { ProviderNotice, PriceNotice } from "@/components/legal/PracticeNotice";
+import { JURISDICTION_NOTICE } from "@/data/practiceTerms";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -31,9 +33,9 @@ const services = [
     icon: Building2,
     image: incorporationsImg,
     title: "Incorporations",
-    description: "Federal and provincial business incorporation services with complete documentation and compliance support.",
+    description: "Federal and Ontario business incorporation services with complete documentation and compliance support.",
     features: [
-      "Federal & Provincial incorporations",
+      "Federal & Ontario incorporations",
       "Articles of incorporation drafting",
       "Initial organizational resolutions",
       "Share structure setup",
@@ -79,7 +81,7 @@ const services = [
     icon: ShoppingCart,
     image: procurementImg,
     title: "Procurement Law",
-    description: "Navigate complex procurement processes with expert guidance on bids, contracts, and disputes.",
+    description: "Navigate complex procurement processes with legal support on bids, contracts, and disputes.",
     features: [
       "RFP response review",
       "Bid protest & appeals",
@@ -95,7 +97,7 @@ const services = [
     icon: Home,
     image: realEstateImg,
     title: "Residential Real Estate",
-    description: "Full-service residential real estate transactions including purchases, sales, and refinancing.",
+    description: "Referral to independent licensed real estate lawyers for purchases, sales and refinancing. LegalXpress does not provide the referred lawyer’s services.",
     features: [
       "Purchase & sale transactions",
       "Title search & insurance",
@@ -143,7 +145,7 @@ const services = [
     icon: Send,
     image: divorceImg,
     title: "Process Service",
-    description: "Court-compliant service of legal documents anywhere in Canada, with a sworn Affidavit of Service.",
+    description: "Coordination of document service for Ontario matters. Availability and independent provider charges are confirmed before engagement.",
     features: [
       "Personal & substituted service",
       "Claims, applications & motion materials",
@@ -197,8 +199,7 @@ export default function Services() {
             Our Legal Services
           </h1>
           <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body">
-            Comprehensive legal solutions for businesses and individuals 
-            across Canada.
+            Legal services under Ontario licensing, with independent referrals for matters outside our practice.
           </p>
         </div>
       </section>
@@ -206,7 +207,7 @@ export default function Services() {
       {/* Services List */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
-          <div className="space-y-16">
+          <p className="text-sm text-muted-foreground mb-6">{JURISDICTION_NOTICE}</p><PriceNotice className="mb-10" /><div className="space-y-16">
             {services.map((service, index) => (
               <div
                 key={service.id}
@@ -224,7 +225,7 @@ export default function Services() {
                   </h2>
                   <p className="text-lg text-muted-foreground font-body mb-6">
                     {service.description}
-                  </p>
+                  </p><ProviderNotice kind={service.id === "real-estate" ? "referral" : "lawyer"} />
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-3">
@@ -237,8 +238,8 @@ export default function Services() {
                   </ul>
                   <div className="flex flex-wrap gap-3">
                     <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground" asChild>
-                      <Link to="/book">
-                        Book Consultation
+                      <Link to={service.id === "real-estate" ? "/affiliates" : "/book"}>
+                        {service.id === "real-estate" ? "View referral options" : "Book Consultation"}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>

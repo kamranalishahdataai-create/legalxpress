@@ -6,7 +6,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Briefcase, FileText, TrendingUp } from "lucide-react";
+import { Calendar, Briefcase, FileText, TrendingUp, UserCog } from "lucide-react";
+import { LawyerProfile } from "@/components/lawyer/LawyerProfile";
 import { LawyerCalendar } from "@/components/lawyer/LawyerCalendar";
 import { LawyerCases } from "@/components/lawyer/LawyerCases";
 import { LawyerReports } from "@/components/lawyer/LawyerReports";
@@ -24,11 +25,11 @@ export default function LawyerPortal() {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
-    if (!lawyerLoading && !isLawyer && user) {
+    if (!lawyerLoading && !isLawyer && user && !authLoading) {
       // Not a lawyer, redirect to client portal
       navigate("/portal");
     }
-  }, [lawyerLoading, isLawyer, user, navigate]);
+  }, [lawyerLoading, isLawyer, user, authLoading, navigate]);
 
   if (authLoading || lawyerLoading) {
     return (
@@ -58,22 +59,26 @@ export default function LawyerPortal() {
         </div>
 
         <Tabs defaultValue="calendar" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+          <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="calendar" className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Calendar</span>
+              <span>Calendar</span>
             </TabsTrigger>
             <TabsTrigger value="cases" className="flex items-center gap-2">
               <Briefcase className="h-4 w-4" />
-              <span className="hidden sm:inline">Cases</span>
+              <span>Cases</span>
             </TabsTrigger>
             <TabsTrigger value="reports" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Reports</span>
+              <span>Reports</span>
             </TabsTrigger>
             <TabsTrigger value="stats" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Stats</span>
+              <span>Stats</span>
+            </TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <UserCog className="h-4 w-4" />
+              <span>Profile</span>
             </TabsTrigger>
           </TabsList>
 
@@ -91,6 +96,10 @@ export default function LawyerPortal() {
 
           <TabsContent value="stats">
             <LawyerStats lawyerId={lawyer.id} />
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <LawyerProfile lawyer={lawyer} />
           </TabsContent>
         </Tabs>
       </div>

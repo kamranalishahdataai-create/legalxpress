@@ -94,27 +94,27 @@ export default function PortalDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-700";
+        return "bg-forest/10 text-forest";
       case "pending":
-        return "bg-amber-100 text-amber-700";
+        return "bg-secondary/15 text-foreground";
       case "completed":
-        return "bg-blue-100 text-blue-700";
+        return "bg-muted text-foreground";
       case "cancelled":
-        return "bg-red-100 text-red-700";
+        return "bg-destructive/10 text-destructive";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-muted text-muted-foreground";
     }
   };
 
   return (
     <Layout>
       {/* Header */}
-      <section className="py-12 hero-gradient">
+      <section className="workspace-heading py-12 border-b border-border bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-            Welcome Back!
+          <h1 className="font-display text-3xl md:text-4xl font-medium text-foreground mb-2">
+            Your LegalXpress portal
           </h1>
-          <p className="text-primary-foreground/80 font-body">
+          <p className="text-muted-foreground font-body">
             Manage your consultations, contracts, and legal matters in one place.
           </p>
         </div>
@@ -169,10 +169,10 @@ export default function PortalDashboard() {
                     <Brain className="h-6 w-6 text-secondary" />
                   </div>
                   <h3 className="font-display font-semibold text-foreground mb-1">
-                    Case Analysis
+                    Case Law Research
                   </h3>
                   <p className="text-sm text-muted-foreground font-body">
-                    AI-powered insights
+                    Matched decisions & summaries
                   </p>
                 </CardContent>
               </Card>
@@ -216,7 +216,7 @@ export default function PortalDashboard() {
                       {consultations.map((consultation) => (
                         <div
                           key={consultation.id}
-                          className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
+                          className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-lg bg-muted/50"
                         >
                           <div className="flex items-center gap-4">
                             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10">
@@ -234,7 +234,7 @@ export default function PortalDashboard() {
                           </div>
                           <div className="flex items-center gap-3">
                             {consultation.is_free_consultation && (
-                              <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700">
+                              <span className="text-xs px-2 py-1 rounded-full bg-forest/10 text-forest">
                                 Free
                               </span>
                             )}
@@ -273,8 +273,8 @@ export default function PortalDashboard() {
                 <CardContent>
                   {hasSubscription ? (
                     <div className="text-center">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mx-auto mb-3">
-                        <Star className="h-6 w-6 text-green-600" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-forest/10 mx-auto mb-3">
+                        <Star className="h-6 w-6 text-forest" />
                       </div>
                       <h4 className="font-display font-semibold text-foreground mb-1">
                         Active Subscription

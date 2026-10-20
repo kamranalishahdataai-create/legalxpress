@@ -1,3 +1,4 @@
+import { LegalDisclaimer } from "@/components/legal/LegalDisclaimer";
 import { Link } from "react-router-dom";
 import { 
   Heart, DollarSign, Handshake, FileText, Brain,
@@ -7,40 +8,40 @@ import {
 const features = [
   {
     icon: Heart,
-    title: "Referral Program",
-    description: "Refer friends & enter our monthly $250 gift card draw",
+    title: "Share LegalXpress",
+    description: "Send someone our booking link. We do not pay or reward client referrals.",
     href: "/community",
-    color: "text-pink-500",
-    bg: "bg-pink-500/10",
+    color: "text-forest",
+    bg: "bg-forest/10",
   },
   {
     icon: DollarSign,
     title: "Price Match",
-    description: "Got a quote from another lawyer? Share it and we'll try to beat it",
+    description: "Have a written quote and have not retained a lawyer? Share the scope for our fixed price.",
     href: "/price-match",
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10",
+    color: "text-forest",
+    bg: "bg-forest/10",
   },
   {
     icon: Handshake,
-    title: "Affiliate Partners & Locator",
-    description: "Find legal, accounting & mortgage pros — AI-matched to your local area",
+    title: "Referral Network",
+    description: "Independent licensed professionals. Read our no-referral-fee policy.",
     href: "/affiliates",
-    color: "text-blue-500",
-    bg: "bg-blue-500/10",
+    color: "text-forest",
+    bg: "bg-forest/10",
   },
   {
     icon: FileText,
     title: "Contract Library",
     description: "Professional legal templates ready to download & customize",
     href: "/contracts",
-    color: "text-violet-500",
-    bg: "bg-violet-500/10",
+    color: "text-forest",
+    bg: "bg-forest/10",
   },
   {
     icon: Brain,
-    title: "AI Case Analysis",
-    description: "Instant case assessment backed by precedent law research",
+    title: "Case Law Research Tool",
+    description: "See how Canadian courts decided cases on the same issue",
     href: "/case-analysis",
     color: "text-secondary",
     bg: "bg-secondary/10",
@@ -59,7 +60,7 @@ export function ExploreMore() {
             Everything You Need, One Platform
           </h2>
           <p className="text-muted-foreground font-body">
-            From AI-powered case analysis to a network of trusted professionals.
+            Legal services, informational tools and independent professional referrals — clearly identified.
           </p>
         </div>
 
@@ -68,7 +69,7 @@ export function ExploreMore() {
             <Link
               key={feature.title}
               to={feature.href}
-              className="group flex items-start gap-4 p-5 rounded-2xl border border-border/50 bg-card hover:border-secondary/30 hover:shadow-md transition-all duration-300"
+              className="group flex items-start gap-4 py-6 border-t border-border hover:border-forest/40 transition-all duration-300"
             >
               <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${feature.bg}`}>
                 <feature.icon className={`h-5 w-5 ${feature.color}`} />
@@ -85,6 +86,7 @@ export function ExploreMore() {
             </Link>
           ))}
         </div>
+        <LegalDisclaimer context="membership" variant="compact" className="mt-8" />
       </div>
     </section>
   );

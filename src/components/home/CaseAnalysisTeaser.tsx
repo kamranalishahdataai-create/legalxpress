@@ -1,101 +1,60 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Brain, Search, BarChart3, FileCheck, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { PACK_TERMS_SHORT, RESEARCH_PACK, STAT_CAVEAT } from "@/data/caseResearch";
 
 export function CaseAnalysisTeaser() {
+  const consoleLines = [
+    { prompt: "›", value: "area_of_law: contract_dispute" },
+    { prompt: "›", value: "jurisdiction: ontario · federal · scc" },
+    { prompt: "›", value: "sources: canlii + public court records" },
+    { prompt: "✓", value: "6 decisions matched and verified", ok: true },
+    { prompt: "✓", value: "every case linked to the public judgment", ok: true },
+  ];
+  const items = [
+    { title: "Matched decisions", text: "See how Canadian courts have decided cases on the same issue." },
+    { title: "Every case linked", text: "Each decision links to the public judgment so you can check it." },
+    { title: "Research summary", text: "Research in minutes; bring it to your consultation." },
+  ];
   return (
-    <section id="case-analysis" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          {/* Left - Content */}
+    <section id="case-analysis" className="section-y bg-muted/40 border-y border-border">
+      <div className="container gutter-x">
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-20 items-start">
           <div>
-            <p className="text-sm font-medium text-secondary font-body tracking-widest uppercase mb-3">
-              AI-Powered
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4 leading-tight">
-              Know Your Case Before You Start
-            </h2>
-            <p className="text-muted-foreground font-body leading-relaxed mb-6">
-              Our AI analyzes thousands of legal precedents across Canada 
-              to give you an honest assessment of your case — before you spend a dollar 
-              on legal fees.
-            </p>
-
-            <div className="space-y-3 mb-8">
-              {[
-                { icon: Search, text: "Precedent law research across jurisdictions" },
-                { icon: BarChart3, text: "AI-driven win-rate predictions" },
-                { icon: FileCheck, text: "Detailed case citations & legal memo" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary/10">
-                    <item.icon className="h-4 w-4 text-secondary" />
-                  </div>
-                  <span className="text-sm font-body text-foreground">{item.text}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Button className="bg-secondary hover:bg-secondary/90 text-secondary-foreground gap-2" asChild>
-                <Link to="/case-analysis/preview">
-                  Try Free Preview
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button variant="outline" className="gap-2" asChild>
-                <Link to="/case-analysis">
-                  Learn More
-                </Link>
-              </Button>
-            </div>
+            <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-forest mb-3">Case Law Research Tool</p>
+            <h2 className="font-display text-3xl md:text-4xl font-medium mb-5">See how courts decided cases on the same issue.</h2>
+            <p className="text-muted-foreground mb-3">Automated research from published Canadian decisions. Generated automatically; not reviewed by a lawyer, and not an assessment of your case.</p>
+            <p className="text-sm text-muted-foreground mb-7">{STAT_CAVEAT.replace("This describes", "Outcome statistics describe")}</p>
+            <div className="flex flex-wrap gap-3"><Button className="gap-2" asChild><Link to="/case-analysis/preview">See a sample report <ArrowRight className="h-4 w-4" /></Link></Button><Button variant="outline" asChild><Link to="/case-analysis">Learn more</Link></Button></div>
           </div>
-
-          {/* Right - Visual Card */}
-          <div className="relative">
-            <div className="bg-card rounded-2xl p-8 border border-border/50 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10">
-                  <Brain className="h-6 w-6 text-secondary" />
-                </div>
+          <div>
+            <div className="rounded-xl overflow-hidden border border-foreground/15 shadow-xl mb-6">
+              <div className="bg-foreground text-background/70 px-4 py-2.5 flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-gold" aria-hidden="true" />
+                <span className="h-2.5 w-2.5 rounded-full bg-forest-light" aria-hidden="true" />
+                <span className="h-2.5 w-2.5 rounded-full bg-background/25" aria-hidden="true" />
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-background/60 ml-2">case-law-research — query</span>
+              </div>
+              <div className="bg-foreground/95 px-5 py-4 font-mono text-xs leading-relaxed space-y-1.5">
+                {consoleLines.map((line) => (
+                  <p key={line.value} className={line.ok ? "text-forest-light" : "text-background/75"}>
+                    <span className={line.ok ? "text-forest-light" : "text-gold-light"}>{line.prompt}</span> {line.value}
+                  </p>
+                ))}
+                <p className="text-background/40 pt-1 border-t border-background/10 mt-2">
+                  <span className="animate-pulse text-gold-light">▍</span> running report…
+                </p>
+              </div>
+            </div>
+            {items.map((item) => (
+              <div key={item.title} className="flex gap-4 py-4 border-t border-border">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-foreground">Case Analysis</h3>
-                  <p className="text-sm text-muted-foreground font-body">Powered by AI</p>
+                  <h3 className="font-display text-lg mb-1">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">{item.text}</p>
                 </div>
               </div>
-
-              {/* Mock analysis preview */}
-              <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs font-medium text-muted-foreground font-body">Win Probability</span>
-                    <span className="text-sm font-bold text-secondary font-display">78%</span>
-                  </div>
-                  <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-secondary rounded-full" style={{ width: "78%" }} />
-                  </div>
-                </div>
-                <div className="p-4 rounded-xl bg-muted/50 border border-border/50">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="text-xs font-medium text-muted-foreground font-body">Precedents Found</span>
-                    <span className="text-sm font-bold text-foreground font-display">24</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground font-body">Across 3 jurisdictions</p>
-                </div>
-                <div className="p-4 rounded-xl bg-secondary/5 border border-secondary/20">
-                  <p className="text-xs text-muted-foreground font-body mb-1">Only</p>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-display font-bold text-foreground">$9.99</span>
-                    <span className="text-sm text-muted-foreground font-body">/month</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Floating accent */}
-            <div className="absolute -top-3 -right-3 bg-secondary text-secondary-foreground text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
-              Free Preview Available
-            </div>
+            ))}
+            <p className="text-sm text-muted-foreground mt-4">{RESEARCH_PACK.reports}-report pack: <span className="text-foreground font-semibold">${RESEARCH_PACK.standardPrice.toFixed(2)} + HST</span> standard, <span className="text-foreground font-semibold">${RESEARCH_PACK.memberPrice.toFixed(2)} + HST</span> for members. {PACK_TERMS_SHORT}</p>
           </div>
         </div>
       </div>

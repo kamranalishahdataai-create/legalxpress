@@ -14,6 +14,7 @@ import Book from "./pages/Book";
 import CaseAnalysisPage from "./pages/CaseAnalysis";
 import CaseAnalysisPreviewPage from "./pages/CaseAnalysisPreview";
 import CaseAnalysisCheckout from "./pages/CaseAnalysisCheckout";
+import CaseResearchMethodology from "./pages/CaseResearchMethodology";
 import ContractsPage from "./pages/Contracts";
 import BlogPage from "./pages/Blog";
 import FAQPage from "./pages/FAQ";
@@ -35,6 +36,9 @@ import FounderMembers from "./pages/FounderMembers";
 import PromoDeals from "./pages/PromoDeals";
 import AffiliateRequest from "./pages/AffiliateRequest";
 import Landing from "./pages/Landing";
+import PartnershipsRogersPage from "./pages/PartnershipsRogers";
+import PartnershipsBet99Page from "./pages/PartnershipsBet99";
+import { TelecomPartnership } from "@/components/partnerships/TelecomPartnership";
 import { RouteSeo } from "@/components/seo/RouteSeo";
 
 const queryClient = new QueryClient();
@@ -79,6 +83,7 @@ const App = () => (
               <Route path="/book" element={<Book />} />
               <Route path="/case-analysis" element={<CaseAnalysisPage />} />
               <Route path="/case-analysis/preview" element={<CaseAnalysisPreviewPage />} />
+              <Route path="/case-analysis/methodology" element={<CaseResearchMethodology />} />
               <Route path="/checkout/case-analysis" element={<CaseAnalysisCheckout />} />
               <Route path="/contracts" element={<ContractsPage />} />
               <Route path="/blog" element={<BlogPage />} />
@@ -87,6 +92,11 @@ const App = () => (
               <Route path="/affiliates" element={<AffiliatesPage />} />
               <Route path="/affiliates/request" element={<AffiliateRequest />} />
               <Route path="/price-match" element={<PriceMatchPage />} />
+              <Route path="/partnerships" element={<PartnershipsRogersPage />} />
+              <Route path="/partnerships/rogers" element={<PartnershipsRogersPage />} />
+              <Route path="/partnerships/bet99" element={<PartnershipsBet99Page />} />
+              <Route path="/partnerships/bell" element={<TelecomPartnership partner="bell" />} />
+              <Route path="/partnerships/telus" element={<TelecomPartnership partner="telus" />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
               <Route path="/subscriptions/:planType" element={<SubscriptionsPage />} />

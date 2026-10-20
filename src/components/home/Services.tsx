@@ -1,3 +1,4 @@
+import { ProviderNotice } from "@/components/legal/PracticeNotice";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -34,7 +35,7 @@ const services = [
   {
     icon: ShoppingCart,
     title: "Procurement Law",
-    description: "Navigate complex procurement processes with expert guidance on bids, contracts, and disputes.",
+    description: "Navigate complex procurement processes with legal support on bids, contracts, and disputes.",
     href: "/services/procurement",
   },
   {
@@ -52,13 +53,13 @@ const services = [
   {
     icon: Globe,
     title: "E2 Investor Visa",
-    description: "US E-2 treaty investor visa support for Canadian entrepreneurs — investment structuring & application prep.",
+    description: "Canadian-law transaction support only. US E-2 advice and filings require independent US-licensed counsel.",
     href: "/services/e2-visa",
   },
   {
     icon: Globe,
     title: "EB-5 Investor Visa",
-    description: "US EB-5 immigrant investor program support — structuring, source-of-funds & petition preparation.",
+    description: "Canadian-law transaction support only. US EB-5 advice and filings require independent US-licensed counsel.",
     href: "/services/eb5-visa",
   },
 ];
@@ -78,7 +79,7 @@ export function Services() {
           </h2>
           <p className="text-lg text-muted-foreground font-body">
             From startup incorporations to complex litigation, we provide end-to-end 
-            legal solutions across Canada.
+            legal services under Ontario licensing.
           </p>
         </div>
 
@@ -99,7 +100,7 @@ export function Services() {
               </h3>
               <p className="text-muted-foreground font-body text-sm leading-relaxed">
                 {service.description}
-              </p>
+              </p><ProviderNotice />
               <div className="mt-4 flex items-center gap-2 text-secondary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                 Learn more <ArrowRight className="h-4 w-4" />
               </div>

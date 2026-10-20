@@ -13,7 +13,7 @@ export function ContractLibrary() {
           </div>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
             Professional Contracts at{" "}
-            <span className="text-gradient-gold">$4.99/mo · Billed Yearly</span>
+            <span className="text-gradient-gold">$4.99/mo + HST</span>
           </h2>
           <p className="text-lg text-muted-foreground font-body mb-8">
             Access 50+ professionally drafted legal contracts for Canada. 
@@ -24,11 +24,11 @@ export function ContractLibrary() {
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Download className="h-4 w-4 text-secondary" />
-              <span>Unlimited Downloads</span>
+              <span>Downloads subject to fair use</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Check className="h-4 w-4 text-secondary" />
-              <span>Professionally Reviewed</span>
+              <span>General templates — lawyer review before use</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Globe className="h-4 w-4 text-secondary" />
@@ -45,7 +45,7 @@ export function ContractLibrary() {
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/checkout?plan=contracts">
-                Subscribe for $4.99/mo · Yearly
+                Subscribe for $4.99/mo + HST
               </Link>
             </Button>
           </div>

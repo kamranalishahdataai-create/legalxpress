@@ -1,3 +1,6 @@
+import { PriceNotice, ProviderNotice } from "@/components/legal/PracticeNotice";
+import { BILLING_SHORT } from "@/data/billingTerms";
+import { PROFESSIONAL_REPORTS_PER_MONTH } from "@/data/caseResearch";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,14 +12,14 @@ const bundles = [
     title: "Essential Bundle",
     subtitle: "Discounts on core legal services",
     price: "$4.99",
-    period: "/mo · billed yearly",
+    period: "/mo · 12-month term",
     savings: "New",
     features: [
-      "50% off Notary Services",
-      "50% off Simple Wills",
-      "50% off Small Claims Litigation",
-      "50% off Separation & Pre-Nup Agreements",
-      "15% discount on all Affiliate Partner services",
+      "Notary: $10 member fee per document",
+      "Simple will: $100 member fee",
+      "Ontario small claims pre-trial package: $999 member fee",
+      "Agreed separation / marriage contract: $999 member fee",
+      "15% courtesy discount on participating referral partners’ own fees",
       "Email support",
     ],
     popular: false,
@@ -28,34 +31,31 @@ const bundles = [
     title: "Starter Bundle",
     subtitle: "Essential legal tools",
     price: "$6.99",
-    period: "/mo · billed yearly",
+    period: "/mo · 12-month term",
     savings: "Save 15%",
     features: [
       "Everything in Essential, plus:",
-      "1 AI Case Analysis per month",
+      "1 case-law research report per month",
       "1 contract download per month (PDF or Word)",
-      "Free e-Notary services",
+      "e-Notary: $0 member fee",
     ],
-    popular: true,
+    popular: false,
     href: "/checkout?bundle=starter",
     cta: "Get Started",
   },
   {
     id: "professional",
     title: "Professional Bundle",
-    subtitle: "Most popular for individuals",
+    subtitle: "Member services and tools",
     price: "$9.99",
-    period: "/mo · billed yearly",
+    period: "/mo · 12-month term",
     savings: "Save 25%",
     features: [
       "Everything in Starter, plus:",
-      "Up to 3 AI Case Analyses per month",
+      `${PROFESSIONAL_REPORTS_PER_MONTH} case-law research reports per month`,
       "5 contract downloads per month (PDF or Word)",
-      "Priority case processing",
-      "Detailed legal memos",
-      "Free in-person & e-Notary services",
-      "Simple Wills included",
-      "Priority email support",
+      "In-person and e-Notary: $0 member fee",
+      "Simple will: $0 member fee",
     ],
     popular: false,
     href: "/checkout?bundle=professional",
@@ -66,16 +66,14 @@ const bundles = [
     title: "Executive Bundle",
     subtitle: "Complete legal toolkit",
     price: "$14.99",
-    period: "/mo · billed yearly",
+    period: "/mo · 12-month term",
     savings: "Save 35%",
     features: [
       "Everything in Professional, plus:",
-      "Unlimited AI Case Analyses",
-      "Unlimited contract downloads (PDF or Word)",
+      "5 case-law research reports per month",
+      "Unlimited contract downloads (PDF or Word), fair use",
       "50% off Complex Wills",
-      "Free Demand Letters (up to 3 per year)",
-      "1 consultation top-up credit/mo",
-      "Dedicated support channel",
+      "Demand letters: $0 member fee, up to 3/year",
     ],
     popular: false,
     href: "/checkout?bundle=business",
@@ -98,9 +96,8 @@ export function MembershipBundles() {
             Bundle & Save on Yearly Memberships
           </h2>
           <p className="text-lg text-muted-foreground font-body">
-            Get more value by combining Case Analysis and Contract Templates into
-            one affordable yearly membership. Every bundle costs less than purchasing
-            each service separately — and you can cancel anytime.
+            Get more value by combining case-law research reports and Contract Templates into
+            one affordable yearly membership. Every bundle is a 12-month membership billed monthly. Legal-service scope and member fees are confirmed in writing.
           </p>
         </div>
 
@@ -143,12 +140,7 @@ export function MembershipBundles() {
                     {bundle.period}
                   </span>
                 </div>
-                <Badge
-                  variant="outline"
-                  className="mt-2 border-secondary/40 text-secondary"
-                >
-                  {bundle.savings}
-                </Badge>
+                <PriceNotice className="mt-4" /><ProviderNotice />
               </div>
 
               {/* Features */}
@@ -190,7 +182,7 @@ export function MembershipBundles() {
               </Button>
 
               <p className="text-center text-xs text-muted-foreground mt-4">
-                Yearly commitment · Cancel anytime
+                {BILLING_SHORT}
               </p>
               {(bundle as any).footnote && (
                 <p className="text-center text-xs text-muted-foreground mt-2 italic">
@@ -204,12 +196,12 @@ export function MembershipBundles() {
         {/* Member pricing note */}
         <div className="text-center mt-12 max-w-2xl mx-auto">
           <p className="text-muted-foreground font-body text-sm">
-            Prices decrease as our member community grows.{" "}
+            Future reductions are a community pricing goal, not a guarantee.{" "}
             <Link
               to="/founder-members"
               className="text-primary hover:underline font-medium"
             >
-              Learn about our milestone pricing →
+              Learn about our community pricing goal →
             </Link>
           </p>
         </div>

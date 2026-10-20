@@ -1,4 +1,8 @@
 import { LegalDisclaimer } from "@/components/legal/LegalDisclaimer";
+import { COMMUNITY_GOAL } from "@/data/practiceTerms";
+import { PriceNotice, ProviderNotice } from "@/components/legal/PracticeNotice";
+import { BILLING_SHORT, BILLING_NOTE } from "@/data/billingTerms";
+import { PROFESSIONAL_REPORTS_PER_MONTH } from "@/data/caseResearch";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +28,9 @@ import {
   ThumbsUp,
   AlertTriangle,
   DollarSign,
+  Building2,
+  Store,
+  ShoppingCart,
 } from "lucide-react";
 
 
@@ -37,11 +44,11 @@ const plans = {
     color: "secondary",
     popular: false,
     features: [
-      { icon: Percent, text: "50% off Notary Services", included: true },
-      { icon: Percent, text: "50% off Simple Wills", included: true },
-      { icon: Percent, text: "50% off Small Claims Litigation", included: true },
-      { icon: Percent, text: "50% off Separation & Pre-Nup Agreements", included: true },
-      { icon: Percent, text: "15% off all Affiliate Partner services", included: true },
+      { icon: Percent, text: "Notary & commissioning: $10 member fee per document", included: true },
+      { icon: Percent, text: "Simple will: $100 member fee (published scope)", included: true },
+      { icon: Percent, text: "Ontario small claims pre-trial package: $999 member fee", included: true },
+      { icon: Percent, text: "Agreed separation / marriage contract: $999 member fee", included: true },
+      { icon: Percent, text: "Participating referral partners may offer a 15% courtesy discount on their own fees", included: true },
       { icon: MessageSquare, text: "Email support", included: true },
     ],
   },
@@ -52,47 +59,44 @@ const plans = {
     price: 6.99,
     period: "month",
     color: "secondary",
-    popular: true,
+    popular: false,
     features: [
       { icon: Check, text: "Everything in Essential, plus:", included: true },
-      { icon: Brain, text: "1 AI Case Analysis per month", included: true },
+      { icon: Brain, text: "1 case-law research report per month", included: true },
       { icon: Download, text: "1 contract download/month (PDF or Word)", included: true },
-      { icon: Stamp, text: "Free e-Notaries (in addition to 50% off in-person)", included: true },
+      { icon: Stamp, text: "e-Notary: $0 member fee; in-person: $10 per document", included: true },
     ],
   },
   professional: {
     id: "professional",
     title: "Professional",
-    subtitle: "Full-featured plan for complete legal coverage",
+    subtitle: "Member pricing and defined legal services",
     price: 9.99,
     period: "month",
     color: "secondary",
     popular: false,
     features: [
       { icon: Check, text: "Everything in Starter, plus:", included: true },
-      { icon: Brain, text: "Up to 3 AI Case Analyses per month", included: true },
+      { icon: Brain, text: `${PROFESSIONAL_REPORTS_PER_MONTH} case-law research reports per month`, included: true },
       { icon: Download, text: "5 contract downloads/month (PDF or Word)", included: true },
-      { icon: Stamp, text: "Free in-person & e-Notaries", included: true },
-      { icon: Scale, text: "Legal memos included", included: true },
-      { icon: Heart, text: "Simple Wills included", included: true },
-      { icon: Zap, text: "Priority processing", included: true },
+      { icon: Stamp, text: "In-person and e-Notary: $0 member fee", included: true },
+      { icon: Heart, text: "Simple will: $0 member fee (published scope)", included: true },
     ],
   },
   executive: {
     id: "executive",
     title: "Executive",
-    subtitle: "Premium plan with unlimited access and maximum savings",
+    subtitle: "Additional services and member tools",
     price: 14.99,
     period: "month",
     color: "primary",
     popular: false,
     features: [
       { icon: Check, text: "Everything in Professional, plus:", included: true },
-      { icon: Brain, text: "Unlimited AI Case Analyses", included: true },
-      { icon: Download, text: "Unlimited contract downloads (PDF or Word)", included: true },
+      { icon: Brain, text: "5 case-law research reports per month", included: true },
+      { icon: Download, text: "Unlimited contract downloads (PDF or Word), fair use", included: true },
       { icon: Percent, text: "50% off Complex Wills", included: true },
-      { icon: ScrollText, text: "Free Demand Letters (up to 3 per year)", included: true },
-      { icon: Shield, text: "Dedicated priority support", included: true },
+      { icon: ScrollText, text: "Demand letters: $0 member fee, up to 3 per membership year", included: true },
     ],
   },
 };
@@ -107,38 +111,169 @@ const comparisonGroups: {
   rows: { feature: string; values: Record<PlanKey, string | boolean> }[];
 }[] = [
   {
-    category: "Discounts on Legal Services",
+    category: "Member fees for legal services — provided by a lawyer",
     rows: [
-      { feature: "Notary Services", values: { essential: "50% off", starter: "Free e-Notary + 50% in-person", professional: "Free in-person & e-Notary", executive: "Free in-person & e-Notary" } },
-      { feature: "Simple Wills", values: { essential: "50% off", starter: "50% off", professional: "Included", executive: "Included" } },
+      { feature: "Notary Services", values: { essential: "$10 per document", starter: "e-Notary $0; in-person $10", professional: "$0 member fee", executive: "$0 member fee" } },
+      { feature: "Simple Wills", values: { essential: "$100 member fee", starter: "$100 member fee", professional: "$0 member fee", executive: "$0 member fee" } },
       { feature: "Complex Wills", values: { essential: false, starter: false, professional: false, executive: "50% off" } },
-      { feature: "Small Claims Litigation", values: { essential: "50% off", starter: "50% off", professional: "50% off", executive: "50% off" } },
-      { feature: "Separation & Pre-Nup Agreements", values: { essential: "50% off", starter: "50% off", professional: "50% off", executive: "50% off" } },
-      { feature: "Affiliate Partner services", values: { essential: "15% off", starter: "15% off", professional: "15% off", executive: "15% off" } },
+      { feature: "Ontario small claims pre-trial package", values: { essential: "$999", starter: "$999", professional: "$999", executive: "$999" } },
+      { feature: "Agreed separation / marriage contract", values: { essential: "$999", starter: "$999", professional: "$999", executive: "$999" } },
+      { feature: "Demand letters", values: { essential: false, starter: false, professional: false, executive: "Up to 3 / year at $0 member fee" } },
+      { feature: "Courtesy discount on participating partners’ own fees", values: { essential: "15% off", starter: "15% off", professional: "15% off", executive: "15% off" } },
     ],
   },
   {
     category: "AI & Document Tools",
     rows: [
-      { feature: "AI Case Analysis", values: { essential: false, starter: "1 / month", professional: "3 / month", executive: "Unlimited" } },
-      { feature: "Contract downloads (PDF or Word)", values: { essential: false, starter: "1 / month", professional: "5 / month", executive: "Unlimited" } },
-      { feature: "Legal memos", values: { essential: false, starter: false, professional: true, executive: true } },
-      { feature: "Demand Letters", values: { essential: false, starter: false, professional: false, executive: "Up to 3 / year free" } },
+      { feature: "Case law research reports", values: { essential: false, starter: "1 / month", professional: `${PROFESSIONAL_REPORTS_PER_MONTH} / month`, executive: "5 / month" } },
+      { feature: "Contract downloads (PDF or Word), fair use", values: { essential: false, starter: "1 / month", professional: "5 / month", executive: "Unlimited" } },
     ],
   },
   {
     category: "Support & Perks",
     rows: [
       { feature: "Email support", values: { essential: true, starter: true, professional: true, executive: true } },
-      { feature: "Priority processing", values: { essential: false, starter: false, professional: true, executive: true } },
-      { feature: "Dedicated priority support", values: { essential: false, starter: false, professional: false, executive: true } },
     ],
   },
 ];
 
+// Corporate memberships (12-month commitment, billed monthly).
+const corporatePackages = {
+  "corporate-starter": {
+    id: "corporate-starter",
+    title: "Business Starter",
+    shortTitle: "Starter",
+    focus: "Sole Proprietors",
+    price: 29,
+    icon: Store,
+    blurb: "For freelancers and sole proprietors.",
+  },
+  "corporate-a": {
+    id: "corporate-a",
+    title: "Corporate Package A",
+    shortTitle: "Package A",
+    focus: "Business Formation",
+    price: 99,
+    icon: Building2,
+    blurb: "For new and growing businesses that need their legal foundation in order.",
+  },
+  "corporate-b": {
+    id: "corporate-b",
+    title: "Corporate Package B",
+    shortTitle: "Package B",
+    focus: "Procurement Law",
+    price: 499,
+    icon: ShoppingCart,
+    blurb: "For contractors bidding on and managing government work.",
+  },
+  "corporate-c": {
+    id: "corporate-c",
+    title: "Corporate Package C",
+    shortTitle: "Package C",
+    focus: "Litigation & Disputes",
+    price: 999,
+    icon: Scale,
+    blurb: "For businesses in, or heading toward, a commercial dispute.",
+  },
+};
+
+type CorpKey = keyof typeof corporatePackages;
+const corporateOrder: CorpKey[] = ["corporate-starter", "corporate-a", "corporate-b", "corporate-c"];
+
+const corporateRows: { feature: string; values: Record<CorpKey, string | boolean> }[] = [
+  {
+    feature: "Best for",
+    values: {
+      "corporate-starter": "Freelancers & sole proprietors",
+      "corporate-a": "Starting & structuring a business",
+      "corporate-b": "Winning & keeping government contracts",
+      "corporate-c": "Resolving commercial disputes",
+    },
+  },
+  {
+    feature: "Business registration",
+    values: {
+      "corporate-starter": "Sole proprietorship / business name",
+      "corporate-a": "Federal or provincial incorporation",
+      "corporate-b": false,
+      "corporate-c": false,
+    },
+  },
+  {
+    feature: "Annual filings & minute book upkeep",
+    values: { "corporate-starter": "Renewal reminders", "corporate-a": true, "corporate-b": false, "corporate-c": false },
+  },
+  {
+    feature: "Director, officer & address changes",
+    values: { "corporate-starter": false, "corporate-a": "Unlimited", "corporate-b": false, "corporate-c": false },
+  },
+  {
+    feature: "Shareholder agreement",
+    values: { "corporate-starter": false, "corporate-a": true, "corporate-b": false, "corporate-c": false },
+  },
+  {
+    feature: "Procurement Law",
+    values: {
+      "corporate-starter": false,
+      "corporate-a": false,
+      "corporate-b": "RFP review, bid protests & contract negotiation",
+      "corporate-c": false,
+    },
+  },
+  {
+    feature: "Litigation & Disputes",
+    values: {
+      "corporate-starter": false,
+      "corporate-a": false,
+      "corporate-b": false,
+      "corporate-c": "Claims, breach, shareholder disputes & mediation",
+    },
+  },
+  {
+    feature: "Lawyer letters or calls",
+    values: {
+      "corporate-starter": "3 / year",
+      "corporate-a": "10 / year",
+      "corporate-b": "20 / year",
+      "corporate-c": "40 / year",
+    },
+  },
+  {
+    feature: "Document reviews",
+    values: {
+      "corporate-starter": "3 / year · 15 pages",
+      "corporate-a": "10 / year · 20 pages",
+      "corporate-b": "20 / year · 25 pages",
+      "corporate-c": "40 / year · 25 pages",
+    },
+  },
+  {
+    feature: "Collection letters",
+    values: { "corporate-starter": false, "corporate-a": false, "corporate-b": false, "corporate-c": "15 / month" },
+  },
+  {
+    feature: "Contract Library access",
+    values: { "corporate-starter": true, "corporate-a": true, "corporate-b": true, "corporate-c": true },
+  },
+  {
+    feature: "Optional add-ons",
+    values: {
+      "corporate-starter": "GST/HST registration",
+      "corporate-a": "Trial Defence, Employees, Shares, GST/HST",
+      "corporate-b": "Trial Defence, Employees, GST/HST",
+      "corporate-c": "Trial Defence, Employees",
+    },
+  },
+];
+
+function MemberLoyaltyRewards() {
+ return <section className="py-12 bg-background"><div className="container gutter-x max-w-4xl"><h2 className="font-display text-2xl mb-4">For current members</h2><p className="text-muted-foreground mb-4">Your active plan provides the published services and allowances for that plan. Partner offers are separate sample proposals, subject to the independent partner’s eligibility and terms. No referral rewards or guaranteed renewal-rate locks are offered.</p><LegalDisclaimer context="membership" /></div></section>;
+}
+
 export default function Subscriptions() {
   const { planType } = useParams();
   const selectedKey = (planType && planType in plans ? planType : null) as PlanKey | null;
+
 
   // If no plan selected, show comparison page
   if (!selectedKey) {
@@ -154,7 +289,7 @@ export default function Subscriptions() {
               Plans That Grow With You
             </h1>
             <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body">
-              All plans are yearly commitments with monthly billing. Cancel anytime. Prices decrease as our member community grows.
+              All plans are 12-month commitments billed monthly. Prices are in Canadian dollars plus HST. Member fees apply only to the published service scope; filing fees and disbursements are extra.
             </p>
           </div>
         </section>
@@ -172,7 +307,7 @@ export default function Subscriptions() {
                 </p>
               </div>
 
-              <div className="overflow-x-auto rounded-2xl border border-border/60 bg-card shadow-sm">
+              <PriceNotice className="mb-4" /><ProviderNotice /><div className="overflow-x-auto rounded-2xl border border-border/60 bg-card shadow-sm mt-4">
                 <table className="w-full min-w-[720px] text-sm font-body">
                   <thead>
                     <tr className="bg-muted/40">
@@ -193,6 +328,9 @@ export default function Subscriptions() {
                             </div>
                             <div className="text-xs text-muted-foreground mt-1">
                               ${p.price}/mo
+                            </div>
+                            <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                              12-month term
                             </div>
                             {p.popular && (
                               <div className="mt-2 inline-block text-[10px] font-bold uppercase tracking-wide bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">
@@ -279,22 +417,121 @@ export default function Subscriptions() {
               </div>
             </div>
 
+            {/* Corporate Packages comparison */}
+            <div className="max-w-6xl mx-auto mt-16 pt-12 border-t border-border/50">
+              <div className="text-center mb-10">
+                <p className="text-sm font-medium text-secondary font-body tracking-widest uppercase mb-3">
+                  Corporate Memberships
+                </p>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3">
+                  Compare Corporate Packages
+                </h2>
+                <p className="text-muted-foreground font-body max-w-2xl mx-auto">
+                  Packages A, B and C are 12-month business memberships billed monthly — the same
+                  basis as our personal plans.
+                </p>
+              </div>
 
+              <PriceNotice className="mb-4" /><ProviderNotice /><div className="overflow-x-auto rounded-2xl border border-border/60 bg-card shadow-sm mt-4">
+                <table className="w-full min-w-[720px] text-sm font-body">
+                  <thead>
+                    <tr className="bg-muted/40">
+                      <th className="text-left p-4 font-display font-semibold text-foreground w-[32%]">
+                        Feature
+                      </th>
+                      {corporateOrder.map((key) => {
+                        const p = corporatePackages[key];
+                        return (
+                          <th key={key} className="p-4 text-center align-bottom">
+                            <div className="flex flex-col items-center gap-1.5">
+                              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/10">
+                                <p.icon className="h-4 w-4 text-secondary" />
+                              </div>
+                              <div className="font-display text-base font-bold text-foreground">
+                                {p.shortTitle}
+                              </div>
+                              <div className="text-xs text-muted-foreground">{p.focus}</div>
+                              <div className="text-xs font-semibold text-foreground">
+                                from ${p.price}/mo
+                              </div>
+                              <div className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                                12-month term
+                              </div>
+                            </div>
+                          </th>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {corporateRows.map((row, ri) => (
+                      <tr key={ri} className="border-t border-border/40">
+                        <td className="p-4 text-foreground font-medium">{row.feature}</td>
+                        {corporateOrder.map((key) => {
+                          const val = row.values[key];
+                          const included = val !== false;
+                          return (
+                            <td
+                              key={key}
+                              className={`p-4 text-center ${
+                                included
+                                  ? "text-foreground"
+                                  : "bg-muted/40 text-muted-foreground/40"
+                              }`}
+                            >
+                              {included ? (
+                                val === true ? (
+                                  <Check className="h-5 w-5 text-secondary mx-auto" />
+                                ) : (
+                                  <span className="text-xs md:text-sm">{val as string}</span>
+                                )
+                              ) : (
+                                <Minus className="h-4 w-4 mx-auto opacity-50" />
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                    <tr className="border-t border-border/60 bg-muted/20">
+                      <td className="p-4"></td>
+                      {corporateOrder.map((key) => (
+                        <td key={key} className="p-4 text-center">
+                          <Button
+                            size="sm"
+                            className="bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+                            asChild
+                          >
+                            <Link to={`/checkout?plan=${key}`}>
+                              Choose {corporatePackages[key].shortTitle}
+                            </Link>
+                          </Button>
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="text-sm text-muted-foreground font-body text-center mt-6">{BILLING_NOTE}</p>
+            </div>
 
             {/* Community pricing note */}
             <div className="max-w-2xl mx-auto mt-12 text-center">
               <p className="text-muted-foreground font-body mb-4">
-                Our prices decrease as our community grows. Join 100,000 members and pay just $1/month.
+                {COMMUNITY_GOAL}
               </p>
               <Button variant="link" className="text-secondary gap-1" asChild>
                 <Link to="/founder-members">
-                  Learn about our Member Spots program
+                  Learn about our community pricing goal
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
           </div>
         </section>
+
+        <MemberLoyaltyRewards />
       </Layout>
     );
   }
@@ -360,10 +597,10 @@ export default function Subscriptions() {
                   {plan.title} Plan
                 </h3>
                 <p className="text-muted-foreground text-sm font-body mb-6">
-                  Yearly commitment · Monthly billing · Cancel anytime
+                  {BILLING_SHORT}
                 </p>
 
-                <div className="mb-8 pb-6 border-b border-border">
+                <PriceNotice className="mb-4" /><ProviderNotice /><div className="mb-8 pb-6 border-b border-border">
                   <div className="flex items-baseline gap-1">
                     <span className="text-5xl font-bold text-foreground">${plan.price}</span>
                     <span className="text-muted-foreground font-body">/month</span>
@@ -401,7 +638,7 @@ export default function Subscriptions() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Star className="h-3 w-3" />
-                      30-Day Guarantee
+                      Published scope and fees
                     </div>
                   </div>
                 </div>
@@ -431,7 +668,7 @@ export default function Subscriptions() {
                 Value Breakdown
               </p>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Why the Essential Plan Pays for Itself
+                Is Essential right for you?
               </h2>
               <p className="text-muted-foreground font-body max-w-2xl mx-auto">
                 At $4.99/month, Essential is built for people who need occasional legal help and want real savings without a large upfront commitment.
@@ -449,11 +686,11 @@ export default function Subscriptions() {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    "50% off notary services, simple wills, small claims litigation and separation/prenup agreements",
-                    "15% off all affiliate partner services (immigration, real estate, family, criminal and more)",
-                    "Low monthly cost — less than most single notarizations",
-                    "No long-term lock-in; cancel anytime",
-                    "Same licensed Canadian legal team behind every service",
+                    "Published member fees for notary, simple wills, small claims pre-trial work and agreed separation/marriage contracts",
+                    "Participating professionals may offer their own courtesy discount; referrals are independent",
+                    "Low monthly cost: $4.99 + HST, billed monthly for 12 months",
+                    "Billed monthly — no large upfront payment",
+                    "Legal services provided by Shiv Kumar Passi, Lawyer (LSO No. 70089L)",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <Check className="h-5 w-5 text-secondary shrink-0 mt-0.5" />
@@ -473,10 +710,10 @@ export default function Subscriptions() {
                 </div>
                 <ul className="space-y-4">
                   {[
-                    "Does not include free contract downloads or AI case analysis (available in Starter and above)",
+                    "Does not include free contract downloads or case-law research reports (available in Starter and above)",
                     "Discounts apply to eligible services only; some complex matters may still require separate quotes",
-                    "Yearly commitment with monthly billing — best for those who expect at least one legal service per year",
-                    "In-person notary and e-notary are discounted, not free (free in higher tiers)",
+                    "12-month commitment billed monthly — best for those who expect at least one legal service per year",
+                    "Notary fee: $10 + HST per document on Essential; $0 member fees on higher plans are stated separately",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <XCircle className="h-5 w-5 text-muted-foreground shrink-0 mt-0.5" />
@@ -491,10 +728,10 @@ export default function Subscriptions() {
             <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-8">
               <div className="flex items-center gap-3 mb-4">
                 <DollarSign className="h-6 w-6 text-secondary" />
-                <h3 className="font-display text-xl font-bold text-foreground">Real-world savings example</h3>
+                <h3 className="font-display text-xl font-bold text-foreground">Example of member fees</h3>
               </div>
               <p className="text-muted-foreground font-body mb-6">
-                A simple will and one notarization can easily cost $250–$400 when purchased separately. With Essential, you pay $4.99/month and save 50% on each service — often recovering the full year's membership cost in a single visit.
+                A simple will ($100 member fee) and one notarization ($10 member fee) cost $110 + HST in legal-service fees. The Essential membership costs $59.88 + HST over its 12-month term. Filing fees and disbursements are extra. No comparison to unconfirmed standard prices is made.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
@@ -528,20 +765,20 @@ export default function Subscriptions() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 mb-4">
             <Users className="h-5 w-5 text-secondary" />
-            <span className="font-display font-semibold text-foreground">Community Pricing</span>
+            <span className="font-display font-semibold text-foreground">Community pricing goal</span>
           </div>
           <p className="text-muted-foreground font-body mb-6">
-            Our prices decrease as our community grows. Every 25,000 members triggers a 25% reduction. 
-            At 100,000 members, all membership services drop to just $1/month.
+            {COMMUNITY_GOAL}
           </p>
           <Button variant="outline" size="lg" asChild>
             <Link to="/founder-members">
-              Learn More About Member Spots
+              Learn about membership
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
       </section>
+      <MemberLoyaltyRewards />
     </Layout>
   );
 }

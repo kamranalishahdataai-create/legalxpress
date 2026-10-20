@@ -1,3 +1,4 @@
+import { REFERRAL_POLICY } from "@/data/practiceTerms";
 import { LegalDisclaimer } from "@/components/legal/LegalDisclaimer";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -32,14 +33,14 @@ const legalCategories = [
     id: "immigration",
     icon: Users,
     title: "Immigration Law",
-    description: "Visa applications, permanent residency, citizenship, and deportation defense.",
+    description: "Visas, permanent residence, citizenship, inadmissibility and removal matters.",
     comingSoon: true,
   },
   {
     id: "criminal",
     icon: Scale,
-    title: "Criminal Defense",
-    description: "DUI, assault, theft, drug charges, and other criminal matters.",
+    title: "Criminal Defence",
+    description: "Impaired driving, assault, theft and other criminal charges.",
     comingSoon: true,
   },
   {
@@ -62,7 +63,7 @@ const legalCategories = [
     id: "bankruptcy",
     icon: FileText,
     title: "Bankruptcy",
-    description: "Chapter 7, Chapter 11, Chapter 13, debt negotiation, and financial restructuring.",
+    description: "Consumer proposals, bankruptcy and restructuring under the Bankruptcy and Insolvency Act.",
     comingSoon: true,
   },
   {
@@ -76,7 +77,7 @@ const legalCategories = [
     id: "employment",
     icon: Briefcase,
     title: "Employment Law",
-    description: "Wrongful termination, discrimination, harassment, wage disputes, and OSHA violations.",
+    description: "Wrongful dismissal, workplace harassment, human rights and Employment Standards Act claims.",
     comingSoon: true,
   },
   {
@@ -178,9 +179,7 @@ function PartnerGrid({ categories }: { categories: PartnerCategory[] }) {
             {category.description}
           </p>
           {category.comingSoon ? (
-            <span className="inline-block text-xs px-3 py-1 rounded-full bg-muted text-muted-foreground font-body">
-              Partners Coming Soon
-            </span>
+            <p className="text-xs text-muted-foreground">No current referral partner. <a href="https://lsrs.lso.ca/lsrs/welcome" target="_blank" rel="noopener noreferrer" className="underline">Law Society of Ontario Referral Service</a></p>
           ) : category.partners ? (
             <div className="space-y-2">
               {category.partners.map((partner) => (
@@ -234,14 +233,13 @@ export default function Affiliates() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-primary-foreground mb-6">
             <Users className="h-4 w-4" />
-            <span className="text-sm font-medium font-body">Partner Network</span>
+            <span className="text-sm font-medium font-body">Independent professional referrals</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-            Our Affiliate Partners
+            Referral Network
           </h1>
           <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto font-body">
-            We connect you with trusted professionals across legal, accounting, and mortgage services 
-            to ensure all your needs are covered.
+            Independent lawyers, paralegals, accountants and mortgage agents for matters outside our practice. Any retainer, fees, advice and work are between you and the professional.
           </p>
         </div>
       </section>
@@ -249,7 +247,7 @@ export default function Affiliates() {
       {/* Affiliate liability disclaimer */}
       <section className="py-8 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <LegalDisclaimer context="affiliates" />
+          <h2 className="font-display text-2xl mb-4">Our referral-fee policy</h2><p className="text-muted-foreground mb-5">{REFERRAL_POLICY}</p><LegalDisclaimer context="affiliates" />
         </div>
       </section>
 
@@ -258,11 +256,10 @@ export default function Affiliates() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl font-bold text-foreground mb-4">
-              How Affiliate Referrals Work
+              How a referral works
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto font-body">
-              We've partnered with experienced professionals to ensure you get quality help 
-              across legal, financial, and mortgage services.
+              We confirm whether a matter is outside our practice and run a conflicts check before making an introduction.
             </p>
           </div>
 
@@ -282,7 +279,7 @@ export default function Affiliates() {
               </div>
               <h3 className="font-display text-xl font-semibold mb-2">2. Request Referral</h3>
               <p className="text-muted-foreground text-sm font-body">
-                Tell us about your needs and we'll match you with the right partner.
+                Give a brief description without confidential details.
               </p>
             </div>
             <div className="text-center">
@@ -291,7 +288,7 @@ export default function Affiliates() {
               </div>
               <h3 className="font-display text-xl font-semibold mb-2">3. Get Connected</h3>
               <p className="text-muted-foreground text-sm font-body">
-                We introduce you to the partner who schedules a consultation.
+                We provide at least two names where reasonably possible, or explain why only one is available. You choose whom to contact.
               </p>
             </div>
           </div>
@@ -335,7 +332,7 @@ export default function Affiliates() {
                     Legal Partners & Affiliates
                   </h2>
                   <p className="text-muted-foreground max-w-2xl mx-auto font-body">
-                    Trusted attorneys across various practice areas ready to assist with your legal needs.
+                    Known independent professionals are listed below. Categories without a current partner are directed to the Law Society of Ontario Referral Service.
                   </p>
                 </div>
                 <PartnerGrid categories={legalCategories} />
@@ -345,21 +342,20 @@ export default function Affiliates() {
                 <div className="text-center mb-10">
                   <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 text-secondary mb-4">
                     <MapPin className="h-4 w-4" />
-                    <span className="text-sm font-semibold font-body">Local Attorney Matching</span>
+                    <span className="text-sm font-semibold font-body">Request a legal referral</span>
                   </div>
                   <h2 className="font-display text-3xl font-bold text-foreground mb-4">
                     Find Me a Lawyer in My Local Area
                   </h2>
                   <p className="text-muted-foreground font-body max-w-2xl mx-auto">
-                    Submit your information below and our AI-powered matching system will 
-                    recommend qualified attorneys in your area based on your specific legal needs.
+                    Request an introduction to an independent licensed professional. We do not provide automated recommendations.
                   </p>
                 </div>
                 <FinderSteps
                   steps={[
                     { label: "Submit Request", desc: "Fill out the form with your details" },
-                    { label: "AI Matching", desc: "Our system finds the best fit", icon: <Bot className="h-4 w-4 text-secondary" /> },
-                    { label: "Get Connected", desc: "Receive attorney recommendations", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
+                    { label: "Practice review", desc: "We confirm the referral options", icon: <Bot className="h-4 w-4 text-secondary" /> },
+                    { label: "Get Connected", desc: "Receive professional contact details", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
                   ]}
                 />
                 <div className="glass rounded-2xl p-8 md:p-10">
@@ -391,19 +387,18 @@ export default function Affiliates() {
                     Find Me an Accountant in My Local Area
                   </h2>
                   <p className="text-muted-foreground font-body max-w-2xl mx-auto">
-                    Submit your information below and our AI-powered matching system will 
-                    recommend qualified accountants in your area based on your specific financial needs.
+                    No accountant partners are currently listed. Contact us about your needs; we do not advertise an available partner or automated match.
                   </p>
                 </div>
                 <FinderSteps
                   steps={[
                     { label: "Submit Request", desc: "Fill out the form with your details" },
-                    { label: "AI Matching", desc: "Our system finds the best fit", icon: <Bot className="h-4 w-4 text-secondary" /> },
-                    { label: "Get Connected", desc: "Receive accountant recommendations", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
+                    { label: "Practice review", desc: "We confirm the referral options", icon: <Bot className="h-4 w-4 text-secondary" /> },
+                    { label: "Get Connected", desc: "Discuss independent professionals", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
                   ]}
                 />
                 <div className="glass rounded-2xl p-8 md:p-10">
-                  <LawyerFinderForm />
+                  <Button asChild variant="outline"><Link to="/contact">Contact LegalXpress</Link></Button>
                 </div>
               </div>
             </TabsContent>
@@ -431,19 +426,18 @@ export default function Affiliates() {
                     Find Me a Mortgage Agent in My Local Area
                   </h2>
                   <p className="text-muted-foreground font-body max-w-2xl mx-auto">
-                    Submit your information below and our AI-powered matching system will 
-                    recommend qualified mortgage agents in your area based on your specific needs.
+                    No mortgage agent partners are currently listed. Contact us about your needs; we do not advertise an available partner or automated match.
                   </p>
                 </div>
                 <FinderSteps
                   steps={[
                     { label: "Submit Request", desc: "Fill out the form with your details" },
-                    { label: "AI Matching", desc: "Our system finds the best fit", icon: <Bot className="h-4 w-4 text-secondary" /> },
-                    { label: "Get Connected", desc: "Receive mortgage agent recommendations", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
+                    { label: "Practice review", desc: "We confirm the referral options", icon: <Bot className="h-4 w-4 text-secondary" /> },
+                    { label: "Get Connected", desc: "Discuss independent professionals", icon: <Sparkles className="h-4 w-4 text-secondary" /> },
                   ]}
                 />
                 <div className="glass rounded-2xl p-8 md:p-10">
-                  <LawyerFinderForm />
+                  <Button asChild variant="outline"><Link to="/contact">Contact LegalXpress</Link></Button>
                 </div>
               </div>
             </TabsContent>
@@ -458,8 +452,8 @@ export default function Affiliates() {
             Are You a Professional?
           </h2>
           <p className="text-primary-foreground/80 font-body mb-6 max-w-xl mx-auto">
-            Join our affiliate network as a lawyer, accountant, or mortgage agent and receive quality referrals. 
-            We're always looking for trusted partners.
+            Licensed lawyers, paralegals, accountants and mortgage agents may contact us about
+            joining the referral network. We do not pay or charge referral fees.
           </p>
           <Button variant="secondary" size="lg" asChild>
             <Link to="/contact?subject=affiliate-partnership">

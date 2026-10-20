@@ -1,3 +1,4 @@
+import { JURISDICTION_NOTICE, CONFIDENTIALITY_NOTICE, MEMBERSHIP_NOTICE } from "@/data/practiceTerms";
 import { useState, useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,7 @@ const fallbackFAQs: FAQ[] = [
   {
     id: "1",
     question: "How does the free 30-minute consultation work?",
-    answer: "Your first consultation is completely free for 30 minutes. During this time, we'll discuss your legal matter, understand your needs, and provide initial guidance. You can book online, and we'll send you a Google Meet link. If you need more time after the free consultation, our rates are $375/hour or $200 for an additional 30 minutes.",
+    answer: "Your first consultation is completely free for 30 minutes. During this time, we'll discuss your legal matter, understand your needs, and provide initial guidance. You can book online, and we'll send you a Google Meet link. If you need more time after the free consultation, our rates are $375/hour + HST or $200 + HST for an additional 30 minutes. The initial consultation is general guidance; a lawyer-client relationship begins after a conflicts check and written engagement.",
     category: "Consultations",
   },
   {
@@ -39,31 +40,31 @@ const fallbackFAQs: FAQ[] = [
   {
     id: "4",
     question: "Which jurisdictions do you serve?",
-    answer: "We serve clients across Canada. Our legal team is qualified to handle matters in every Canadian province and territory, including federal matters.",
+    answer: JURISDICTION_NOTICE,
     category: "Services",
   },
   {
     id: "5",
-    question: "How does the AI Case Analysis tool work?",
-    answer: "Our AI-powered case analysis tool compares your case details against thousands of precedent cases from Canadian courts. It provides an estimated win rate and identifies similar cases. The free preview gives you a quick assessment, while the paid full report includes detailed strategy recommendations and case citations.",
-    category: "Case Analysis",
+    question: "How does the Case Law Research Tool work?",
+    answer: "You choose search filters (area of law, issues, jurisdiction, court level, dates, party type). The tool finds published Canadian decisions on the same issue, links each to the public judgment, and shows how often claimants succeeded in those decisions, with the sample size. It does not assess your case or predict your chances, and reports are generated automatically without lawyer review. A 5-report pack is $9.99 + HST, or $4.99 + HST for members; packs are non-refundable and unused reports expire 30 days after purchase.",
+    category: "Case Law Research",
   },
   {
     id: "6",
-    question: "What's included in the $4.99/month contract subscription?",
-    answer: "For $4.99 per month, you get unlimited access to our entire library of professionally drafted legal contracts. All templates are reviewed by licensed attorneys and are available for Canadian jurisdictions. You can download, customize, and use any contract as many times as you need.",
+    question: "What is the difference between the Contract Library subscription and a membership?",
+    answer: "The Contract Library is a template subscription only: $4.99/month + HST for English or $5.99/month + HST for French, with unlimited downloads subject to fair use. It does not include legal-service member pricing or other membership benefits. Starter includes 1 download/month, Professional 5/month and Executive unlimited downloads subject to fair use. Templates are not legal advice; have a lawyer review them before use.",
     category: "Contracts",
   },
   {
     id: "7",
     question: "Can I access my documents through the client portal?",
-    answer: "Yes! Once you create an account, you'll have access to our full client portal. This includes viewing your consultations, downloading contracts (with subscription), tracking your case analysis results, and communicating with our team.",
+    answer: "Yes! Once you create an account, you'll have access to our full client portal. This includes viewing your consultations, downloading contracts (with subscription), your research reports, and communicating with our team.",
     category: "Portal",
   },
   {
     id: "8",
     question: "What areas of law do you practice?",
-    answer: "We specialize in corporate and contract law, including incorporations, minute books, shareholder agreements, procurement law, residential real estate, simple (non-litigated) divorce, and corporate litigation (non-trial). We focus on providing efficient, technology-driven legal services.",
+    answer: "Corporate governance, commercial contracts, corporate and procurement litigation support, wills and estate documents, notary and commissioning, and independent legal advice are provided by Shiv Kumar Passi, Lawyer (LSO No. 70089L). Out-of-scope matters, including real estate, are independent referrals.",
     category: "Services",
   },
   {
@@ -75,29 +76,14 @@ const fallbackFAQs: FAQ[] = [
   {
     id: "10",
     question: "Is my information confidential?",
-    answer: "Absolutely. All client information is protected by solicitor-client privilege and our strict confidentiality policies. Our systems use enterprise-grade encryption, and we never share your information with third parties without your explicit consent.",
+    answer: CONFIDENTIALITY_NOTICE,
     category: "Privacy",
   },
 ];
 
 export default function FAQPage() {
-  const [faqs, setFaqs] = useState<FAQ[]>(fallbackFAQs);
+  const faqs = [...fallbackFAQs, {id:"membership-fee", question:"Is my membership fee a deposit toward legal work?", answer: MEMBERSHIP_NOTICE, category:"Memberships"}];
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    async function fetchFAQs() {
-      const { data } = await supabase
-        .from("faqs")
-        .select("*")
-        .eq("is_active", true)
-        .order("display_order");
-
-      if (data && data.length > 0) {
-        setFaqs(data);
-      }
-    }
-    fetchFAQs();
-  }, []);
 
   const filteredFAQs = faqs.filter(
     (faq) =>
@@ -143,12 +129,12 @@ export default function FAQPage() {
           </div>
 
           {/* FAQs */}
-          <Accordion type="single" collapsible className="space-y-4">
+          <Accordion type="single" collapsible className="editorial-list border-t border-border">
             {filteredFAQs.map((faq) => (
               <AccordionItem
                 key={faq.id}
                 value={faq.id}
-                className="bg-card rounded-xl border border-border/50 px-6"
+                className="border-b border-border py-2"
               >
                 <AccordionTrigger className="py-4 hover:no-underline">
                   <span className="font-display font-medium text-left text-foreground">
@@ -182,7 +168,7 @@ export default function FAQPage() {
           )}
 
           {/* Contact CTA */}
-          <div className="mt-12 p-8 glass rounded-2xl text-center">
+          <div className="editorial-followup mt-12 pt-8">
             <h3 className="font-display text-xl font-semibold text-foreground mb-2">
               Still have questions?
             </h3>

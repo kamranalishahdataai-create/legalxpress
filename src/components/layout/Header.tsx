@@ -17,7 +17,7 @@ const navLinks = [
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
   { name: "Subscriptions", href: "/subscriptions/personal" },
-  { name: "Case Analysis", href: "/case-analysis" },
+  { name: "Case Law Research", href: "/case-analysis" },
   { name: "Contracts", href: "/contracts" },
   { name: "Affiliates", href: "/affiliates" },
   { name: "FAQ", href: "/faq" },
