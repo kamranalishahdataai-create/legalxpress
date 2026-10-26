@@ -45,4 +45,10 @@ describe("Case Law Research Tool rules", () => {
     const source = readFileSync(file, "utf8");
     expect(source).not.toMatch(/win rate|winRate|Strategic Recommendations|Client Memo/i);
   });
+
+  it("places the Claim Drafter after the research section on the research page", () => {
+    const source = readFileSync("src/pages/CaseAnalysis.tsx", "utf8");
+    expect(source.indexOf("<AnalysisResults")).toBeGreaterThan(-1);
+    expect(source.indexOf("<CollapsibleClaimDrafter")).toBeGreaterThan(source.indexOf("<AnalysisResults"));
+  });
 });

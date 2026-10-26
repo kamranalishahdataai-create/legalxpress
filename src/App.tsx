@@ -9,14 +9,17 @@ import { LawyerProvider } from "@/hooks/useLawyer";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ClientIntake from "./pages/ClientIntake";
 import Services from "./pages/Services";
 import Book from "./pages/Book";
 import CaseAnalysisPage from "./pages/CaseAnalysis";
 import CaseAnalysisPreviewPage from "./pages/CaseAnalysisPreview";
 import CaseAnalysisCheckout from "./pages/CaseAnalysisCheckout";
 import CaseResearchMethodology from "./pages/CaseResearchMethodology";
+import ClaimDrafterPage from "./pages/ClaimDrafter";
 import ContractsPage from "./pages/Contracts";
 import BlogPage from "./pages/Blog";
+import BlogPostPage from "./pages/BlogPost";
 import FAQPage from "./pages/FAQ";
 import ContactPage from "./pages/Contact";
 import AffiliatesPage from "./pages/Affiliates";
@@ -36,9 +39,6 @@ import FounderMembers from "./pages/FounderMembers";
 import PromoDeals from "./pages/PromoDeals";
 import AffiliateRequest from "./pages/AffiliateRequest";
 import Landing from "./pages/Landing";
-import PartnershipsRogersPage from "./pages/PartnershipsRogers";
-import PartnershipsBet99Page from "./pages/PartnershipsBet99";
-import { TelecomPartnership } from "@/components/partnerships/TelecomPartnership";
 import { RouteSeo } from "@/components/seo/RouteSeo";
 
 const queryClient = new QueryClient();
@@ -77,6 +77,7 @@ const App = () => (
               <Route path="/landing" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/intake" element={<ClientIntake />} />
 
 
               <Route path="/services" element={<Services />} />
@@ -84,19 +85,16 @@ const App = () => (
               <Route path="/case-analysis" element={<CaseAnalysisPage />} />
               <Route path="/case-analysis/preview" element={<CaseAnalysisPreviewPage />} />
               <Route path="/case-analysis/methodology" element={<CaseResearchMethodology />} />
+              <Route path="/case-analysis/draft-claim" element={<ClaimDrafterPage />} />
               <Route path="/checkout/case-analysis" element={<CaseAnalysisCheckout />} />
               <Route path="/contracts" element={<ContractsPage />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/affiliates" element={<AffiliatesPage />} />
               <Route path="/affiliates/request" element={<AffiliateRequest />} />
               <Route path="/price-match" element={<PriceMatchPage />} />
-              <Route path="/partnerships" element={<PartnershipsRogersPage />} />
-              <Route path="/partnerships/rogers" element={<PartnershipsRogersPage />} />
-              <Route path="/partnerships/bet99" element={<PartnershipsBet99Page />} />
-              <Route path="/partnerships/bell" element={<TelecomPartnership partner="bell" />} />
-              <Route path="/partnerships/telus" element={<TelecomPartnership partner="telus" />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/subscriptions" element={<SubscriptionsPage />} />
               <Route path="/subscriptions/:planType" element={<SubscriptionsPage />} />

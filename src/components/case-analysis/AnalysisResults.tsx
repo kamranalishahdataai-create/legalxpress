@@ -5,12 +5,14 @@ import { Scale, FileText, ChevronDown, ChevronUp, Gavel, ExternalLink, HelpCircl
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { MemoDialog } from "./MemoDialog";
 import { ResearchDisclosures } from "./ResearchDisclosures";
+import { ClaimDrafterPanel } from "./ClaimDrafterPanel";
 import type { ResearchResult, MatchedDecision } from "@/hooks/useCaseAnalysis";
 import { OUTCOME_LABEL, outcomeFrequency, outcomeLine } from "@/data/caseResearch";
 
 interface AnalysisResultsProps {
   result: ResearchResult | null;
   isSample?: boolean;
+  showClaimDrafter?: boolean;
 }
 
 function DecisionCard({ d, index }: { d: MatchedDecision; index: number }) {
@@ -45,7 +47,30 @@ function DecisionCard({ d, index }: { d: MatchedDecision; index: number }) {
   );
 }
 
-export function AnalysisResults({ result, isSample = false }: AnalysisResultsProps) {
+export function CollapsibleClaimDrafter() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <div className="p-6 rounded-lg border border-border bg-card text-center">
+        <h4 className="font-display font-semibold mb-2 text-foreground">Decided to sue? Draft your claim document</h4>
+        <p className="text-sm text-muted-foreground mb-4">Members can enter their case details and download a document arranged in the structure of an Ontario Plaintiff's Claim (Form 7A) or Statement of Claim (Form 14A). Automated formatting; not lawyer-reviewed; not filed.</p>
+        <CollapsibleTrigger asChild>
+          <Button variant="outline" className="w-full gap-2">
+            {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            {open ? "Hide the Claim Drafter" : "Open the Claim Drafter"}
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <CollapsibleContent>
+        <div className="mt-4">
+          <ClaimDrafterPanel />
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+export function AnalysisResults({ result, isSample = false, showClaimDrafter = true }: AnalysisResultsProps) {
   const [summaryOpen, setSummaryOpen] = useState(false);
 
   if (!result) {
@@ -125,6 +150,8 @@ export function AnalysisResults({ result, isSample = false }: AnalysisResultsPro
             <p className="text-sm text-background/75 mb-4">Book a consultation to discuss how these decisions may or may not relate to your situation.</p>
             <Button variant="outline" className="w-full border-gold/40 bg-transparent text-gold-light hover:bg-gold/10" asChild><a href="/book">Book a consultation</a></Button>
           </div>
+
+          {showClaimDrafter && <CollapsibleClaimDrafter />}
         </CardContent>
       </Card>
       <MemoDialog open={summaryOpen} onOpenChange={setSummaryOpen} result={result} />

@@ -49,10 +49,10 @@ export const corporateInclusions: Record<string, string[]> = {
 };
 
 export const corporateAddOns = [
-  { name: "Trial Defence Support", price: "+$49/mo", description: "Extra support if a matter goes to trial." },
-  { name: "Employees & Contractors", price: "+$19/mo", description: "Employment & contractor agreements, policies and advice." },
-  { name: "Share Management", price: "+$15/mo", description: "Issue, transfer and repurchase shares." },
-  { name: "GST/HST Registration", price: "$49 once", description: "We register your business number for GST/HST." },
+  { name: "Trial Defence Support", description: "Extra support if a matter goes to trial." },
+  { name: "Employees & Contractors", description: "Employment & contractor agreements, policies and advice." },
+  { name: "Share Management", description: "Issue, transfer and repurchase shares." },
+  { name: "GST/HST Registration", description: "We register your business number for GST/HST." },
 ];
 
 export const bankPartnerOffer = {

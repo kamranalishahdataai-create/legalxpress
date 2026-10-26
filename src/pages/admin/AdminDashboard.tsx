@@ -21,6 +21,8 @@ import { CaseAnalysesTable } from "@/components/admin/CaseAnalysesTable";
 import { ContractTemplatesTable } from "@/components/admin/ContractTemplatesTable";
 import { AdminReportsGenerator } from "@/components/admin/AdminReportsGenerator";
 import { ConsultationsTable } from "@/components/admin/ConsultationsTable";
+import { MembershipsTable } from "@/components/admin/MembershipsTable";
+import { IntakeQueue } from "@/components/admin/IntakeQueue";
 
 interface Stats {
   totalUsers: number;
@@ -281,6 +283,7 @@ export default function AdminDashboard() {
           {/* Main Content Tabs */}
           <Tabs defaultValue="analytics" className="w-full">
             <TabsList className="w-full mb-8">
+              <TabsTrigger value="intake" className="flex items-center gap-2"><Users className="h-4 w-4" /><span>Client intake</span></TabsTrigger>
               <TabsTrigger value="analytics" className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4" />
                 <span>Analytics</span>
@@ -301,11 +304,16 @@ export default function AdminDashboard() {
                 <Activity className="h-4 w-4" />
                 <span>Reports</span>
               </TabsTrigger>
+              <TabsTrigger value="memberships" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>Memberships</span>
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="analytics">
               <AnalyticsOverview />
             </TabsContent>
+            <TabsContent value="intake"><IntakeQueue /></TabsContent>
 
             <TabsContent value="cases">
               <CaseAnalysesTable />
@@ -321,6 +329,10 @@ export default function AdminDashboard() {
 
             <TabsContent value="reports">
               <AdminReportsGenerator />
+            </TabsContent>
+
+            <TabsContent value="memberships">
+              <MembershipsTable />
             </TabsContent>
           </Tabs>
         </div>

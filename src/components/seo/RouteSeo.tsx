@@ -42,33 +42,16 @@ const ROUTE_META: Record<string, RouteMeta> = {
     description:
       "See how Canadian courts have decided cases on the same issue. Every case linked to the public decision. Generated automatically; not reviewed by a lawyer.",
   },
+  "/case-analysis/draft-claim": {
+    title: "Claim Drafter for Members | LegalXpress",
+    description:
+      "Members enter their claim details and download a document arranged in the structure of Ontario's Plaintiff's Claim (Form 7A) or Statement of Claim (Form 14A). Automated formatting; not lawyer-reviewed; not filed.",
+    noindex: true,
+  },
   "/affiliates": {
     title: "Independent Professional Referral Network | LegalXpress",
     description:
       "Matters outside our in-house practice areas are referred to independent licensed professionals, with no referral fees or commissions.",
-  },
-  "/partnerships": {
-    title: "Partnerships: LegalXpress × Rogers | LegalXpress",
-    description:
-      "Sample partner offers: LegalXpress members save on new and existing Rogers personal and business services.",
-  },
-  "/partnerships/rogers": {
-    title: "Partnerships: LegalXpress × Rogers | LegalXpress",
-    description:
-      "Sample partner offers: LegalXpress members save on new and existing Rogers personal and business services.",
-  },
-  "/partnerships/bet99": {
-    title: "Partnerships: LegalXpress × Bet99 | LegalXpress",
-    description:
-      "Sample consumer promotion: Bet99 customers who join a LegalXpress personal membership get discounted legal help and responsible-play resources.",
-  },
-  "/partnerships/bell": {
-    title: "Bell Partnership Concept | LegalXpress",
-    description: "Explore a sample Bell partnership: included legal memberships, a Preferred Partner journey, personal and corporate customer stories. Proposed only; not in effect.",
-  },
-  "/partnerships/telus": {
-    title: "TELUS Partnership Concept | LegalXpress",
-    description: "Explore a sample TELUS partnership: included legal memberships, a Preferred Partner journey, personal and corporate customer stories. Proposed only; not in effect.",
   },
   "/price-match": {
     title: "Legal Fee Price Match Request | LegalXpress",
@@ -109,6 +92,7 @@ const ROUTE_META: Record<string, RouteMeta> = {
   "/terms": { title: "Terms of Service | LegalXpress", description: "The terms governing your use of LegalXpress services and website." },
   "/login": { title: "Sign In | LegalXpress", description: "Sign in to your LegalXpress client portal.", noindex: true },
   "/register": { title: "Create an Account | LegalXpress", description: "Create a LegalXpress client account.", noindex: true },
+  "/intake": { title: "Client Intake & Conflict Review | LegalXpress", description: "Request a membership or legal help and follow your confidential intake review with LegalXpress.", noindex: true },
 };
 
 const PRIVATE_PREFIXES = ["/portal", "/admin", "/lawyer-portal", "/checkout"];

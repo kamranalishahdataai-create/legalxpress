@@ -3,43 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowRight, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  slug: string;
-  cover_image_url: string | null;
-  published_at: string | null;
-}
-
-// Fallback posts for demo
-const fallbackPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Understanding Shareholder Agreements: A Complete Guide",
-    excerpt: "Learn the essential components of a shareholder agreement and why every business needs one to protect stakeholder interests.",
-    slug: "understanding-shareholder-agreements",
-    cover_image_url: null,
-    published_at: "2024-01-15",
-  },
-  {
-    id: "2",
-    title: "Procurement Law Changes in 2024: What You Need to Know",
-    excerpt: "Recent changes to procurement regulations in Canada and how they affect businesses bidding on government contracts.",
-    slug: "procurement-law-changes-2024",
-    cover_image_url: null,
-    published_at: "2024-01-10",
-  },
-  {
-    id: "3",
-    title: "The Incorporation Decision: Federal vs Provincial",
-    excerpt: "A comprehensive comparison of federal and provincial incorporation options to help you make the right choice for your business.",
-    slug: "federal-vs-provincial-incorporation",
-    cover_image_url: null,
-    published_at: "2024-01-05",
-  },
-];
+import { fallbackPosts, type BlogPost } from "@/data/blogPosts";
 
 export function BlogPreview() {
   const [posts, setPosts] = useState<BlogPost[]>(fallbackPosts);

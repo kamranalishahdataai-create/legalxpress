@@ -19,10 +19,6 @@ const footerLinks = {
   ],
   company: [
     { name: "About", href: "/about" },
-    { name: "Rogers Partnership", href: "/partnerships/rogers" },
-    { name: "Bell Partnership (Sample)", href: "/partnerships/bell" },
-    { name: "TELUS Partnership (Sample)", href: "/partnerships/telus" },
-    { name: "Bet99 Partnership", href: "/partnerships/bet99" },
     { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },

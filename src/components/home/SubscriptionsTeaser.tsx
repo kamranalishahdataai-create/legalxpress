@@ -237,18 +237,18 @@ export function SubscriptionsTeaser() {
           <div className="mt-10 grid lg:grid-cols-3 gap-5">
             <div className="lg:col-span-2 bg-card border border-border rounded-lg p-6">
               <h4 className="font-display text-lg font-bold text-foreground mb-1">Add-ons for any corporate membership</h4>
-              <p className="text-sm text-muted-foreground font-body mb-4">Tailor your membership for a small extra fee, added to your monthly bill for the length of your 12-month term.</p>
+              <p className="text-sm text-muted-foreground font-body mb-4">Tailor your membership as your business grows. Book a consultation to discuss each add-on; anything we agree is confirmed in writing before it is added to your membership.</p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {corporateAddOns.map((a) => (
                   <div key={a.name} className="border border-border/60 rounded-md p-3">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <span className="font-body font-semibold text-sm text-foreground">{a.name}</span>
-                      <span className="font-body text-sm text-secondary font-semibold whitespace-nowrap">{a.price}</span>
-                    </div>
+                    <span className="font-body font-semibold text-sm text-foreground">{a.name}</span>
                     <p className="text-xs text-muted-foreground font-body mt-1">{a.description}</p>
                   </div>
                 ))}
               </div>
+              <Button variant="outline" size="sm" className="mt-5 gap-2" asChild>
+                <Link to="/book">Book a consultation to discuss add-ons<ArrowRight className="h-4 w-4" /></Link>
+              </Button>
             </div>
             <div className="bg-forest/10 border border-forest/30 rounded-lg p-6 flex flex-col">
               <Landmark className="h-6 w-6 text-forest mb-3" />

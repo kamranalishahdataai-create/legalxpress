@@ -3,7 +3,7 @@ import { Layout } from "@/components/layout/Layout";
 import { FileSearch, Link2, ScrollText } from "lucide-react";
 import { useCaseAnalysis, emptyFilters, type ResearchFilters } from "@/hooks/useCaseAnalysis";
 import { AnalysisForm } from "@/components/case-analysis/AnalysisForm";
-import { AnalysisResults } from "@/components/case-analysis/AnalysisResults";
+import { AnalysisResults, CollapsibleClaimDrafter } from "@/components/case-analysis/AnalysisResults";
 import { ResearchDisclosures } from "@/components/case-analysis/ResearchDisclosures";
 import { PACK_COPY, RESEARCH_TOOL_NAME } from "@/data/caseResearch";
 
@@ -40,7 +40,10 @@ export default function CaseAnalysisPage() {
           <p className="text-sm text-muted-foreground mb-10 max-w-4xl">{PACK_COPY}</p>
           <div className="grid lg:grid-cols-2 gap-12">
             <AnalysisForm filters={filters} setFilters={setFilters} onAnalyze={() => analyzeCase(filters)} analyzing={analyzing} />
-            <AnalysisResults result={result} />
+            <AnalysisResults result={result} showClaimDrafter={false} />
+          </div>
+          <div className="mt-14 max-w-3xl mx-auto">
+            <CollapsibleClaimDrafter />
           </div>
         </div>
       </section>

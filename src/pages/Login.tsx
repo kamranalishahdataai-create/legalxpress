@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,9 @@ export default function Login() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [params] = useSearchParams();
+  const intakeRedirect = params.get("redirect");
+  const safeIntakeRedirect = intakeRedirect === "/intake" || intakeRedirect?.startsWith("/intake?") ? intakeRedirect : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +52,7 @@ export default function Login() {
           .maybeSingle();
         if (lawyerRow) destination = "/lawyer-portal";
       }
-      navigate(destination);
+      navigate(safeIntakeRedirect || destination);
     }
 
     setLoading(false);
@@ -122,7 +125,7 @@ export default function Login() {
 
             <div className="mt-6 text-center text-sm text-muted-foreground font-body">
               Don't have an account?{" "}
-              <Link to="/register" className="text-secondary hover:underline">
+              <Link to={safeIntakeRedirect ? `/register?redirect=${encodeURIComponent(safeIntakeRedirect)}` : "/register"} className="text-secondary hover:underline">
                 Create one
               </Link>
             </div>

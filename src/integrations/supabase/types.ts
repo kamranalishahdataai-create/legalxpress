@@ -152,6 +152,42 @@ export type Database = {
         }
         Relationships: []
       }
+      client_intakes: {
+        Row: {
+          client_message: string
+          created_at: string
+          details: Json
+          id: string
+          identity: Json | null
+          status: string
+          updated_at: string
+          user_id: string
+          version: string
+        }
+        Insert: {
+          client_message?: string
+          created_at?: string
+          details: Json
+          id?: string
+          identity?: Json | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          version?: string
+        }
+        Update: {
+          client_message?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          identity?: Json | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          version?: string
+        }
+        Relationships: []
+      }
       community_referrals: {
         Row: {
           case_type: string
@@ -378,6 +414,91 @@ export type Database = {
         }
         Relationships: []
       }
+      intake_events: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          id: string
+          intake_id: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          id?: string
+          intake_id: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          id?: string
+          intake_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intake_events_intake_id_fkey"
+            columns: ["intake_id"]
+            isOneToOne: false
+            referencedRelation: "client_intakes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      intake_reviews: {
+        Row: {
+          conflict_checked: boolean
+          funds_checked: boolean
+          identification_checked: boolean
+          intake_id: string
+          monitoring_record: string
+          notes: string
+          organization_checked: boolean
+          reviewed_at: string | null
+          reviewed_by: string | null
+          third_party_checked: boolean
+          verification: string
+          verification_record: string
+        }
+        Insert: {
+          conflict_checked?: boolean
+          funds_checked?: boolean
+          identification_checked?: boolean
+          intake_id: string
+          monitoring_record?: string
+          notes?: string
+          organization_checked?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          third_party_checked?: boolean
+          verification?: string
+          verification_record?: string
+        }
+        Update: {
+          conflict_checked?: boolean
+          funds_checked?: boolean
+          identification_checked?: boolean
+          intake_id?: string
+          monitoring_record?: string
+          notes?: string
+          organization_checked?: boolean
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          third_party_checked?: boolean
+          verification?: string
+          verification_record?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intake_reviews_intake_id_fkey"
+            columns: ["intake_id"]
+            isOneToOne: true
+            referencedRelation: "client_intakes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lawyer_case_assignments: {
         Row: {
           case_analysis_id: string | null
@@ -556,6 +677,36 @@ export type Database = {
           practice_areas?: string[]
           updated_at?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          created_at: string
+          ends_at: string | null
+          id: string
+          is_active: boolean
+          plan: string
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          plan: string
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          plan?: string
+          started_at?: string
+          user_id?: string
         }
         Relationships: []
       }

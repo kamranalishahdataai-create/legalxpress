@@ -129,6 +129,7 @@ export default function PortalDashboard() {
           </div>
 
           {/* Quick Actions */}
+          <div className="mb-8 border-y border-border py-6 flex flex-wrap justify-between items-center gap-5"><div><h2 className="font-display text-2xl mb-2">Your next step with LegalXpress</h2><p className="text-sm text-muted-foreground">Request membership, start a conflict check or follow your intake review.</p></div><Button asChild><Link to="/intake">Client intake & progress <ArrowRight className="h-4 w-4 ml-2" /></Link></Button></div>
           <div className="grid md:grid-cols-4 gap-4 mb-12">
             <Link to="/book" className="group">
               <Card className="card-hover h-full">

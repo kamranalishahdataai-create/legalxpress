@@ -60,8 +60,9 @@ const Landing = () => (
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.08] mb-4">LegalXpress</h1>
           <p className="font-display text-2xl sm:text-3xl lg:text-4xl leading-[1.25] text-primary-foreground mb-5 max-w-xl">Our legal team, one membership <span className="text-gold">with you in mind.</span></p>
           <p className="font-body text-base sm:text-lg text-primary-foreground/85 max-w-lg mb-7">An Ontario law practice for the business you’re building and the life around it. Legal services provided in-house, with memberships that meet you where you are.</p>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button size="lg" className="bg-gold text-secondary-foreground hover:bg-gold/90 rounded-md gap-2 font-semibold" asChild><Link to="/subscriptions">Explore Memberships <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button size="lg" className="bg-forest text-forest-foreground border border-forest-light/60 hover:bg-forest-light rounded-md gap-2" asChild><Link to="/intake">Start Client Intake <ArrowRight className="h-4 w-4" /></Link></Button>
             <Button size="lg" variant="outline" className="rounded-md border-primary-foreground/40 bg-primary/20 text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild><Link to="/book">Book Free Consultation</Link></Button>
           </div>
           <Link to="/home" className="inline-flex items-center gap-2 text-sm mt-6 underline underline-offset-4 decoration-primary-foreground/40">Enter the full website <ArrowUpRight className="h-4 w-4" /></Link>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Scale, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Register() {
   const [fullName, setFullName] = useState("");
@@ -19,6 +20,9 @@ export default function Register() {
   const { signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [params] = useSearchParams();
+  const redirect = params.get("redirect");
+  const intakeRedirect = redirect === "/intake" || redirect?.startsWith("/intake?") ? redirect : "/intake";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,11 +56,12 @@ export default function Register() {
         variant: "destructive",
       });
     } else {
+      const { data: { session } } = await supabase.auth.getSession();
       toast({
-        title: "Account Created!",
-        description: "Welcome to LegalXpress. You can now access your portal.",
+        title: session ? "Account created" : "Check your email",
+        description: session ? "Continue to your client intake. Membership and legal matters require a separate review." : "Confirm your email, then sign in to continue your intake. No membership or matter has been activated.",
       });
-      navigate("/portal");
+      navigate(session ? intakeRedirect : `/login?redirect=${encodeURIComponent(intakeRedirect)}`);
     }
 
     setLoading(false);
@@ -161,7 +166,7 @@ export default function Register() {
 
             <div className="mt-6 text-center text-sm text-muted-foreground font-body">
               Already have an account?{" "}
-              <Link to="/login" className="text-secondary hover:underline">
+              <Link to={`/login?redirect=${encodeURIComponent(intakeRedirect)}`} className="text-secondary hover:underline">
                 Sign in
               </Link>
             </div>

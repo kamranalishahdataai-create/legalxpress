@@ -29,8 +29,9 @@ export function Hero() {
             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.08] mb-3">LegalXpress</h1>
             <p className="font-display text-2xl sm:text-3xl leading-[1.25] mb-4 max-w-xl">Legal services for individuals and small businesses — <span className="text-gold">on membership, at published prices.</span></p>
             <p className="text-base text-primary-foreground/85 max-w-xl mb-5">From incorporations to wills, notarizations and small claims, LegalXpress provides legal services through an Ontario-licensed lawyer and refers you to independent licensed professionals when a matter is outside our practice. Start with a free 30-minute consultation.</p>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-wrap gap-3">
               <Button size="lg" className="bg-gold text-secondary-foreground hover:bg-gold/90 gap-2" asChild><Link to="/book">Book Free Consultation <ArrowRight className="h-4 w-4" /></Link></Button>
+              <Button size="lg" className="bg-forest text-forest-foreground border border-forest-light/60 hover:bg-forest-light gap-2" asChild><Link to="/intake">Start Client Intake <ArrowRight className="h-4 w-4" /></Link></Button>
               <Button size="lg" variant="outline" className="border-primary-foreground/40 bg-primary/20 text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild><Link to="/subscriptions">Explore Memberships</Link></Button>
             </div>
             <p className="text-sm text-primary-foreground/70 mt-4">Personal memberships from $4.99/mo + HST · Corporate memberships from $99/mo + HST · 12-month commitment, billed monthly</p>

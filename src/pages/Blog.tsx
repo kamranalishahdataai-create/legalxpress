@@ -5,66 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Search, Calendar, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
-interface BlogPost {
-  id: string;
-  title: string;
-  excerpt: string | null;
-  slug: string;
-  cover_image_url: string | null;
-  published_at: string | null;
-}
-
-const fallbackPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Understanding Shareholder Agreements: A Complete Guide",
-    excerpt: "Learn the essential components of a shareholder agreement and why every business needs one to protect stakeholder interests.",
-    slug: "understanding-shareholder-agreements",
-    cover_image_url: null,
-    published_at: "2024-01-15",
-  },
-  {
-    id: "2",
-    title: "Procurement Law Changes in 2024: What You Need to Know",
-    excerpt: "Recent changes to procurement regulations in Canada and how they affect businesses bidding on government contracts.",
-    slug: "procurement-law-changes-2024",
-    cover_image_url: null,
-    published_at: "2024-01-10",
-  },
-  {
-    id: "3",
-    title: "The Incorporation Decision: Federal vs Provincial",
-    excerpt: "A comprehensive comparison of federal and provincial incorporation options to help you make the right choice.",
-    slug: "federal-vs-provincial-incorporation",
-    cover_image_url: null,
-    published_at: "2024-01-05",
-  },
-  {
-    id: "4",
-    title: "Contract Essentials: What Every Business Owner Should Know",
-    excerpt: "Key contract clauses and provisions that protect your business interests in commercial agreements.",
-    slug: "contract-essentials-business-owners",
-    cover_image_url: null,
-    published_at: "2024-01-02",
-  },
-  {
-    id: "5",
-    title: "Corporate Litigation: When to Settle vs. Go to Trial",
-    excerpt: "Factors to consider when deciding between settlement and trial in corporate disputes.",
-    slug: "corporate-litigation-settle-vs-trial",
-    cover_image_url: null,
-    published_at: "2023-12-28",
-  },
-  {
-    id: "6",
-    title: "Real Estate Transactions: Avoiding Common Pitfalls",
-    excerpt: "Common mistakes in residential real estate transactions and how to avoid them.",
-    slug: "real-estate-common-pitfalls",
-    cover_image_url: null,
-    published_at: "2023-12-20",
-  },
-];
+import { fallbackPosts, type BlogPost } from "@/data/blogPosts";
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>(fallbackPosts);
