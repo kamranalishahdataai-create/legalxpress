@@ -233,7 +233,7 @@ const Privacy = () => {
               <h2>7. AI-Assisted Tools and Automated Processing</h2>
               <p>
                 Our Case Law Research Tool, site-help assistant and contract generation features use
-                third-party artificial intelligence models, including OpenAI. When you use those
+                third-party artificial intelligence models provided by Anthropic. When you use those
                 features, the search filters and text you submit are sent to the model provider,
                 which processes them outside Canada (including in the United States), to retrieve,
                 rank and summarize published decisions and to generate a response. Do not enter

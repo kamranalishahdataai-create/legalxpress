@@ -20,7 +20,7 @@ export const PACK_COPY = `${RESEARCH_TOOL_NAME}: ${RESEARCH_PACK.reports}-report
 
 export const RESEARCH_DISCLOSURES = [
   "This report is generated automatically by software. It has not been reviewed by a lawyer or paralegal.",
-  "It is produced using third-party AI language models (including OpenAI) from publicly available sources and may be incomplete, out of date or wrong. Verify every decision before relying on it.",
+  "It is produced using a third-party AI language model (Anthropic's Claude) from publicly available sources and may be incomplete, out of date or wrong. Verify every decision before relying on it.",
   "It does not consider your facts beyond the search filters you selected and is not an assessment of your case.",
   "It is not legal advice and does not create a lawyer-client relationship with LegalXpress or any lawyer.",
   "Limitation periods and deadlines are your responsibility. If you may have a claim, speak to a lawyer promptly.",
